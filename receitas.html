@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+  <title>Receitas - Matrix na Praia</title>
+  <style>
+    :root{--panel:rgba(5,25,20,.78);--neon:#8bffb0;--neon-2:#46f5c5;--text:#eafff1;--muted:rgba(234,255,241,.75)}*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;min-height:100vh;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,sans-serif;color:var(--text);background:radial-gradient(circle at 20% 15%, rgba(70,245,197,.18), transparent 26%),radial-gradient(circle at 80% 20%, rgba(139,255,176,.16), transparent 24%),linear-gradient(180deg,#04100f 0%,#061914 38%,#0b2a28 62%,#0f3d49 100%);overflow-x:hidden}.wrap{width:min(1180px,92vw);margin:0 auto;padding:92px 0 48px}.topnav{position:fixed;top:16px;left:50%;transform:translateX(-50%);z-index:50;display:flex;gap:10px;flex-wrap:wrap;justify-content:center;padding:10px 12px;border-radius:999px;background:rgba(4,19,16,.72);border:1px solid rgba(139,255,176,.18);backdrop-filter:blur(14px);box-shadow:0 12px 40px rgba(0,0,0,.28)}.topnav a{color:var(--text);text-decoration:none;padding:10px 14px;border-radius:999px;border:1px solid transparent;font-weight:700;font-size:.92rem}.topnav a:hover{background:rgba(139,255,176,.08);border-color:rgba(139,255,176,.16)}.topnav .brand{color:var(--neon)}.card{background:var(--panel);border:1px solid rgba(139,255,176,.22);box-shadow:0 0 0 1px rgba(70,245,197,.08),0 20px 70px rgba(0,0,0,.35);backdrop-filter:blur(12px);border-radius:28px}.content{padding:40px}.eyebrow{display:inline-block;padding:8px 14px;border-radius:999px;background:rgba(139,255,176,.1);color:var(--neon);border:1px solid rgba(139,255,176,.24);letter-spacing:.12em;text-transform:uppercase;font-size:.78rem;margin-bottom:18px}.grid{margin-top:16px;display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px}.recipe{padding:18px;background:rgba(8,30,26,.72);border:1px solid rgba(139,255,176,.16);border-radius:22px}.recipe h3{margin:0 0 8px}.recipe p{margin:0 0 10px;color:var(--muted);line-height:1.6}.tag{display:inline-flex;padding:7px 10px;border-radius:999px;font-size:.78rem;background:rgba(139,255,176,.1);color:var(--neon);border:1px solid rgba(139,255,176,.14);margin-right:8px}.btn{display:inline-flex;align-items:center;justify-content:center;border-radius:14px;padding:14px 18px;text-decoration:none;font-weight:700;border:1px solid rgba(139,255,176,.24)}.btn.primary{background:linear-gradient(135deg,var(--neon),var(--neon-2));color:#02110d;box-shadow:0 12px 30px rgba(70,245,197,.18)}
+  </style>
+</head>
+<body>
+  <nav class="topnav" aria-label="Menu principal">
+    <a class="brand" href="index.html#top">Matrix na Praia</a>
+    <a href="index.html#site">Site</a>
+    <a href="mapa.html">Mapa</a>
+    <a href="jogo.html">Jogo</a>
+    <a href="receitas.html">Receitas</a>
+  </nav>
+  <main class="wrap">
+    <section class="card content">
+      <div class="eyebrow">Receitas</div>
+      <h1 style="margin:0 0 10px;font-size:clamp(2.2rem,4vw,4rem);">Receitas da Praia</h1>
+      <p style="margin-bottom: 12px; color: var(--muted);">Página própria para as receitas do projeto. Aqui entra card, ingredientes e preparo.</p>
+      <a class="btn primary" href="index.html#site">Voltar à abertura</a>
+      <div class="grid">
+        <article class="recipe"><h3>Sanduíche Neon</h3><p>Pão, queijo, tomate e um toque de molho Matrix.</p><span class="tag">5 min</span><span class="tag">rápida</span></article>
+        <article class="recipe"><h3>Suco Solar</h3><p>Laranja, gelo e vibe de pôr do sol na praia.</p><span class="tag">3 min</span><span class="tag">bebida</span></article>
+        <article class="recipe"><h3>Brigadeiro Glitch</h3><p>Chocolate, manteiga e açúcar no modo turbo.</p><span class="tag">15 min</span><span class="tag">doce</span></article>
+      </div>
+    </section>
+  </main>
+</body>
+</html>

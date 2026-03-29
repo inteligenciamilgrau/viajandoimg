@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+  <title>Mapa - Matrix na Praia</title>
+  <style>
+    :root{--panel:rgba(5,25,20,.78);--neon:#8bffb0;--neon-2:#46f5c5;--text:#eafff1;--muted:rgba(234,255,241,.75)}*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;min-height:100vh;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,sans-serif;color:var(--text);background:radial-gradient(circle at 20% 15%, rgba(70,245,197,.18), transparent 26%),radial-gradient(circle at 80% 20%, rgba(139,255,176,.16), transparent 24%),linear-gradient(180deg,#04100f 0%,#061914 38%,#0b2a28 62%,#0f3d49 100%);overflow-x:hidden}.wrap{width:min(1180px,92vw);margin:0 auto;padding:92px 0 48px}.topnav{position:fixed;top:16px;left:50%;transform:translateX(-50%);z-index:50;display:flex;gap:10px;flex-wrap:wrap;justify-content:center;padding:10px 12px;border-radius:999px;background:rgba(4,19,16,.72);border:1px solid rgba(139,255,176,.18);backdrop-filter:blur(14px);box-shadow:0 12px 40px rgba(0,0,0,.28)}.topnav a{color:var(--text);text-decoration:none;padding:10px 14px;border-radius:999px;border:1px solid transparent;font-weight:700;font-size:.92rem}.topnav a:hover{background:rgba(139,255,176,.08);border-color:rgba(139,255,176,.16)}.topnav .brand{color:var(--neon)}.card{background:var(--panel);border:1px solid rgba(139,255,176,.22);box-shadow:0 0 0 1px rgba(70,245,197,.08),0 20px 70px rgba(0,0,0,.35);backdrop-filter:blur(12px);border-radius:28px}.content{padding:40px}.eyebrow{display:inline-block;padding:8px 14px;border-radius:999px;background:rgba(139,255,176,.1);color:var(--neon);border:1px solid rgba(139,255,176,.24);letter-spacing:.12em;text-transform:uppercase;font-size:.78rem;margin-bottom:18px}.map-card{margin-top:24px;padding:18px}.map-wrap{position:relative;min-height:560px;border-radius:22px;overflow:hidden;border:1px solid rgba(139,255,176,.16);background:radial-gradient(circle at 50% 20%, rgba(70,245,197,.08), transparent 30%),linear-gradient(180deg,#05221f 0%,#073844 55%,#f5d68b 55%,#f5d68b 100%)}.map-wrap::before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.04) 1px, transparent 1px),linear-gradient(90deg, rgba(255,255,255,.04) 1px, transparent 1px);background-size:36px 36px;opacity:.18;mix-blend-mode:screen}.brazil-frame{position:absolute;inset:18px;border-radius:22px;border:1px solid rgba(139,255,176,.22);overflow:hidden}.brazil-frame svg{width:100%;height:100%;display:block}.brazil-overlay{position:absolute;inset:0;pointer-events:none;background:radial-gradient(circle at 50% 20%, rgba(70,245,197,.08), transparent 30%);mix-blend-mode:screen;opacity:.8}.city-dot{position:absolute;transform:translate(-50%,-50%);width:14px;height:14px;border-radius:50%;background:var(--neon);box-shadow:0 0 0 6px rgba(139,255,176,.12),0 0 20px rgba(70,245,197,.6);cursor:pointer;transition:transform .18s ease, box-shadow .18s ease}.city-dot:hover{transform:translate(-50%,-50%) scale(1.25)}.city-dot.active{background:#ffe27a;box-shadow:0 0 0 8px rgba(255,226,122,.14),0 0 24px rgba(255,226,122,.8)}.city-label{position:absolute;transform:translate(-50%,-135%);padding:6px 9px;border-radius:999px;background:rgba(0,0,0,.72);border:1px solid rgba(139,255,176,.28);font-size:.8rem;font-weight:700;letter-spacing:.01em;white-space:nowrap;pointer-events:none;opacity:0;transition:opacity .18s ease;color:#f3fff7;text-shadow:0 1px 2px rgba(0,0,0,.95),0 0 10px rgba(70,245,197,.18);box-shadow:0 8px 18px rgba(0,0,0,.22)}.city-dot:hover .city-label,.city-dot.active .city-label{opacity:1}.travel-panel{position:absolute;left:18px;right:18px;bottom:18px;background:rgba(5,25,20,.84);border:1px solid rgba(139,255,176,.18);border-radius:20px;padding:16px 18px;backdrop-filter:blur(10px)}.travel-panel h3{margin:0 0 8px}.travel-panel p{margin:0 0 10px;font-size:.95rem}.badge-row{display:flex;flex-wrap:wrap;gap:8px}.badge{display:inline-flex;padding:7px 10px;border-radius:999px;font-size:.78rem;background:rgba(139,255,176,.1);color:var(--neon);border:1px solid rgba(139,255,176,.14)}.btn{display:inline-flex;align-items:center;justify-content:center;border-radius:14px;padding:14px 18px;text-decoration:none;font-weight:700;border:1px solid rgba(139,255,176,.24)}.btn.primary{background:linear-gradient(135deg,var(--neon),var(--neon-2));color:#02110d;box-shadow:0 12px 30px rgba(70,245,197,.18)}
+  </style>
+</head>
+<body>
+  <nav class="topnav" aria-label="Menu principal">
+    <a class="brand" href="index.html#top">Matrix na Praia</a>
+    <a href="index.html#site">Site</a>
+    <a href="mapa.html">Mapa</a>
+    <a href="jogo.html">Jogo</a>
+    <a href="receitas.html">Receitas</a>
+  </nav>
+  <main class="wrap">
+    <section class="card content">
+      <div class="eyebrow">Mapa</div>
+      <h1 style="margin:0 0 10px;font-size:clamp(2.2rem,4vw,4rem);">Mapa do Brasil</h1>
+      <p style="margin-bottom: 12px; color: var(--muted);">Aqui fica o mapa em página própria, com capitais clicáveis e a mesma estética Matrix na Praia.</p>
+      <a class="btn primary" href="index.html#site">Voltar à abertura</a>
+    </section>
+    <section class="card map-card">
+      <div class="map-wrap" role="img" aria-label="Mapa estilizado do Brasil com capitais clicáveis">
+        <div class="brazil-frame">
+          <svg viewBox="0 0 1000 1000" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+            <defs>
+              <linearGradient id="brFill" x1="0" x2="0" y1="0" y2="1"><stop offset="0%" stop-color="rgba(8,32,31,.35)" /><stop offset="100%" stop-color="rgba(15,82,82,.5)" /></linearGradient>
+              <radialGradient id="brGlow" cx="50%" cy="35%" r="70%"><stop offset="0%" stop-color="rgba(70,245,197,.22)" /><stop offset="55%" stop-color="rgba(70,245,197,.08)" /><stop offset="100%" stop-color="rgba(70,245,197,0)" /></radialGradient>
+            </defs>
+            <rect width="1000" height="1000" fill="transparent" />
+            <g transform="translate(0,10)"><path d="M261 54 L354 38 L437 66 L505 54 L584 77 L640 128 L694 117 L763 168 L751 238 L803 300 L778 411 L848 489 L783 622 L694 687 L621 744 L561 720 L484 760 L398 707 L320 733 L248 658 L219 561 L170 521 L192 423 L173 339 L220 262 L232 184 L261 54 Z" fill="url(#brFill)" stroke="rgba(139,255,176,.24)" stroke-width="3"/><path d="M261 54 L354 38 L437 66 L505 54 L584 77 L640 128 L694 117 L763 168 L751 238 L803 300 L778 411 L848 489 L783 622 L694 687 L621 744 L561 720 L484 760 L398 707 L320 733 L248 658 L219 561 L170 521 L192 423 L173 339 L220 262 L232 184 L261 54 Z" fill="url(#brGlow)" opacity=".9"/></g>
+          </svg>
+        </div>
+        <div class="brazil-overlay"></div>
+        <div id="mapDots"></div>
+        <div class="travel-panel"><h3 id="travelTitle">Destino não selecionado</h3><p id="travelDescription">Clique em uma capital no mapa para começar a viagem.</p><div class="badge-row" id="travelBadges"></div></div>
+      </div>
+    </section>
+  </main>
+  <script>
+    const capitals = [
+      { name: 'Rio Branco', state: 'AC', vibe: 'Amazônia neon e calmaria tropical.', x: '26%', y: '59%' },{ name: 'Maceió', state: 'AL', vibe: 'Água turquesa, areia clara e código fluido.', x: '80%', y: '43%' },{ name: 'Macapá', state: 'AP', vibe: 'Linha do Equador com brilho digital.', x: '47%', y: '12%' },{ name: 'Manaus', state: 'AM', vibe: 'Selva, rio e um glitch de calor úmido.', x: '24%', y: '38%' },{ name: 'Salvador', state: 'BA', vibe: 'Cor, ritmo e mar batendo no terminal.', x: '75%', y: '50%' },{ name: 'Fortaleza', state: 'CE', vibe: 'Vento forte e horizonte em 4K Matrix.', x: '75%', y: '31%' },{ name: 'Brasília', state: 'DF', vibe: 'Arquitetura futurista com céu de simulação.', x: '55%', y: '52%' },{ name: 'Vitória', state: 'ES', vibe: 'Ilha, porto e reflexo verde-azulado.', x: '67%', y: '60%' },{ name: 'Goiânia', state: 'GO', vibe: 'Cidade verde com onda sintética.', x: '49%', y: '55%' },{ name: 'São Luís', state: 'MA', vibe: 'Azulejos, mar e ruído digital elegante.', x: '61%', y: '24%' },{ name: 'Cuiabá', state: 'MT', vibe: 'Calor intenso e névoa de código.', x: '40%', y: '67%' },{ name: 'Campo Grande', state: 'MS', vibe: 'Horizonte aberto e travessia de bits.', x: '36%', y: '77%' },{ name: 'Belo Horizonte', state: 'MG', vibe: 'Serra, neblina e luz de neon discreta.', x: '61%', y: '62%' },{ name: 'Belém', state: 'PA', vibe: 'Rios, chuva e sabores em modo turbo.', x: '55%', y: '20%' },{ name: 'João Pessoa', state: 'PB', vibe: 'Nascer do sol em render perfeito.', x: '81%', y: '37%' },{ name: 'Curitiba', state: 'PR', vibe: 'Clima frio com coração de código quente.', x: '57%', y: '80%' },{ name: 'Recife', state: 'PE', vibe: 'Pontes, mar e pulsos de tecnologia.', x: '79%', y: '39%' },{ name: 'Teresina', state: 'PI', vibe: 'Cidade quente com brilho de circuito.', x: '67%', y: '30%' },{ name: 'Rio de Janeiro', state: 'RJ', vibe: 'Pão de açúcar, mar e skyline cyber.', x: '67%', y: '67%' },{ name: 'Natal', state: 'RN', vibe: 'Dunas, vento e céu em baixa latência.', x: '82%', y: '33%' },{ name: 'Porto Alegre', state: 'RS', vibe: 'Sul amplo com luzes refletidas no Guaíba.', x: '49%', y: '91%' },{ name: 'Porto Velho', state: 'RO', vibe: 'Estrada, rio e um brilho de madrugada.', x: '23%', y: '49%' },{ name: 'Boa Vista', state: 'RR', vibe: 'Horizonte aberto e sol programado.', x: '19%', y: '15%' },{ name: 'Florianópolis', state: 'SC', vibe: 'Ilha, surf e elegância em neon.', x: '58%', y: '86%' },{ name: 'São Paulo', state: 'SP', vibe: 'Arranha-céus, movimento e chuva de código.', x: '60%', y: '73%' },{ name: 'Aracaju', state: 'SE', vibe: 'Praia tranquila e estética limpa.', x: '79%', y: '45%' },{ name: 'Palmas', state: 'TO', vibe: 'Plano, aberto e pronto pra viajar.', x: '54%', y: '40%' },
+    ];
+    const dots = document.getElementById('mapDots'); const travelTitle = document.getElementById('travelTitle'); const travelDescription = document.getElementById('travelDescription'); const travelBadges = document.getElementById('travelBadges');
+    capitals.forEach(c => { const dot = document.createElement('button'); dot.type='button'; dot.className='city-dot'; dot.style.left=c.x; dot.style.top=c.y; dot.setAttribute('aria-label', `${c.name}, ${c.state}`); dot.innerHTML = `<span class="city-label">${c.name} (${c.state})</span>`; dot.addEventListener('click', () => { travelTitle.textContent = `${c.name} (${c.state})`; travelDescription.textContent = c.vibe; travelBadges.innerHTML = [`${c.state}`, 'Matrix', 'Praia'].map(t => `<span class="badge">${t}</span>`).join(''); }); dots.appendChild(dot); });
+  </script>
+</body>
+</html>

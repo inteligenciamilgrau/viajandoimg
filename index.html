@@ -59,9 +59,9 @@
   <nav class="topnav" aria-label="Menu principal">
     <a class="brand" href="#top">Matrix na Praia</a>
     <a href="#site">Site</a>
-    <a href="#mapa">Mapa</a>
+    <a href="mapa.html">Mapa</a>
     <a href="jogo.html">Jogo</a>
-    <a href="#receitas">Receitas</a>
+    <a href="receitas.html">Receitas</a>
   </nav>
   <div class="rain"></div>
   <div class="glow"></div>
@@ -79,39 +79,9 @@ praia.exe rodando
 mar + matrix = paz suspeita</div></div></aside>
     </section>
 
-    <section id="mapa" class="card map-card">
-      <div class="eyebrow">Mapa do Brasil</div>
-      <h2 style="margin:0 0 10px; font-size: 2rem;">Escolha uma capital no mapa</h2>
-      <p style="margin-bottom:16px;">O mapa abaixo usa uma silhueta vetorial do Brasil e capitais posicionadas por cima, para ficar mais próximo do formato real.</p>
-      <div class="map-wrap" role="img" aria-label="Mapa estilizado do Brasil com capitais clicáveis">
-        <div class="brazil-frame">
-          <svg viewBox="0 0 1000 1000" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
-            <defs>
-              <linearGradient id="brFill" x1="0" x2="0" y1="0" y2="1">
-                <stop offset="0%" stop-color="rgba(8,32,31,.35)" />
-                <stop offset="100%" stop-color="rgba(15,82,82,.5)" />
-              </linearGradient>
-              <radialGradient id="brGlow" cx="50%" cy="35%" r="70%">
-                <stop offset="0%" stop-color="rgba(70,245,197,.22)" />
-                <stop offset="55%" stop-color="rgba(70,245,197,.08)" />
-                <stop offset="100%" stop-color="rgba(70,245,197,0)" />
-              </radialGradient>
-            </defs>
-            <rect width="1000" height="1000" fill="transparent" />
-            <g transform="translate(0,10)">
-              <path d="M261 54 L354 38 L437 66 L505 54 L584 77 L640 128 L694 117 L763 168 L751 238 L803 300 L778 411 L848 489 L783 622 L694 687 L621 744 L561 720 L484 760 L398 707 L320 733 L248 658 L219 561 L170 521 L192 423 L173 339 L220 262 L232 184 L261 54 Z" fill="url(#brFill)" stroke="rgba(139,255,176,.24)" stroke-width="3"/>
-              <path d="M261 54 L354 38 L437 66 L505 54 L584 77 L640 128 L694 117 L763 168 L751 238 L803 300 L778 411 L848 489 L783 622 L694 687 L621 744 L561 720 L484 760 L398 707 L320 733 L248 658 L219 561 L170 521 L192 423 L173 339 L220 262 L232 184 L261 54 Z" fill="url(#brGlow)" opacity=".9"/>
-            </g>
-          </svg>
-        </div>
-        <div class="brazil-overlay"></div>
-        <div id="mapDots"></div>
-        <div class="travel-panel"><h3 id="travelTitle">Destino não selecionado</h3><p id="travelDescription">Clique em uma capital no mapa ou na lista para começar a viagem.</p><div class="badge-row" id="travelBadges"></div></div>
-      </div>
-    </section>
-
     <section class="card content" id="games" style="margin-top: 24px;">
       <p style="margin-bottom: 0; color: var(--muted);">O jogo também tem página própria: <a href="jogo.html" style="color: var(--neon);">abrir Surf Matrix</a>.</p>
+      <p style="margin-top:10px;color:var(--muted);">O mapa e as receitas também ganharam páginas próprias no menu.</p>
       <div class="eyebrow">Jogos</div>
       <h2 style="margin:0 0 10px; font-size: 2rem;">Surf Matrix</h2>
       <p style="margin-bottom: 12px;">Um minijogo em Three.js com prancha neon, ondas e vibe de praia glitch.</p>
@@ -126,12 +96,6 @@ mar + matrix = paz suspeita</div></div></aside>
           <div class="game-help">Desvie dos glitches no mar. Se cair, aperte R para reiniciar.</div>
         </div>
       </div>
-    </section>
-
-    <section id="receitas" class="card content" style="margin-top: 24px;">
-      <div class="eyebrow">Receitas</div>
-      <h2 style="margin:0 0 10px; font-size: 2rem;">Receitas da Praia</h2>
-      <p style="margin-bottom: 0;">Espaço reservado para cards de receita, ingredientes e preparo. Depois a gente preenche com comida de verdade e clima neon.</p>
     </section>
 
     <section id="capitais" class="card content" style="margin-top: 24px;">
