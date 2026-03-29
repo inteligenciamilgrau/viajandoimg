@@ -62,7 +62,7 @@
         <h1>Viagens com <span>glitch</span>, mar e neon</h1>
         <p>Um site simples, estático e com clima de teste: areia dourada na base, mar profundo no fundo e chuva de código caindo com estilo. Agora com um mapa do Brasil mais organizado para viajar por todas as capitais.</p>
         <div class="actions"><a class="btn primary" href="#mapa">Ver mapa</a><a class="btn secondary" href="#capitais">Explorar capitais</a><a class="btn secondary" href="#games">Surf Matrix</a></div>
-        <div class="mini-banner"><strong>Atalhos</strong>Troque o clima, descubra segredos no mapa e vá direto para os jogos.</div><div class="filters"><select id="capitalSelect" aria-label="Escolha uma capital"><option value="">Selecione uma capital</option></select><div class="pill" id="capitalInfo">Escolha uma capital para iniciar a viagem Matrix na Praia.</div></div>
+        <div class="mini-banner"><strong>Atalhos</strong>Troque o clima, descubra segredos no mapa e vá direto para os jogos.</div><div class="pill" id="travelCounter">0 destinos visitados</div><div class="filters"><select id="capitalSelect" aria-label="Escolha uma capital"><option value="">Selecione uma capital</option></select><div class="pill" id="capitalInfo">Escolha uma capital para iniciar a viagem Matrix na Praia.</div></div>
       </article>
       <aside class="card scene" aria-label="Cena Matrix na Praia"><div class="scene-inner"><div class="grid"></div><div class="sun"></div><div class="wave"></div><div class="palm"></div><div class="surfer"></div><div class="neon-code">01001001 01001101 01000111
 praia.exe rodando
@@ -165,6 +165,7 @@ mar + matrix = paz suspeita</div></div></aside>
     const travelTitle = document.getElementById('travelTitle');
     const travelDescription = document.getElementById('travelDescription');
     const travelBadges = document.getElementById('travelBadges');
+    const travelCounter = document.getElementById('travelCounter');
     const svg = document.querySelector('.brazil-frame svg');
     const mapWrap = document.querySelector('.map-wrap');
     const plane = document.createElement('div');
@@ -173,6 +174,7 @@ mar + matrix = paz suspeita</div></div></aside>
     mapWrap.appendChild(plane);
 
     const badgesFor = (cap) => [cap.state, 'Matrix', 'Praia'];
+    let visitedCount = 0;
     const banner = document.querySelector('.mini-banner');
     const body = document.body;
     const themeBtn = document.createElement('button');
@@ -246,6 +248,7 @@ mar + matrix = paz suspeita</div></div></aside>
       if (!chosen) {
         info.textContent = 'Escolha uma capital para iniciar a viagem Matrix na Praia.';
         if (banner) banner.innerHTML = '<strong>Atalhos</strong>Troque o clima, descubra segredos no mapa e vá direto para os jogos.';
+        if (travelCounter) travelCounter.textContent = visitedCount + ' destinos visitados';
         travelTitle.textContent = 'Destino não selecionado';
         travelDescription.textContent = 'Clique em uma capital no mapa ou na lista para começar a viagem.';
         travelBadges.innerHTML = '';
@@ -254,6 +257,8 @@ mar + matrix = paz suspeita</div></div></aside>
         return;
       }
       info.textContent = `Destino escolhido: ${chosen.name} (${chosen.state}) — ${chosen.vibe}`;
+      visitedCount += 1;
+      if (travelCounter) travelCounter.textContent = visitedCount + ' destinos visitados';
       if (banner) banner.innerHTML = '<strong>Destino pronto</strong>' + chosen.name + ' entrou no radar. Clica nos easter eggs do mapa também.';
       travelTitle.textContent = `${chosen.name} (${chosen.state})`;
       travelDescription.textContent = chosen.vibe;
