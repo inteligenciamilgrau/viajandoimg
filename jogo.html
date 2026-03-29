@@ -35,7 +35,7 @@
       </div>
     </section>
   </main>
-  <script src="https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.min.js" onload="window.__THREE_READY__=true"></script>
   <script>
     const canvas = document.getElementById('surfGameCanvas');
     const scoreEl = document.getElementById('gameScore');
@@ -50,7 +50,8 @@
     rightBtn?.addEventListener('pointerdown', moveRight);
     window.addEventListener('keydown', (e) => { if (!running && e.key.toLowerCase() === 'r') return initGame(); if (!running) return; if (e.key === 'ArrowLeft' || e.key.toLowerCase() === 'a') moveLeft(); if (e.key === 'ArrowRight' || e.key.toLowerCase() === 'd') moveRight(); });
     window.addEventListener('resize', () => { if (renderer && camera) { const rect = canvas.getBoundingClientRect(); const w = Math.max(1, rect.width); const h = Math.max(1, rect.height); camera.aspect = w / h; camera.updateProjectionMatrix(); renderer.setSize(w, h, false); } });
-    if (canvas) initGame();
+    function waitForThree(){ if (window.THREE) { initGame(); } else { setTimeout(waitForThree, 50); } }
+    if (canvas) waitForThree();
   </script>
 </body>
 </html>
