@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Matrix na Praia">
+  <defs>
+    <linearGradient id="ocean" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#041f24"/>
+      <stop offset="100%" stop-color="#0f5e66"/>
+    </linearGradient>
+    <radialGradient id="sun" cx="50%" cy="30%" r="40%">
+      <stop offset="0%" stop-color="#fff7d1"/>
+      <stop offset="60%" stop-color="#ffe27a"/>
+      <stop offset="100%" stop-color="#ffe27a" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="neon" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#8bffb0"/>
+      <stop offset="100%" stop-color="#46f5c5"/>
+    </linearGradient>
+  </defs>
+  <rect width="64" height="64" rx="14" fill="#06110f"/>
+  <circle cx="46" cy="16" r="10" fill="url(#sun)"/>
+  <path d="M6 36 C18 30, 26 30, 38 36 C48 41, 54 41, 58 38 L58 60 L6 60 Z" fill="url(#ocean)"/>
+  <path d="M7 38 C16 34, 28 34, 37 38 C46 42, 53 42, 57 40" fill="none" stroke="#46f5c5" stroke-width="1.5" stroke-linecap="round" opacity=".55"/>
+  <path d="M14 8 C13 18, 13 29, 13 38" stroke="#0a5f43" stroke-width="3" stroke-linecap="round"/>
+  <path d="M13 10 C19 10, 22 8, 27 6" stroke="#0a5f43" stroke-width="2.4" stroke-linecap="round"/>
+  <path d="M13 12 C19 14, 23 16, 28 19" stroke="#0a5f43" stroke-width="2.4" stroke-linecap="round"/>
+  <path d="M13 11 C10 14, 8 17, 5 20" stroke="#0a5f43" stroke-width="2.4" stroke-linecap="round"/>
+  <path d="M29 14 L44 8" stroke="url(#neon)" stroke-width="2" stroke-linecap="round"/>
+  <path d="M29 18 L47 16" stroke="url(#neon)" stroke-width="2" stroke-linecap="round"/>
+  <path d="M29 22 L43 26" stroke="url(#neon)" stroke-width="2" stroke-linecap="round"/>
+  <rect x="0" y="0" width="64" height="64" rx="14" fill="none" stroke="#8bffb0" stroke-opacity=".15"/>
+</svg>
