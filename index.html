@@ -5,164 +5,36 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Matrix na Praia</title>
   <style>
-    :root {
-      --bg: #06110f;
-      --panel: rgba(5, 25, 20, 0.78);
-      --neon: #8bffb0;
-      --neon-2: #46f5c5;
-      --sand: #f5d68b;
-      --sea: #167f8a;
-      --text: #eafff1;
-      --muted: rgba(234,255,241,.75);
-      --card: rgba(8, 30, 26, .76);
-    }
-    * { box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
-    body {
-      margin: 0;
-      min-height: 100vh;
-      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
-      color: var(--text);
-      background:
-        radial-gradient(circle at 20% 15%, rgba(70,245,197,.18), transparent 26%),
-        radial-gradient(circle at 80% 20%, rgba(139,255,176,.16), transparent 24%),
-        linear-gradient(180deg, #04100f 0%, #061914 38%, #0b2a28 62%, #0f3d49 100%);
-      overflow-x: hidden;
-    }
-    .rain, .glow {
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-    }
-    .rain {
-      opacity: .22;
-      background-image: linear-gradient(180deg, transparent 0 88%, rgba(139,255,176,.8) 100%);
-      background-size: 100% 14px;
-      mask-image: linear-gradient(180deg, rgba(0,0,0,.9), transparent 92%);
-      animation: drift 8s linear infinite;
-    }
-    .glow {
-      background:
-        radial-gradient(circle at 52% 58%, rgba(70,245,197,.15), transparent 18%),
-        radial-gradient(circle at 45% 64%, rgba(139,255,176,.12), transparent 20%),
-        radial-gradient(circle at 50% 60%, rgba(245,214,139,.10), transparent 32%);
-      mix-blend-mode: screen;
-      filter: blur(8px);
-      animation: shimmer 7s ease-in-out infinite alternate;
-    }
-    @keyframes drift { from { transform: translateY(-8px); } to { transform: translateY(14px); } }
-    @keyframes shimmer { from { opacity: .55; } to { opacity: .9; } }
-    .wrap { width: min(1180px, 92vw); margin: 0 auto; padding: 48px 0 72px; }
-    .hero { display: grid; grid-template-columns: 1.2fr .8fr; gap: 28px; align-items: center; min-height: 92vh; }
-    .card {
-      background: var(--panel);
-      border: 1px solid rgba(139,255,176,.22);
-      box-shadow: 0 0 0 1px rgba(70,245,197,.08), 0 20px 70px rgba(0,0,0,.35);
-      backdrop-filter: blur(12px);
-      border-radius: 28px;
-    }
-    .content { padding: 40px; }
-    .eyebrow {
-      display: inline-block;
-      padding: 8px 14px;
-      border-radius: 999px;
-      background: rgba(139,255,176,.1);
-      color: var(--neon);
-      border: 1px solid rgba(139,255,176,.24);
-      letter-spacing: .12em;
-      text-transform: uppercase;
-      font-size: .78rem;
-      margin-bottom: 18px;
-    }
-    h1 { margin: 0 0 14px; font-size: clamp(3rem, 6vw, 5.8rem); line-height: .95; letter-spacing: -.05em; text-shadow: 0 0 18px rgba(70,245,197,.28); }
-    h1 span { color: var(--neon); }
-    p { color: var(--muted); font-size: 1.08rem; line-height: 1.7; margin: 0 0 22px; max-width: 60ch; }
-    .actions { display:flex; gap:12px; flex-wrap: wrap; }
-    .btn {
-      display:inline-flex; align-items:center; justify-content:center;
-      border-radius: 14px; padding: 14px 18px; text-decoration:none;
-      font-weight: 700; border: 1px solid rgba(139,255,176,.24);
-    }
-    .btn.primary { background: linear-gradient(135deg, var(--neon), var(--neon-2)); color: #02110d; box-shadow: 0 12px 30px rgba(70,245,197,.18); }
-    .btn.secondary { color: var(--text); background: rgba(255,255,255,.04); }
-    .scene { padding: 18px; position: relative; overflow: hidden; }
-    .scene::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background:
-        linear-gradient(180deg, rgba(5,17,15,.2), rgba(5,17,15,.1)),
-        radial-gradient(circle at 50% 88%, rgba(245,214,139,.95) 0 20%, transparent 21%),
-        linear-gradient(180deg, transparent 0 54%, rgba(22,127,138,.86) 54% 76%, rgba(4,20,19,.92) 76% 100%);
-      opacity: .92;
-    }
-    .scene-inner {
-      position: relative;
-      min-height: 520px;
-      border-radius: 22px;
-      border: 1px solid rgba(139,255,176,.18);
-      overflow: hidden;
-      background: linear-gradient(180deg, #03100e 0%, #0c2c32 58%, #f5d68b 58%, #f5d68b 100%);
-    }
-    .sun { position: absolute; right: 18%; top: 12%; width: 112px; height: 112px; border-radius: 50%; background: radial-gradient(circle, #fff7d1 0 30%, #ffe27a 50%, rgba(255,210,86,.15) 73%, transparent 74%); box-shadow: 0 0 120px rgba(255, 226, 122, .24); animation: pulseSun 6s ease-in-out infinite alternate; }
-    @keyframes pulseSun { from { transform: scale(.98); } to { transform: scale(1.04); } }
-    .wave { position:absolute; left:-10%; right:-10%; height: 120px; top: 60%; background: repeating-linear-gradient(90deg, rgba(70,245,197,.12) 0 24px, rgba(139,255,176,.08) 24px 48px); clip-path: ellipse(70% 40% at 50% 50%); filter: blur(2px); opacity:.8; animation: waveMove 5s ease-in-out infinite alternate; }
-    @keyframes waveMove { from { transform: translateX(-6px); } to { transform: translateX(8px); } }
-    .palm, .palm::before, .palm::after { position: absolute; content: ""; display:block; background: #0a5f43; border-radius: 80% 20% 80% 20%; }
-    .palm { width: 18px; height: 160px; left: 18%; bottom: 16%; transform: rotate(-4deg); }
-    .palm::before { width: 90px; height: 20px; left: -64px; top: 0; transform: rotate(-24deg); }
-    .palm::after { width: 90px; height: 20px; left: -8px; top: -8px; transform: rotate(32deg); }
-    .neon-code {
-      position:absolute; left: 10%; top: 14%; font: 600 .86rem/1.5 ui-monospace, SFMono-Regular, Menlo, monospace;
-      color: rgba(139,255,176,.92); text-shadow: 0 0 12px rgba(70,245,197,.2);
-      white-space: pre; animation: flicker 3.8s infinite;
-    }
-    @keyframes flicker { 0%, 100% { opacity: .92; } 50% { opacity: .6; } 63% { opacity: 1; } 68% { opacity: .72; } }
-    .grid { position:absolute; inset: 0; background-image: linear-gradient(rgba(70,245,197,.08) 1px, transparent 1px), linear-gradient(90deg, rgba(70,245,197,.08) 1px, transparent 1px); background-size: 28px 28px; opacity: .08; mix-blend-mode: screen; animation: gridFloat 12s linear infinite; }
-    @keyframes gridFloat { from { transform: translateY(0); } to { transform: translateY(28px); } }
-    .surfer { position:absolute; right: 12%; bottom: 22%; width: 54px; height: 90px; border-radius: 50% 50% 40% 40%; background: linear-gradient(180deg, rgba(139,255,176,.98), rgba(70,245,197,.55)); box-shadow: 0 0 25px rgba(70,245,197,.22); animation: surf 4.6s ease-in-out infinite alternate; }
-    .surfer::before { content: ""; position:absolute; left: -18px; top: 28px; width: 88px; height: 10px; background: linear-gradient(90deg, #f5d68b, #8bffb0); border-radius: 999px; transform: rotate(-10deg); box-shadow: 0 0 18px rgba(139,255,176,.26); }
-    @keyframes surf { from { transform: translateY(0) rotate(-2deg); } to { transform: translateY(-10px) rotate(2deg); } }
-    .filters {
-      margin-top: 26px;
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
-      gap: 12px;
-    }
-    select, .pill {
-      width: 100%;
-      border: 1px solid rgba(139,255,176,.18);
-      background: rgba(4, 19, 16, .72);
-      color: var(--text);
-      border-radius: 16px;
-      padding: 14px 16px;
-      font: inherit;
-      outline: none;
-    }
-    select:focus { border-color: rgba(139,255,176,.52); box-shadow: 0 0 0 3px rgba(70,245,197,.12); }
-    .grid-cards {
-      margin-top: 16px;
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 16px;
-    }
-    .dest-card {
-      padding: 18px;
-      background: rgba(8, 30, 26, .72);
-      border: 1px solid rgba(139,255,176,.16);
-      border-radius: 22px;
-      transition: transform .18s ease, border-color .18s ease;
-    }
-    .dest-card:hover { transform: translateY(-3px); border-color: rgba(139,255,176,.34); }
-    .dest-card h3 { margin: 0 0 8px; font-size: 1.05rem; }
-    .dest-card p { margin: 0 0 14px; font-size: .96rem; }
-    .meta { display:flex; flex-wrap: wrap; gap: 8px; }
-    .tag {
-      display:inline-flex; padding: 7px 10px; border-radius: 999px; font-size: .78rem;
-      background: rgba(139,255,176,.1); color: var(--neon); border: 1px solid rgba(139,255,176,.14);
-    }
-    .footer { margin-top: 24px; color: rgba(234,255,241,.7); font-size: .92rem; text-align: center; }
-    @media (max-width: 900px) { .hero { grid-template-columns: 1fr; min-height: auto; } .content { padding: 28px; } .scene-inner { min-height: 420px; } }
+    :root { --bg:#06110f; --panel:rgba(5,25,20,.78); --neon:#8bffb0; --neon-2:#46f5c5; --sand:#f5d68b; --sea:#167f8a; --text:#eafff1; --muted:rgba(234,255,241,.75); }
+    *{box-sizing:border-box} html{scroll-behavior:smooth}
+    body{margin:0;min-height:100vh;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,sans-serif;color:var(--text);background:radial-gradient(circle at 20% 15%, rgba(70,245,197,.18), transparent 26%),radial-gradient(circle at 80% 20%, rgba(139,255,176,.16), transparent 24%),linear-gradient(180deg,#04100f 0%,#061914 38%,#0b2a28 62%,#0f3d49 100%);overflow-x:hidden}
+    .rain,.glow{position:fixed;inset:0;pointer-events:none}.rain{opacity:.22;background-image:linear-gradient(180deg,transparent 0 88%,rgba(139,255,176,.8) 100%);background-size:100% 14px;mask-image:linear-gradient(180deg,rgba(0,0,0,.9),transparent 92%);animation:drift 8s linear infinite}.glow{background:radial-gradient(circle at 52% 58%, rgba(70,245,197,.15), transparent 18%),radial-gradient(circle at 45% 64%, rgba(139,255,176,.12), transparent 20%),radial-gradient(circle at 50% 60%, rgba(245,214,139,.10), transparent 32%);mix-blend-mode:screen;filter:blur(8px);animation:shimmer 7s ease-in-out infinite alternate}
+    @keyframes drift{from{transform:translateY(-8px)}to{transform:translateY(14px)}}@keyframes shimmer{from{opacity:.55}to{opacity:.9}}
+    .wrap{width:min(1180px,92vw);margin:0 auto;padding:48px 0 72px}.hero{display:grid;grid-template-columns:1.2fr .8fr;gap:28px;align-items:center;min-height:92vh}
+    .card{background:var(--panel);border:1px solid rgba(139,255,176,.22);box-shadow:0 0 0 1px rgba(70,245,197,.08),0 20px 70px rgba(0,0,0,.35);backdrop-filter:blur(12px);border-radius:28px}.content{padding:40px}
+    .eyebrow{display:inline-block;padding:8px 14px;border-radius:999px;background:rgba(139,255,176,.1);color:var(--neon);border:1px solid rgba(139,255,176,.24);letter-spacing:.12em;text-transform:uppercase;font-size:.78rem;margin-bottom:18px}
+    h1{margin:0 0 14px;font-size:clamp(3rem,6vw,5.8rem);line-height:.95;letter-spacing:-.05em;text-shadow:0 0 18px rgba(70,245,197,.28)} h1 span{color:var(--neon)}
+    p{color:var(--muted);font-size:1.08rem;line-height:1.7;margin:0 0 22px;max-width:60ch}
+    .actions{display:flex;gap:12px;flex-wrap:wrap}.btn{display:inline-flex;align-items:center;justify-content:center;border-radius:14px;padding:14px 18px;text-decoration:none;font-weight:700;border:1px solid rgba(139,255,176,.24)}.btn.primary{background:linear-gradient(135deg,var(--neon),var(--neon-2));color:#02110d;box-shadow:0 12px 30px rgba(70,245,197,.18)}.btn.secondary{color:var(--text);background:rgba(255,255,255,.04)}
+    .scene{padding:18px;position:relative;overflow:hidden}.scene::before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(5,17,15,.2),rgba(5,17,15,.1)),radial-gradient(circle at 50% 88%, rgba(245,214,139,.95) 0 20%, transparent 21%),linear-gradient(180deg,transparent 0 54%, rgba(22,127,138,.86) 54% 76%, rgba(4,20,19,.92) 76% 100%);opacity:.92}
+    .scene-inner{position:relative;min-height:520px;border-radius:22px;border:1px solid rgba(139,255,176,.18);overflow:hidden;background:linear-gradient(180deg,#03100e 0%,#0c2c32 58%,#f5d68b 58%,#f5d68b 100%)}
+    .sun{position:absolute;right:18%;top:12%;width:112px;height:112px;border-radius:50%;background:radial-gradient(circle,#fff7d1 0 30%,#ffe27a 50%,rgba(255,210,86,.15) 73%,transparent 74%);box-shadow:0 0 120px rgba(255,226,122,.24);animation:pulseSun 6s ease-in-out infinite alternate}@keyframes pulseSun{from{transform:scale(.98)}to{transform:scale(1.04)}}
+    .wave{position:absolute;left:-10%;right:-10%;height:120px;top:60%;background:repeating-linear-gradient(90deg, rgba(70,245,197,.12) 0 24px, rgba(139,255,176,.08) 24px 48px);clip-path:ellipse(70% 40% at 50% 50%);filter:blur(2px);opacity:.8;animation:waveMove 5s ease-in-out infinite alternate}@keyframes waveMove{from{transform:translateX(-6px)}to{transform:translateX(8px)}}
+    .palm,.palm::before,.palm::after{position:absolute;content:"";display:block;background:#0a5f43;border-radius:80% 20% 80% 20%}.palm{width:18px;height:160px;left:18%;bottom:16%;transform:rotate(-4deg)}.palm::before{width:90px;height:20px;left:-64px;top:0;transform:rotate(-24deg)}.palm::after{width:90px;height:20px;left:-8px;top:-8px;transform:rotate(32deg)}
+    .neon-code{position:absolute;left:10%;top:14%;font:600 .86rem/1.5 ui-monospace,SFMono-Regular,Menlo,monospace;color:rgba(139,255,176,.92);text-shadow:0 0 12px rgba(70,245,197,.2);white-space:pre;animation:flicker 3.8s infinite}@keyframes flicker{0%,100%{opacity:.92}50%{opacity:.6}63%{opacity:1}68%{opacity:.72}}
+    .grid{position:absolute;inset:0;background-image:linear-gradient(rgba(70,245,197,.08) 1px,transparent 1px),linear-gradient(90deg,rgba(70,245,197,.08) 1px,transparent 1px);background-size:28px 28px;opacity:.08;mix-blend-mode:screen;animation:gridFloat 12s linear infinite}@keyframes gridFloat{from{transform:translateY(0)}to{transform:translateY(28px)}}
+    .surfer{position:absolute;right:12%;bottom:22%;width:54px;height:90px;border-radius:50% 50% 40% 40%;background:linear-gradient(180deg,rgba(139,255,176,.98),rgba(70,245,197,.55));box-shadow:0 0 25px rgba(70,245,197,.22);animation:surf 4.6s ease-in-out infinite alternate}.surfer::before{content:"";position:absolute;left:-18px;top:28px;width:88px;height:10px;background:linear-gradient(90deg,#f5d68b,#8bffb0);border-radius:999px;transform:rotate(-10deg);box-shadow:0 0 18px rgba(139,255,176,.26)}@keyframes surf{from{transform:translateY(0) rotate(-2deg)}to{transform:translateY(-10px) rotate(2deg)}}
+    .filters{margin-top:26px;display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px}select,.pill{width:100%;border:1px solid rgba(139,255,176,.18);background:rgba(4,19,16,.72);color:var(--text);border-radius:16px;padding:14px 16px;font:inherit;outline:none}select:focus{border-color:rgba(139,255,176,.52);box-shadow:0 0 0 3px rgba(70,245,197,.12)}
+    .map-card{margin-top:24px;padding:18px}.map-wrap{position:relative;min-height:560px;border-radius:22px;overflow:hidden;border:1px solid rgba(139,255,176,.16);background:radial-gradient(circle at 50% 20%, rgba(70,245,197,.08), transparent 30%),linear-gradient(180deg,#05221f 0%,#073844 55%,#f5d68b 55%,#f5d68b 100%)}
+    .map-wrap::before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.04) 1px, transparent 1px),linear-gradient(90deg, rgba(255,255,255,.04) 1px, transparent 1px);background-size:36px 36px;opacity:.25;mix-blend-mode:screen}
+    .brazil-shape{position:absolute;inset:0;clip-path:polygon(23% 12%, 35% 8%, 48% 16%, 57% 13%, 67% 19%, 74% 30%, 80% 28%, 88% 36%, 84% 52%, 90% 62%, 83% 77%, 74% 84%, 65% 89%, 57% 83%, 47% 87%, 37% 80%, 28% 84%, 18% 74%, 15% 61%, 10% 54%, 14% 42%, 10% 32%, 16% 22%);background:linear-gradient(180deg, rgba(8,32,31,.45), rgba(15,82,82,.52));border:1px solid rgba(139,255,176,.18);filter:drop-shadow(0 0 18px rgba(70,245,197,.12));}
+    .city-dot{position:absolute;transform:translate(-50%,-50%);width:14px;height:14px;border-radius:50%;background:var(--neon);box-shadow:0 0 0 6px rgba(139,255,176,.12),0 0 20px rgba(70,245,197,.6);cursor:pointer;transition:transform .18s ease, box-shadow .18s ease}.city-dot:hover{transform:translate(-50%,-50%) scale(1.25)}.city-dot.active{background:#ffe27a;box-shadow:0 0 0 8px rgba(255,226,122,.14),0 0 24px rgba(255,226,122,.8)}
+    .city-label{position:absolute;transform:translate(-50%,-135%);padding:6px 8px;border-radius:999px;background:rgba(0,0,0,.52);border:1px solid rgba(139,255,176,.22);font-size:.75rem;white-space:nowrap;pointer-events:none;opacity:0;transition:opacity .18s ease}.city-dot:hover .city-label,.city-dot.active .city-label{opacity:1}
+    .travel-panel{position:absolute;left:18px;right:18px;bottom:18px;background:rgba(5,25,20,.84);border:1px solid rgba(139,255,176,.18);border-radius:20px;padding:16px 18px;backdrop-filter:blur(10px)}
+    .travel-panel h3{margin:0 0 8px}.travel-panel p{margin:0 0 10px;font-size:.95rem}.badge-row{display:flex;flex-wrap:wrap;gap:8px}.badge{display:inline-flex;padding:7px 10px;border-radius:999px;font-size:.78rem;background:rgba(139,255,176,.1);color:var(--neon);border:1px solid rgba(139,255,176,.14)}
+    .grid-cards{margin-top:16px;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px}.dest-card{padding:18px;background:rgba(8,30,26,.72);border:1px solid rgba(139,255,176,.16);border-radius:22px;transition:transform .18s ease,border-color .18s ease}.dest-card:hover{transform:translateY(-3px);border-color:rgba(139,255,176,.34)}.dest-card h3{margin:0 0 8px;font-size:1.05rem}.dest-card p{margin:0 0 14px;font-size:.96rem}.meta{display:flex;flex-wrap:wrap;gap:8px}.tag{display:inline-flex;padding:7px 10px;border-radius:999px;font-size:.78rem;background:rgba(139,255,176,.1);color:var(--neon);border:1px solid rgba(139,255,176,.14)}
+    .footer{margin-top:24px;color:rgba(234,255,241,.7);font-size:.92rem;text-align:center}
+    @media (max-width:900px){.hero{grid-template-columns:1fr;min-height:auto}.content{padding:28px}.scene-inner,.map-wrap{min-height:420px}}
   </style>
 </head>
 <body>
@@ -176,11 +48,11 @@
         <p>
           Um site simples, estático e com clima de teste: areia dourada na base,
           mar profundo no fundo e chuva de código caindo com estilo. Agora com
-          um modo de viagem para todas as capitais do Brasil.
+          um mapa para viajar por todas as capitais do Brasil.
         </p>
         <div class="actions">
-          <a class="btn primary" href="#capitais">Escolher capital</a>
-          <a class="btn secondary" href="#sobre">Ver o conceito</a>
+          <a class="btn primary" href="#mapa">Ver mapa</a>
+          <a class="btn secondary" href="#capitais">Explorar capitais</a>
         </div>
         <div class="filters">
           <select id="capitalSelect" aria-label="Escolha uma capital">
@@ -204,6 +76,21 @@ mar + matrix = paz suspeita</div>
       </aside>
     </section>
 
+    <section id="mapa" class="card map-card">
+      <div class="eyebrow">Mapa do Brasil</div>
+      <h2 style="margin:0 0 10px; font-size: 2rem;">Escolha uma capital no mapa</h2>
+      <p style="margin-bottom:16px;">Clique nos pontos para viajar no modo Matrix na Praia. Cada capital acende no mapa e mostra a vibe do destino.</p>
+      <div class="map-wrap" role="img" aria-label="Mapa estilizado do Brasil com capitais clicáveis">
+        <div class="brazil-shape"></div>
+        <div id="mapDots"></div>
+        <div class="travel-panel">
+          <h3 id="travelTitle">Destino não selecionado</h3>
+          <p id="travelDescription">Clique em uma capital no mapa ou na lista para começar a viagem.</p>
+          <div class="badge-row" id="travelBadges"></div>
+        </div>
+      </div>
+    </section>
+
     <section id="capitais" class="card content" style="margin-top: 24px;">
       <div class="eyebrow">Capitais do Brasil</div>
       <h2 style="margin:0 0 10px; font-size: 2rem;">Viaje no estilo Matrix na Praia</h2>
@@ -214,45 +101,71 @@ mar + matrix = paz suspeita</div>
       <div class="grid-cards" id="capitalCards"></div>
     </section>
 
-    <section id="sobre" class="footer">
-      Feito como base inicial do projeto de testes — simples, estático e visual.
-    </section>
+    <section class="footer">Feito como base inicial do projeto de testes — simples, estático e visual.</section>
   </main>
 
   <script>
     const capitals = [
-      { name: 'Rio Branco', state: 'AC', vibe: 'Amazônia neon e calmaria tropical.' },
-      { name: 'Maceió', state: 'AL', vibe: 'Água turquesa, areia clara e código fluido.' },
-      { name: 'Macapá', state: 'AP', vibe: 'Linha do Equador com brilho digital.' },
-      { name: 'Manaus', state: 'AM', vibe: 'Selva, rio e um glitch de calor úmido.' },
-      { name: 'Salvador', state: 'BA', vibe: 'Cor, ritmo e mar batendo no terminal.' },
-      { name: 'Fortaleza', state: 'CE', vibe: 'Vento forte e horizonte em 4K Matrix.' },
-      { name: 'Brasília', state: 'DF', vibe: 'Arquitetura futurista com céu de simulação.' },
-      { name: 'Vitória', state: 'ES', vibe: 'Ilha, porto e reflexo verde-azulado.' },
-      { name: 'Goiânia', state: 'GO', vibe: 'Cidade verde com onda sintética.' },
-      { name: 'São Luís', state: 'MA', vibe: 'Azulejos, mar e ruído digital elegante.' },
-      { name: 'Cuiabá', state: 'MT', vibe: 'Calor intenso e névoa de código.' },
-      { name: 'Campo Grande', state: 'MS', vibe: 'Horizonte aberto e travessia de bits.' },
-      { name: 'Belo Horizonte', state: 'MG', vibe: 'Serra, neblina e luz de neon discreta.' },
-      { name: 'Belém', state: 'PA', vibe: 'Rios, chuva e sabores em modo turbo.' },
-      { name: 'João Pessoa', state: 'PB', vibe: 'Nascer do sol em render perfeito.' },
-      { name: 'Curitiba', state: 'PR', vibe: 'Clima frio com coração de código quente.' },
-      { name: 'Recife', state: 'PE', vibe: 'Pontes, mar e pulsos de tecnologia.' },
-      { name: 'Teresina', state: 'PI', vibe: 'Cidade quente com brilho de circuito.' },
-      { name: 'Rio de Janeiro', state: 'RJ', vibe: 'Pão de açúcar, mar e skyline cyber.' },
-      { name: 'Natal', state: 'RN', vibe: 'Dunas, vento e céu em baixa latência.' },
-      { name: 'Porto Alegre', state: 'RS', vibe: 'Sul amplo com luzes refletidas no Guaíba.' },
-      { name: 'Porto Velho', state: 'RO', vibe: 'Estrada, rio e um brilho de madrugada.' },
-      { name: 'Boa Vista', state: 'RR', vibe: 'Horizonte aberto e sol programado.' },
-      { name: 'Florianópolis', state: 'SC', vibe: 'Ilha, surf e elegância em neon.' },
-      { name: 'São Paulo', state: 'SP', vibe: 'Arranha-céus, movimento e chuva de código.' },
-      { name: 'Aracaju', state: 'SE', vibe: 'Praia tranquila e estética limpa.' },
-      { name: 'Palmas', state: 'TO', vibe: 'Plano, aberto e pronto pra viajar.' },
+      { name: 'Rio Branco', state: 'AC', vibe: 'Amazônia neon e calmaria tropical.', x: '24%', y: '66%' },
+      { name: 'Maceió', state: 'AL', vibe: 'Água turquesa, areia clara e código fluido.', x: '82%', y: '46%' },
+      { name: 'Macapá', state: 'AP', vibe: 'Linha do Equador com brilho digital.', x: '46%', y: '16%' },
+      { name: 'Manaus', state: 'AM', vibe: 'Selva, rio e um glitch de calor úmido.', x: '28%', y: '42%' },
+      { name: 'Salvador', state: 'BA', vibe: 'Cor, ritmo e mar batendo no terminal.', x: '78%', y: '54%' },
+      { name: 'Fortaleza', state: 'CE', vibe: 'Vento forte e horizonte em 4K Matrix.', x: '77%', y: '34%' },
+      { name: 'Brasília', state: 'DF', vibe: 'Arquitetura futurista com céu de simulação.', x: '60%', y: '58%' },
+      { name: 'Vitória', state: 'ES', vibe: 'Ilha, porto e reflexo verde-azulado.', x: '73%', y: '63%' },
+      { name: 'Goiânia', state: 'GO', vibe: 'Cidade verde com onda sintética.', x: '54%', y: '61%' },
+      { name: 'São Luís', state: 'MA', vibe: 'Azulejos, mar e ruído digital elegante.', x: '67%', y: '30%' },
+      { name: 'Cuiabá', state: 'MT', vibe: 'Calor intenso e névoa de código.', x: '46%', y: '71%' },
+      { name: 'Campo Grande', state: 'MS', vibe: 'Horizonte aberto e travessia de bits.', x: '43%', y: '79%' },
+      { name: 'Belo Horizonte', state: 'MG', vibe: 'Serra, neblina e luz de neon discreta.', x: '66%', y: '67%' },
+      { name: 'Belém', state: 'PA', vibe: 'Rios, chuva e sabores em modo turbo.', x: '60%', y: '26%' },
+      { name: 'João Pessoa', state: 'PB', vibe: 'Nascer do sol em render perfeito.', x: '83%', y: '41%' },
+      { name: 'Curitiba', state: 'PR', vibe: 'Clima frio com coração de código quente.', x: '61%', y: '86%' },
+      { name: 'Recife', state: 'PE', vibe: 'Pontes, mar e pulsos de tecnologia.', x: '83%', y: '39%' },
+      { name: 'Teresina', state: 'PI', vibe: 'Cidade quente com brilho de circuito.', x: '72%', y: '31%' },
+      { name: 'Rio de Janeiro', state: 'RJ', vibe: 'Pão de açúcar, mar e skyline cyber.', x: '70%', y: '73%' },
+      { name: 'Natal', state: 'RN', vibe: 'Dunas, vento e céu em baixa latência.', x: '84%', y: '37%' },
+      { name: 'Porto Alegre', state: 'RS', vibe: 'Sul amplo com luzes refletidas no Guaíba.', x: '53%', y: '92%' },
+      { name: 'Porto Velho', state: 'RO', vibe: 'Estrada, rio e um brilho de madrugada.', x: '28%', y: '56%' },
+      { name: 'Boa Vista', state: 'RR', vibe: 'Horizonte aberto e sol programado.', x: '26%', y: '19%' },
+      { name: 'Florianópolis', state: 'SC', vibe: 'Ilha, surf e elegância em neon.', x: '61%', y: '89%' },
+      { name: 'São Paulo', state: 'SP', vibe: 'Arranha-céus, movimento e chuva de código.', x: '65%', y: '78%' },
+      { name: 'Aracaju', state: 'SE', vibe: 'Praia tranquila e estética limpa.', x: '81%', y: '49%' },
+      { name: 'Palmas', state: 'TO', vibe: 'Plano, aberto e pronto pra viajar.', x: '60%', y: '47%' },
     ];
 
     const select = document.getElementById('capitalSelect');
     const info = document.getElementById('capitalInfo');
     const cards = document.getElementById('capitalCards');
+    const dots = document.getElementById('mapDots');
+    const travelTitle = document.getElementById('travelTitle');
+    const travelDescription = document.getElementById('travelDescription');
+    const travelBadges = document.getElementById('travelBadges');
+
+    const badgesFor = (cap) => [cap.state, 'Matrix', 'Praia'];
+
+    function selectCapital(value) {
+      const chosen = capitals.find(c => `${c.name} - ${c.state}` === value);
+      if (!chosen) {
+        info.textContent = 'Escolha uma capital para iniciar a viagem Matrix na Praia.';
+        travelTitle.textContent = 'Destino não selecionado';
+        travelDescription.textContent = 'Clique em uma capital no mapa ou na lista para começar a viagem.';
+        travelBadges.innerHTML = '';
+        document.querySelectorAll('.dest-card').forEach(card => { card.style.outline = 'none'; card.style.boxShadow = 'none'; });
+        document.querySelectorAll('.city-dot').forEach(dot => dot.classList.remove('active'));
+        return;
+      }
+      info.textContent = `Destino escolhido: ${chosen.name} (${chosen.state}) — ${chosen.vibe}`;
+      travelTitle.textContent = `${chosen.name} (${chosen.state})`;
+      travelDescription.textContent = chosen.vibe;
+      travelBadges.innerHTML = badgesFor(chosen).map(t => `<span class="badge">${t}</span>`).join('');
+      document.querySelectorAll('.dest-card').forEach(card => {
+        card.style.outline = card.dataset.capital === value ? '2px solid rgba(139,255,176,.7)' : 'none';
+        card.style.boxShadow = card.dataset.capital === value ? '0 0 0 1px rgba(139,255,176,.12), 0 0 24px rgba(70,245,197,.18)' : 'none';
+      });
+      document.querySelectorAll('.city-dot').forEach(dot => dot.classList.toggle('active', dot.dataset.capital === value));
+    }
 
     capitals.forEach((c) => {
       const opt = document.createElement('option');
@@ -272,23 +185,23 @@ mar + matrix = paz suspeita</div>
           <span class="tag">Capital</span>
         </div>
       `;
+      card.addEventListener('click', () => { select.value = `${c.name} - ${c.state}`; selectCapital(select.value); document.getElementById('mapa').scrollIntoView({ behavior: 'smooth', block: 'start' }); });
       cards.appendChild(card);
+
+      const dot = document.createElement('button');
+      dot.type = 'button';
+      dot.className = 'city-dot';
+      dot.dataset.capital = `${c.name} - ${c.state}`;
+      dot.style.left = c.x;
+      dot.style.top = c.y;
+      dot.setAttribute('aria-label', `${c.name}, ${c.state}`);
+      dot.innerHTML = `<span class="city-label">${c.name} (${c.state})</span>`;
+      dot.addEventListener('click', () => { select.value = `${c.name} - ${c.state}`; selectCapital(select.value); });
+      dots.appendChild(dot);
     });
 
-    select.addEventListener('change', () => {
-      const chosen = capitals.find(c => `${c.name} - ${c.state}` === select.value);
-      if (!chosen) {
-        info.textContent = 'Escolha uma capital para iniciar a viagem Matrix na Praia.';
-        return;
-      }
-      info.textContent = `Destino escolhido: ${chosen.name} (${chosen.state}) — ${chosen.vibe}`;
-      document.querySelectorAll('.dest-card').forEach(card => {
-        card.style.outline = card.dataset.capital === select.value ? '2px solid rgba(139,255,176,.7)' : 'none';
-        card.style.boxShadow = card.dataset.capital === select.value ? '0 0 0 1px rgba(139,255,176,.12), 0 0 24px rgba(70,245,197,.18)' : 'none';
-      });
-    });
+    select.addEventListener('change', () => selectCapital(select.value));
+    selectCapital('');
   </script>
 </body>
 </html>
-EOF
-cd /home/bob/.openclaw/workspace/viajandoimg && git add index.html && git commit -m "fix: add brazil capital travel selector\n\nFixes inteligenciamilgrau/viajandoimg#1" && git push origin main
