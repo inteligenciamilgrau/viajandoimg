@@ -14,8 +14,10 @@
       --sea: #167f8a;
       --text: #eafff1;
       --muted: rgba(234,255,241,.75);
+      --card: rgba(8, 30, 26, .76);
     }
     * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
     body {
       margin: 0;
       min-height: 100vh;
@@ -27,10 +29,12 @@
         linear-gradient(180deg, #04100f 0%, #061914 38%, #0b2a28 62%, #0f3d49 100%);
       overflow-x: hidden;
     }
-    .rain {
+    .rain, .glow {
       position: fixed;
       inset: 0;
       pointer-events: none;
+    }
+    .rain {
       opacity: .22;
       background-image: linear-gradient(180deg, transparent 0 88%, rgba(139,255,176,.8) 100%);
       background-size: 100% 14px;
@@ -38,9 +42,6 @@
       animation: drift 8s linear infinite;
     }
     .glow {
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
       background:
         radial-gradient(circle at 52% 58%, rgba(70,245,197,.15), transparent 18%),
         radial-gradient(circle at 45% 64%, rgba(139,255,176,.12), transparent 20%),
@@ -51,18 +52,8 @@
     }
     @keyframes drift { from { transform: translateY(-8px); } to { transform: translateY(14px); } }
     @keyframes shimmer { from { opacity: .55; } to { opacity: .9; } }
-    .wrap {
-      width: min(1100px, 92vw);
-      margin: 0 auto;
-      padding: 48px 0 72px;
-    }
-    .hero {
-      display: grid;
-      grid-template-columns: 1.2fr .8fr;
-      gap: 28px;
-      align-items: center;
-      min-height: 92vh;
-    }
+    .wrap { width: min(1180px, 92vw); margin: 0 auto; padding: 48px 0 72px; }
+    .hero { display: grid; grid-template-columns: 1.2fr .8fr; gap: 28px; align-items: center; min-height: 92vh; }
     .card {
       background: var(--panel);
       border: 1px solid rgba(139,255,176,.22);
@@ -83,32 +74,16 @@
       font-size: .78rem;
       margin-bottom: 18px;
     }
-    h1 {
-      margin: 0 0 14px;
-      font-size: clamp(3rem, 6vw, 5.8rem);
-      line-height: .95;
-      letter-spacing: -.05em;
-      text-shadow: 0 0 18px rgba(70,245,197,.28);
-    }
+    h1 { margin: 0 0 14px; font-size: clamp(3rem, 6vw, 5.8rem); line-height: .95; letter-spacing: -.05em; text-shadow: 0 0 18px rgba(70,245,197,.28); }
     h1 span { color: var(--neon); }
-    p {
-      color: var(--muted);
-      font-size: 1.08rem;
-      line-height: 1.7;
-      margin: 0 0 22px;
-      max-width: 60ch;
-    }
+    p { color: var(--muted); font-size: 1.08rem; line-height: 1.7; margin: 0 0 22px; max-width: 60ch; }
     .actions { display:flex; gap:12px; flex-wrap: wrap; }
     .btn {
       display:inline-flex; align-items:center; justify-content:center;
       border-radius: 14px; padding: 14px 18px; text-decoration:none;
       font-weight: 700; border: 1px solid rgba(139,255,176,.24);
     }
-    .btn.primary {
-      background: linear-gradient(135deg, var(--neon), var(--neon-2));
-      color: #02110d;
-      box-shadow: 0 12px 30px rgba(70,245,197,.18);
-    }
+    .btn.primary { background: linear-gradient(135deg, var(--neon), var(--neon-2)); color: #02110d; box-shadow: 0 12px 30px rgba(70,245,197,.18); }
     .btn.secondary { color: var(--text); background: rgba(255,255,255,.04); }
     .scene { padding: 18px; position: relative; overflow: hidden; }
     .scene::before {
@@ -129,85 +104,65 @@
       overflow: hidden;
       background: linear-gradient(180deg, #03100e 0%, #0c2c32 58%, #f5d68b 58%, #f5d68b 100%);
     }
-    .sun {
-      position: absolute;
-      right: 18%; top: 12%; width: 112px; height: 112px; border-radius: 50%;
-      background: radial-gradient(circle, #fff7d1 0 30%, #ffe27a 50%, rgba(255,210,86,.15) 73%, transparent 74%);
-      box-shadow: 0 0 120px rgba(255, 226, 122, .24);
-      animation: pulseSun 6s ease-in-out infinite alternate;
-    }
+    .sun { position: absolute; right: 18%; top: 12%; width: 112px; height: 112px; border-radius: 50%; background: radial-gradient(circle, #fff7d1 0 30%, #ffe27a 50%, rgba(255,210,86,.15) 73%, transparent 74%); box-shadow: 0 0 120px rgba(255, 226, 122, .24); animation: pulseSun 6s ease-in-out infinite alternate; }
     @keyframes pulseSun { from { transform: scale(.98); } to { transform: scale(1.04); } }
-    .wave {
-      position:absolute; left:-10%; right:-10%; height: 120px; top: 60%;
-      background: repeating-linear-gradient(90deg, rgba(70,245,197,.12) 0 24px, rgba(139,255,176,.08) 24px 48px);
-      clip-path: ellipse(70% 40% at 50% 50%);
-      filter: blur(2px);
-      opacity:.8;
-      animation: waveMove 5s ease-in-out infinite alternate;
-    }
+    .wave { position:absolute; left:-10%; right:-10%; height: 120px; top: 60%; background: repeating-linear-gradient(90deg, rgba(70,245,197,.12) 0 24px, rgba(139,255,176,.08) 24px 48px); clip-path: ellipse(70% 40% at 50% 50%); filter: blur(2px); opacity:.8; animation: waveMove 5s ease-in-out infinite alternate; }
     @keyframes waveMove { from { transform: translateX(-6px); } to { transform: translateX(8px); } }
-    .palm, .palm::before, .palm::after {
-      position: absolute; content: ""; display:block;
-      background: #0a5f43;
-      border-radius: 80% 20% 80% 20%;
-    }
-    .palm {
-      width: 18px; height: 160px; left: 18%; bottom: 16%; transform: rotate(-4deg);
-    }
+    .palm, .palm::before, .palm::after { position: absolute; content: ""; display:block; background: #0a5f43; border-radius: 80% 20% 80% 20%; }
+    .palm { width: 18px; height: 160px; left: 18%; bottom: 16%; transform: rotate(-4deg); }
     .palm::before { width: 90px; height: 20px; left: -64px; top: 0; transform: rotate(-24deg); }
     .palm::after { width: 90px; height: 20px; left: -8px; top: -8px; transform: rotate(32deg); }
     .neon-code {
       position:absolute; left: 10%; top: 14%; font: 600 .86rem/1.5 ui-monospace, SFMono-Regular, Menlo, monospace;
       color: rgba(139,255,176,.92); text-shadow: 0 0 12px rgba(70,245,197,.2);
-      white-space: pre;
-      animation: flicker 3.8s infinite;
+      white-space: pre; animation: flicker 3.8s infinite;
     }
-    @keyframes flicker {
-      0%, 100% { opacity: .92; }
-      50% { opacity: .6; }
-      63% { opacity: 1; }
-      68% { opacity: .72; }
-    }
-    .grid {
-      position:absolute; inset: 0;
-      background-image:
-        linear-gradient(rgba(70,245,197,.08) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(70,245,197,.08) 1px, transparent 1px);
-      background-size: 28px 28px;
-      opacity: .08;
-      mix-blend-mode: screen;
-      animation: gridFloat 12s linear infinite;
-    }
+    @keyframes flicker { 0%, 100% { opacity: .92; } 50% { opacity: .6; } 63% { opacity: 1; } 68% { opacity: .72; } }
+    .grid { position:absolute; inset: 0; background-image: linear-gradient(rgba(70,245,197,.08) 1px, transparent 1px), linear-gradient(90deg, rgba(70,245,197,.08) 1px, transparent 1px); background-size: 28px 28px; opacity: .08; mix-blend-mode: screen; animation: gridFloat 12s linear infinite; }
     @keyframes gridFloat { from { transform: translateY(0); } to { transform: translateY(28px); } }
-    .surfer {
-      position:absolute;
-      right: 12%; bottom: 22%;
-      width: 54px; height: 90px;
-      border-radius: 50% 50% 40% 40%;
-      background: linear-gradient(180deg, rgba(139,255,176,.98), rgba(70,245,197,.55));
-      box-shadow: 0 0 25px rgba(70,245,197,.22);
-      animation: surf 4.6s ease-in-out infinite alternate;
-    }
-    .surfer::before {
-      content: "";
-      position:absolute; left: -18px; top: 28px; width: 88px; height: 10px;
-      background: linear-gradient(90deg, #f5d68b, #8bffb0);
-      border-radius: 999px;
-      transform: rotate(-10deg);
-      box-shadow: 0 0 18px rgba(139,255,176,.26);
-    }
+    .surfer { position:absolute; right: 12%; bottom: 22%; width: 54px; height: 90px; border-radius: 50% 50% 40% 40%; background: linear-gradient(180deg, rgba(139,255,176,.98), rgba(70,245,197,.55)); box-shadow: 0 0 25px rgba(70,245,197,.22); animation: surf 4.6s ease-in-out infinite alternate; }
+    .surfer::before { content: ""; position:absolute; left: -18px; top: 28px; width: 88px; height: 10px; background: linear-gradient(90deg, #f5d68b, #8bffb0); border-radius: 999px; transform: rotate(-10deg); box-shadow: 0 0 18px rgba(139,255,176,.26); }
     @keyframes surf { from { transform: translateY(0) rotate(-2deg); } to { transform: translateY(-10px) rotate(2deg); } }
-    .footer {
-      margin-top: 24px;
-      color: rgba(234,255,241,.7);
-      font-size: .92rem;
-      text-align: center;
+    .filters {
+      margin-top: 26px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+      gap: 12px;
     }
-    @media (max-width: 900px) {
-      .hero { grid-template-columns: 1fr; min-height: auto; }
-      .content { padding: 28px; }
-      .scene-inner { min-height: 420px; }
+    select, .pill {
+      width: 100%;
+      border: 1px solid rgba(139,255,176,.18);
+      background: rgba(4, 19, 16, .72);
+      color: var(--text);
+      border-radius: 16px;
+      padding: 14px 16px;
+      font: inherit;
+      outline: none;
     }
+    select:focus { border-color: rgba(139,255,176,.52); box-shadow: 0 0 0 3px rgba(70,245,197,.12); }
+    .grid-cards {
+      margin-top: 16px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
+    }
+    .dest-card {
+      padding: 18px;
+      background: rgba(8, 30, 26, .72);
+      border: 1px solid rgba(139,255,176,.16);
+      border-radius: 22px;
+      transition: transform .18s ease, border-color .18s ease;
+    }
+    .dest-card:hover { transform: translateY(-3px); border-color: rgba(139,255,176,.34); }
+    .dest-card h3 { margin: 0 0 8px; font-size: 1.05rem; }
+    .dest-card p { margin: 0 0 14px; font-size: .96rem; }
+    .meta { display:flex; flex-wrap: wrap; gap: 8px; }
+    .tag {
+      display:inline-flex; padding: 7px 10px; border-radius: 999px; font-size: .78rem;
+      background: rgba(139,255,176,.1); color: var(--neon); border: 1px solid rgba(139,255,176,.14);
+    }
+    .footer { margin-top: 24px; color: rgba(234,255,241,.7); font-size: .92rem; text-align: center; }
+    @media (max-width: 900px) { .hero { grid-template-columns: 1fr; min-height: auto; } .content { padding: 28px; } .scene-inner { min-height: 420px; } }
   </style>
 </head>
 <body>
@@ -220,12 +175,18 @@
         <h1>Viagens com <span>glitch</span>, mar e neon</h1>
         <p>
           Um site simples, estático e com clima de teste: areia dourada na base,
-          mar profundo no fundo e chuva de código caindo com estilo. A vibe é de
-          férias, mas o sistema ainda sussurra em verde.
+          mar profundo no fundo e chuva de código caindo com estilo. Agora com
+          um modo de viagem para todas as capitais do Brasil.
         </p>
         <div class="actions">
-          <a class="btn primary" href="#destinos">Explorar destinos</a>
+          <a class="btn primary" href="#capitais">Escolher capital</a>
           <a class="btn secondary" href="#sobre">Ver o conceito</a>
+        </div>
+        <div class="filters">
+          <select id="capitalSelect" aria-label="Escolha uma capital">
+            <option value="">Selecione uma capital</option>
+          </select>
+          <div class="pill" id="capitalInfo">Escolha uma capital para iniciar a viagem Matrix na Praia.</div>
         </div>
       </article>
 
@@ -243,18 +204,91 @@ mar + matrix = paz suspeita</div>
       </aside>
     </section>
 
-    <section id="destinos" class="card content" style="margin-top: 24px;">
-      <div class="eyebrow">Destinos</div>
-      <h2 style="margin:0 0 10px; font-size: 2rem;">Praias que parecem saídas de um terminal</h2>
+    <section id="capitais" class="card content" style="margin-top: 24px;">
+      <div class="eyebrow">Capitais do Brasil</div>
+      <h2 style="margin:0 0 10px; font-size: 2rem;">Viaje no estilo Matrix na Praia</h2>
       <p style="margin-bottom: 0;">
-        Cassino de código, coqueiros em verde elétrico e ondas em baixa latência.
-        Um layout pronto para servir como base do projeto.
+        Selecione uma capital para carregar a rota neon, a vibe do litoral e o código
+        que faz a cidade parecer saída de um sonho digital.
       </p>
+      <div class="grid-cards" id="capitalCards"></div>
     </section>
 
     <section id="sobre" class="footer">
       Feito como base inicial do projeto de testes — simples, estático e visual.
     </section>
   </main>
+
+  <script>
+    const capitals = [
+      { name: 'Rio Branco', state: 'AC', vibe: 'Amazônia neon e calmaria tropical.' },
+      { name: 'Maceió', state: 'AL', vibe: 'Água turquesa, areia clara e código fluido.' },
+      { name: 'Macapá', state: 'AP', vibe: 'Linha do Equador com brilho digital.' },
+      { name: 'Manaus', state: 'AM', vibe: 'Selva, rio e um glitch de calor úmido.' },
+      { name: 'Salvador', state: 'BA', vibe: 'Cor, ritmo e mar batendo no terminal.' },
+      { name: 'Fortaleza', state: 'CE', vibe: 'Vento forte e horizonte em 4K Matrix.' },
+      { name: 'Brasília', state: 'DF', vibe: 'Arquitetura futurista com céu de simulação.' },
+      { name: 'Vitória', state: 'ES', vibe: 'Ilha, porto e reflexo verde-azulado.' },
+      { name: 'Goiânia', state: 'GO', vibe: 'Cidade verde com onda sintética.' },
+      { name: 'São Luís', state: 'MA', vibe: 'Azulejos, mar e ruído digital elegante.' },
+      { name: 'Cuiabá', state: 'MT', vibe: 'Calor intenso e névoa de código.' },
+      { name: 'Campo Grande', state: 'MS', vibe: 'Horizonte aberto e travessia de bits.' },
+      { name: 'Belo Horizonte', state: 'MG', vibe: 'Serra, neblina e luz de neon discreta.' },
+      { name: 'Belém', state: 'PA', vibe: 'Rios, chuva e sabores em modo turbo.' },
+      { name: 'João Pessoa', state: 'PB', vibe: 'Nascer do sol em render perfeito.' },
+      { name: 'Curitiba', state: 'PR', vibe: 'Clima frio com coração de código quente.' },
+      { name: 'Recife', state: 'PE', vibe: 'Pontes, mar e pulsos de tecnologia.' },
+      { name: 'Teresina', state: 'PI', vibe: 'Cidade quente com brilho de circuito.' },
+      { name: 'Rio de Janeiro', state: 'RJ', vibe: 'Pão de açúcar, mar e skyline cyber.' },
+      { name: 'Natal', state: 'RN', vibe: 'Dunas, vento e céu em baixa latência.' },
+      { name: 'Porto Alegre', state: 'RS', vibe: 'Sul amplo com luzes refletidas no Guaíba.' },
+      { name: 'Porto Velho', state: 'RO', vibe: 'Estrada, rio e um brilho de madrugada.' },
+      { name: 'Boa Vista', state: 'RR', vibe: 'Horizonte aberto e sol programado.' },
+      { name: 'Florianópolis', state: 'SC', vibe: 'Ilha, surf e elegância em neon.' },
+      { name: 'São Paulo', state: 'SP', vibe: 'Arranha-céus, movimento e chuva de código.' },
+      { name: 'Aracaju', state: 'SE', vibe: 'Praia tranquila e estética limpa.' },
+      { name: 'Palmas', state: 'TO', vibe: 'Plano, aberto e pronto pra viajar.' },
+    ];
+
+    const select = document.getElementById('capitalSelect');
+    const info = document.getElementById('capitalInfo');
+    const cards = document.getElementById('capitalCards');
+
+    capitals.forEach((c) => {
+      const opt = document.createElement('option');
+      opt.value = `${c.name} - ${c.state}`;
+      opt.textContent = `${c.name} (${c.state})`;
+      select.appendChild(opt);
+
+      const card = document.createElement('article');
+      card.className = 'dest-card';
+      card.dataset.capital = `${c.name} - ${c.state}`;
+      card.innerHTML = `
+        <h3>${c.name} <span style="color:var(--neon);font-size:.9em;">${c.state}</span></h3>
+        <p>${c.vibe}</p>
+        <div class="meta">
+          <span class="tag">Matrix</span>
+          <span class="tag">Praia</span>
+          <span class="tag">Capital</span>
+        </div>
+      `;
+      cards.appendChild(card);
+    });
+
+    select.addEventListener('change', () => {
+      const chosen = capitals.find(c => `${c.name} - ${c.state}` === select.value);
+      if (!chosen) {
+        info.textContent = 'Escolha uma capital para iniciar a viagem Matrix na Praia.';
+        return;
+      }
+      info.textContent = `Destino escolhido: ${chosen.name} (${chosen.state}) — ${chosen.vibe}`;
+      document.querySelectorAll('.dest-card').forEach(card => {
+        card.style.outline = card.dataset.capital === select.value ? '2px solid rgba(139,255,176,.7)' : 'none';
+        card.style.boxShadow = card.dataset.capital === select.value ? '0 0 0 1px rgba(139,255,176,.12), 0 0 24px rgba(70,245,197,.18)' : 'none';
+      });
+    });
+  </script>
 </body>
 </html>
+EOF
+cd /home/bob/.openclaw/workspace/viajandoimg && git add index.html && git commit -m "fix: add brazil capital travel selector\n\nFixes inteligenciamilgrau/viajandoimg#1" && git push origin main
