@@ -37,7 +37,20 @@
       mask-image: linear-gradient(180deg, rgba(0,0,0,.9), transparent 92%);
       animation: drift 8s linear infinite;
     }
+    .glow {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background:
+        radial-gradient(circle at 52% 58%, rgba(70,245,197,.15), transparent 18%),
+        radial-gradient(circle at 45% 64%, rgba(139,255,176,.12), transparent 20%),
+        radial-gradient(circle at 50% 60%, rgba(245,214,139,.10), transparent 32%);
+      mix-blend-mode: screen;
+      filter: blur(8px);
+      animation: shimmer 7s ease-in-out infinite alternate;
+    }
     @keyframes drift { from { transform: translateY(-8px); } to { transform: translateY(14px); } }
+    @keyframes shimmer { from { opacity: .55; } to { opacity: .9; } }
     .wrap {
       width: min(1100px, 92vw);
       margin: 0 auto;
@@ -121,14 +134,18 @@
       right: 18%; top: 12%; width: 112px; height: 112px; border-radius: 50%;
       background: radial-gradient(circle, #fff7d1 0 30%, #ffe27a 50%, rgba(255,210,86,.15) 73%, transparent 74%);
       box-shadow: 0 0 120px rgba(255, 226, 122, .24);
+      animation: pulseSun 6s ease-in-out infinite alternate;
     }
+    @keyframes pulseSun { from { transform: scale(.98); } to { transform: scale(1.04); } }
     .wave {
       position:absolute; left:-10%; right:-10%; height: 120px; top: 60%;
       background: repeating-linear-gradient(90deg, rgba(70,245,197,.12) 0 24px, rgba(139,255,176,.08) 24px 48px);
       clip-path: ellipse(70% 40% at 50% 50%);
       filter: blur(2px);
       opacity:.8;
+      animation: waveMove 5s ease-in-out infinite alternate;
     }
+    @keyframes waveMove { from { transform: translateX(-6px); } to { transform: translateX(8px); } }
     .palm, .palm::before, .palm::after {
       position: absolute; content: ""; display:block;
       background: #0a5f43;
@@ -143,7 +160,43 @@
       position:absolute; left: 10%; top: 14%; font: 600 .86rem/1.5 ui-monospace, SFMono-Regular, Menlo, monospace;
       color: rgba(139,255,176,.92); text-shadow: 0 0 12px rgba(70,245,197,.2);
       white-space: pre;
+      animation: flicker 3.8s infinite;
     }
+    @keyframes flicker {
+      0%, 100% { opacity: .92; }
+      50% { opacity: .6; }
+      63% { opacity: 1; }
+      68% { opacity: .72; }
+    }
+    .grid {
+      position:absolute; inset: 0;
+      background-image:
+        linear-gradient(rgba(70,245,197,.08) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(70,245,197,.08) 1px, transparent 1px);
+      background-size: 28px 28px;
+      opacity: .08;
+      mix-blend-mode: screen;
+      animation: gridFloat 12s linear infinite;
+    }
+    @keyframes gridFloat { from { transform: translateY(0); } to { transform: translateY(28px); } }
+    .surfer {
+      position:absolute;
+      right: 12%; bottom: 22%;
+      width: 54px; height: 90px;
+      border-radius: 50% 50% 40% 40%;
+      background: linear-gradient(180deg, rgba(139,255,176,.98), rgba(70,245,197,.55));
+      box-shadow: 0 0 25px rgba(70,245,197,.22);
+      animation: surf 4.6s ease-in-out infinite alternate;
+    }
+    .surfer::before {
+      content: "";
+      position:absolute; left: -18px; top: 28px; width: 88px; height: 10px;
+      background: linear-gradient(90deg, #f5d68b, #8bffb0);
+      border-radius: 999px;
+      transform: rotate(-10deg);
+      box-shadow: 0 0 18px rgba(139,255,176,.26);
+    }
+    @keyframes surf { from { transform: translateY(0) rotate(-2deg); } to { transform: translateY(-10px) rotate(2deg); } }
     .footer {
       margin-top: 24px;
       color: rgba(234,255,241,.7);
@@ -159,6 +212,7 @@
 </head>
 <body>
   <div class="rain"></div>
+  <div class="glow"></div>
   <main class="wrap">
     <section class="hero">
       <article class="card content">
@@ -177,9 +231,11 @@
 
       <aside class="card scene" aria-label="Cena Matrix na Praia">
         <div class="scene-inner">
+          <div class="grid"></div>
           <div class="sun"></div>
           <div class="wave"></div>
           <div class="palm"></div>
+          <div class="surfer"></div>
           <div class="neon-code">01001001 01001101 01000111
 praia.exe rodando
 mar + matrix = paz suspeita</div>
