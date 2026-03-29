@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Matrix na Praia</title>
+  <style>
+    :root {
+      --bg: #06110f;
+      --panel: rgba(5, 25, 20, 0.78);
+      --neon: #8bffb0;
+      --neon-2: #46f5c5;
+      --sand: #f5d68b;
+      --sea: #167f8a;
+      --text: #eafff1;
+      --muted: rgba(234,255,241,.75);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 20% 15%, rgba(70,245,197,.18), transparent 26%),
+        radial-gradient(circle at 80% 20%, rgba(139,255,176,.16), transparent 24%),
+        linear-gradient(180deg, #04100f 0%, #061914 38%, #0b2a28 62%, #0f3d49 100%);
+      overflow-x: hidden;
+    }
+    .rain {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: .22;
+      background-image: linear-gradient(180deg, transparent 0 88%, rgba(139,255,176,.8) 100%);
+      background-size: 100% 14px;
+      mask-image: linear-gradient(180deg, rgba(0,0,0,.9), transparent 92%);
+      animation: drift 8s linear infinite;
+    }
+    @keyframes drift { from { transform: translateY(-8px); } to { transform: translateY(14px); } }
+    .wrap {
+      width: min(1100px, 92vw);
+      margin: 0 auto;
+      padding: 48px 0 72px;
+    }
+    .hero {
+      display: grid;
+      grid-template-columns: 1.2fr .8fr;
+      gap: 28px;
+      align-items: center;
+      min-height: 92vh;
+    }
+    .card {
+      background: var(--panel);
+      border: 1px solid rgba(139,255,176,.22);
+      box-shadow: 0 0 0 1px rgba(70,245,197,.08), 0 20px 70px rgba(0,0,0,.35);
+      backdrop-filter: blur(12px);
+      border-radius: 28px;
+    }
+    .content { padding: 40px; }
+    .eyebrow {
+      display: inline-block;
+      padding: 8px 14px;
+      border-radius: 999px;
+      background: rgba(139,255,176,.1);
+      color: var(--neon);
+      border: 1px solid rgba(139,255,176,.24);
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      font-size: .78rem;
+      margin-bottom: 18px;
+    }
+    h1 {
+      margin: 0 0 14px;
+      font-size: clamp(3rem, 6vw, 5.8rem);
+      line-height: .95;
+      letter-spacing: -.05em;
+      text-shadow: 0 0 18px rgba(70,245,197,.28);
+    }
+    h1 span { color: var(--neon); }
+    p {
+      color: var(--muted);
+      font-size: 1.08rem;
+      line-height: 1.7;
+      margin: 0 0 22px;
+      max-width: 60ch;
+    }
+    .actions { display:flex; gap:12px; flex-wrap: wrap; }
+    .btn {
+      display:inline-flex; align-items:center; justify-content:center;
+      border-radius: 14px; padding: 14px 18px; text-decoration:none;
+      font-weight: 700; border: 1px solid rgba(139,255,176,.24);
+    }
+    .btn.primary {
+      background: linear-gradient(135deg, var(--neon), var(--neon-2));
+      color: #02110d;
+      box-shadow: 0 12px 30px rgba(70,245,197,.18);
+    }
+    .btn.secondary { color: var(--text); background: rgba(255,255,255,.04); }
+    .scene { padding: 18px; position: relative; overflow: hidden; }
+    .scene::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(180deg, rgba(5,17,15,.2), rgba(5,17,15,.1)),
+        radial-gradient(circle at 50% 88%, rgba(245,214,139,.95) 0 20%, transparent 21%),
+        linear-gradient(180deg, transparent 0 54%, rgba(22,127,138,.86) 54% 76%, rgba(4,20,19,.92) 76% 100%);
+      opacity: .92;
+    }
+    .scene-inner {
+      position: relative;
+      min-height: 520px;
+      border-radius: 22px;
+      border: 1px solid rgba(139,255,176,.18);
+      overflow: hidden;
+      background: linear-gradient(180deg, #03100e 0%, #0c2c32 58%, #f5d68b 58%, #f5d68b 100%);
+    }
+    .sun {
+      position: absolute;
+      right: 18%; top: 12%; width: 112px; height: 112px; border-radius: 50%;
+      background: radial-gradient(circle, #fff7d1 0 30%, #ffe27a 50%, rgba(255,210,86,.15) 73%, transparent 74%);
+      box-shadow: 0 0 120px rgba(255, 226, 122, .24);
+    }
+    .wave {
+      position:absolute; left:-10%; right:-10%; height: 120px; top: 60%;
+      background: repeating-linear-gradient(90deg, rgba(70,245,197,.12) 0 24px, rgba(139,255,176,.08) 24px 48px);
+      clip-path: ellipse(70% 40% at 50% 50%);
+      filter: blur(2px);
+      opacity:.8;
+    }
+    .palm, .palm::before, .palm::after {
+      position: absolute; content: ""; display:block;
+      background: #0a5f43;
+      border-radius: 80% 20% 80% 20%;
+    }
+    .palm {
+      width: 18px; height: 160px; left: 18%; bottom: 16%; transform: rotate(-4deg);
+    }
+    .palm::before { width: 90px; height: 20px; left: -64px; top: 0; transform: rotate(-24deg); }
+    .palm::after { width: 90px; height: 20px; left: -8px; top: -8px; transform: rotate(32deg); }
+    .neon-code {
+      position:absolute; left: 10%; top: 14%; font: 600 .86rem/1.5 ui-monospace, SFMono-Regular, Menlo, monospace;
+      color: rgba(139,255,176,.92); text-shadow: 0 0 12px rgba(70,245,197,.2);
+      white-space: pre;
+    }
+    .footer {
+      margin-top: 24px;
+      color: rgba(234,255,241,.7);
+      font-size: .92rem;
+      text-align: center;
+    }
+    @media (max-width: 900px) {
+      .hero { grid-template-columns: 1fr; min-height: auto; }
+      .content { padding: 28px; }
+      .scene-inner { min-height: 420px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="rain"></div>
+  <main class="wrap">
+    <section class="hero">
+      <article class="card content">
+        <div class="eyebrow">Matrix na Praia</div>
+        <h1>Viagens com <span>glitch</span>, mar e neon</h1>
+        <p>
+          Um site simples, estático e com clima de teste: areia dourada na base,
+          mar profundo no fundo e chuva de código caindo com estilo. A vibe é de
+          férias, mas o sistema ainda sussurra em verde.
+        </p>
+        <div class="actions">
+          <a class="btn primary" href="#destinos">Explorar destinos</a>
+          <a class="btn secondary" href="#sobre">Ver o conceito</a>
+        </div>
+      </article>
+
+      <aside class="card scene" aria-label="Cena Matrix na Praia">
+        <div class="scene-inner">
+          <div class="sun"></div>
+          <div class="wave"></div>
+          <div class="palm"></div>
+          <div class="neon-code">01001001 01001101 01000111
+praia.exe rodando
+mar + matrix = paz suspeita</div>
+        </div>
+      </aside>
+    </section>
+
+    <section id="destinos" class="card content" style="margin-top: 24px;">
+      <div class="eyebrow">Destinos</div>
+      <h2 style="margin:0 0 10px; font-size: 2rem;">Praias que parecem saídas de um terminal</h2>
+      <p style="margin-bottom: 0;">
+        Cassino de código, coqueiros em verde elétrico e ondas em baixa latência.
+        Um layout pronto para servir como base do projeto.
+      </p>
+    </section>
+
+    <section id="sobre" class="footer">
+      Feito como base inicial do projeto de testes — simples, estático e visual.
+    </section>
+  </main>
+</body>
+</html>
