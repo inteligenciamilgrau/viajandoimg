@@ -11,7 +11,10 @@
     body{margin:0;min-height:100vh;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,sans-serif;color:var(--text);background:radial-gradient(circle at 20% 15%, rgba(70,245,197,.18), transparent 26%),radial-gradient(circle at 80% 20%, rgba(139,255,176,.16), transparent 24%),linear-gradient(180deg,#04100f 0%,#061914 38%,#0b2a28 62%,#0f3d49 100%);overflow-x:hidden}
     .rain,.glow{position:fixed;inset:0;pointer-events:none}.rain{opacity:.22;background-image:linear-gradient(180deg,transparent 0 88%,rgba(139,255,176,.8) 100%);background-size:100% 14px;mask-image:linear-gradient(180deg,rgba(0,0,0,.9),transparent 92%);animation:drift 8s linear infinite}.glow{background:radial-gradient(circle at 52% 58%, rgba(70,245,197,.15), transparent 18%),radial-gradient(circle at 45% 64%, rgba(139,255,176,.12), transparent 20%),radial-gradient(circle at 50% 60%, rgba(245,214,139,.10), transparent 32%);mix-blend-mode:screen;filter:blur(8px);animation:shimmer 7s ease-in-out infinite alternate}
     @keyframes drift{from{transform:translateY(-8px)}to{transform:translateY(14px)}}@keyframes shimmer{from{opacity:.55}to{opacity:.9}}
-    .wrap{width:min(1180px,92vw);margin:0 auto;padding:48px 0 72px}.hero{display:grid;grid-template-columns:1.2fr .8fr;gap:28px;align-items:center;min-height:92vh}
+    .wrap{width:min(1180px,92vw);margin:0 auto;padding:110px 0 72px}.hero{display:grid;grid-template-columns:1.2fr .8fr;gap:28px;align-items:center;min-height:92vh}
+    .topnav{position:fixed;top:16px;left:50%;transform:translateX(-50%);z-index:50;display:flex;gap:10px;flex-wrap:wrap;justify-content:center;padding:10px 12px;border-radius:999px;background:rgba(4,19,16,.72);border:1px solid rgba(139,255,176,.18);backdrop-filter:blur(14px);box-shadow:0 12px 40px rgba(0,0,0,.28)}
+    .topnav a{color:var(--text);text-decoration:none;padding:10px 14px;border-radius:999px;border:1px solid transparent;font-weight:700;font-size:.92rem}.topnav a:hover{background:rgba(139,255,176,.08);border-color:rgba(139,255,176,.16)}
+    .topnav .brand{color:var(--neon)}
     .card{background:var(--panel);border:1px solid rgba(139,255,176,.22);box-shadow:0 0 0 1px rgba(70,245,197,.08),0 20px 70px rgba(0,0,0,.35);backdrop-filter:blur(12px);border-radius:28px}.content{padding:40px}
     .eyebrow{display:inline-block;padding:8px 14px;border-radius:999px;background:rgba(139,255,176,.1);color:var(--neon);border:1px solid rgba(139,255,176,.24);letter-spacing:.12em;text-transform:uppercase;font-size:.78rem;margin-bottom:18px}
     h1{margin:0 0 14px;font-size:clamp(3rem,6vw,5.8rem);line-height:.95;letter-spacing:-.05em;text-shadow:0 0 18px rgba(70,245,197,.28)} h1 span{color:var(--neon)}
@@ -53,10 +56,17 @@
   </style>
 </head>
 <body>
+  <nav class="topnav" aria-label="Menu principal">
+    <a class="brand" href="#top">Matrix na Praia</a>
+    <a href="#site">Site</a>
+    <a href="#mapa">Mapa</a>
+    <a href="#games">Jogo</a>
+    <a href="#receitas">Receitas</a>
+  </nav>
   <div class="rain"></div>
   <div class="glow"></div>
-  <main class="wrap">
-    <section class="hero">
+  <main class="wrap" id="top">
+    <section class="hero" id="site">
       <article class="card content">
         <div class="eyebrow">Matrix na Praia</div>
         <h1>Viagens com <span>glitch</span>, mar e neon</h1>
@@ -100,7 +110,7 @@ mar + matrix = paz suspeita</div></div></aside>
       </div>
     </section>
 
-    <section class="card content" style="margin-top: 24px;">
+    <section class="card content" id="games" style="margin-top: 24px;">
       <div class="eyebrow">Jogos</div>
       <h2 style="margin:0 0 10px; font-size: 2rem;">Surf Matrix</h2>
       <p style="margin-bottom: 12px;">Um minijogo em Three.js com prancha neon, ondas e vibe de praia glitch.</p>
@@ -115,6 +125,12 @@ mar + matrix = paz suspeita</div></div></aside>
           <div class="game-help">Desvie dos glitches no mar. Se cair, aperte R para reiniciar.</div>
         </div>
       </div>
+    </section>
+
+    <section id="receitas" class="card content" style="margin-top: 24px;">
+      <div class="eyebrow">Receitas</div>
+      <h2 style="margin:0 0 10px; font-size: 2rem;">Receitas da Praia</h2>
+      <p style="margin-bottom: 0;">Espaço reservado para cards de receita, ingredientes e preparo. Depois a gente preenche com comida de verdade e clima neon.</p>
     </section>
 
     <section id="capitais" class="card content" style="margin-top: 24px;">
