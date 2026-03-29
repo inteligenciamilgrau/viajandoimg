@@ -128,12 +128,13 @@ mar + matrix = paz suspeita</div></div></aside>
     const travelDescription = document.getElementById('travelDescription');
     const travelBadges = document.getElementById('travelBadges');
     const travelCounter = document.getElementById('travelCounter');
+    const actions = document.querySelector('.actions');
     const svg = document.querySelector('.brazil-frame svg');
     const mapWrap = document.querySelector('.map-wrap');
     const plane = document.createElement('div');
     plane.className = 'plane-marker';
     plane.innerHTML = `<svg viewBox="0 0 64 64" aria-hidden="true"><path d="M6 33L58 8l-11 24 11 24z" fill="#8bffb0" opacity=".95"/><path d="M6 33l20 4 32-29" fill="none" stroke="#46f5c5" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M25 37L14 57" fill="none" stroke="#46f5c5" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
-    mapWrap.appendChild(plane);
+    mapWrap?.appendChild(plane);
 
     const badgesFor = (cap) => [cap.state, 'Matrix', 'Praia'];
     let visitedCount = 0;
@@ -144,7 +145,7 @@ mar + matrix = paz suspeita</div></div></aside>
     themeBtn.type = 'button';
     themeBtn.textContent = 'Modo pôr do sol';
     themeBtn.addEventListener('click', () => body.classList.toggle('mode-sunset'));
-    document.querySelector('.actions').appendChild(themeBtn);
+    actions?.appendChild(themeBtn);
     const easterEggs = [
       { name: 'Peixe Glitch', x: '52%', y: '58%' },
       { name: 'Pérola Neon', x: '43%', y: '41%' },
@@ -163,7 +164,7 @@ mar + matrix = paz suspeita</div></div></aside>
       el.setAttribute('aria-label', egg.name);
       el.innerHTML = '<span class="city-label">' + egg.name + '</span>';
       el.addEventListener('click', () => { info.textContent = 'Achou: ' + egg.name; });
-      mapWrap.appendChild(el);
+      mapWrap?.appendChild(el);
     });
     let flyRaf = null;
     function setPlanePosition(point, angle = 0) {
