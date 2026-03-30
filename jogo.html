@@ -346,6 +346,7 @@
       if (k === 'arrowright' || k === 'd') holdR = false;
       if (k === 'arrowleft' || k === 'a') holdL = false;
     });
+    canvas.addEventListener('pointerdown', (e) => { if (e.button === 0) shoot(); });
     window.addEventListener('resize', () => { resize(); reset(); });
     resize(); reset(); tick();
   </script>
