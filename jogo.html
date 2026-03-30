@@ -281,21 +281,31 @@
     const stopHold = (dir) => { if (dir === 'l') holdL = false; if (dir === 'r') holdR = false; };
     const shoot = () => {
       if (!running || shootCooldown > 0) return;
-      const dir = lastMoveDir !== -1 ? lastMoveDir : aimDir;
       const speed = 7.5 * dpr;
       const x = board.x;
       const y = board.y;
+      const dx = (holdR ? 1 : 0) + (holdL ? -1 : 0);
+      const dy = (holdD ? 1 : 0) + (holdU ? -1 : 0);
       let vx = 0, vy = 0, sx = x, sy = y;
-      if (dir === 0) { vy = -speed; sy = y - 22 * dpr; }
-      else if (dir === 1) { vy = speed; sy = y + 22 * dpr; }
-      else if (dir === 2) { vx = speed; sx = x + 22 * dpr; }
-      else if (dir === 3) { vx = -speed; sx = x - 22 * dpr; }
-      else if (dir === 4) { vx = speed * 0.72; vy = -speed * 0.72; sx = x + 18 * dpr; sy = y - 18 * dpr; }
-      else if (dir === 5) { vx = -speed * 0.72; vy = -speed * 0.72; sx = x - 18 * dpr; sy = y - 18 * dpr; }
-      else if (dir === 6) { vx = speed * 0.72; vy = speed * 0.72; sx = x + 18 * dpr; sy = y + 18 * dpr; }
-      else if (dir === 7) { vx = -speed * 0.72; vy = speed * 0.72; sx = x - 18 * dpr; sy = y + 18 * dpr; }
-      else { vy = -speed; sy = y - 22 * dpr; }
-      shots.push({ x: sx, y: sy, vx, vy, alive: true, dir });
+      if (dx !== 0 || dy !== 0) {
+        const mag = Math.hypot(dx, dy) || 1;
+        vx = (dx / mag) * speed;
+        vy = (dy / mag) * speed;
+        sx = x + (dx * 18 * dpr);
+        sy = y + (dy * 18 * dpr);
+      } else {
+        const dir = lastMoveDir !== -1 ? lastMoveDir : aimDir;
+        if (dir === 0) { vy = -speed; sy = y - 22 * dpr; }
+        else if (dir === 1) { vy = speed; sy = y + 22 * dpr; }
+        else if (dir === 2) { vx = speed; sx = x + 22 * dpr; }
+        else if (dir === 3) { vx = -speed; sx = x - 22 * dpr; }
+        else if (dir === 4) { vx = speed * 0.72; vy = -speed * 0.72; sx = x + 18 * dpr; sy = y - 18 * dpr; }
+        else if (dir === 5) { vx = -speed * 0.72; vy = -speed * 0.72; sx = x - 18 * dpr; sy = y - 18 * dpr; }
+        else if (dir === 6) { vx = speed * 0.72; vy = speed * 0.72; sx = x + 18 * dpr; sy = y + 18 * dpr; }
+        else if (dir === 7) { vx = -speed * 0.72; vy = speed * 0.72; sx = x - 18 * dpr; sy = y + 18 * dpr; }
+        else { vy = -speed; sy = y - 22 * dpr; }
+      }
+      shots.push({ x: sx, y: sy, vx, vy, alive: true, dir: dx && dy ? 'diag' : 'cardinal' });
       shootCooldown = 12;
       beep('shoot');
     };
