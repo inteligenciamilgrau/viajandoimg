@@ -41,6 +41,7 @@
     let w = 0, h = 0, dpr = 1;
     let score = 0, running = true;
     let board = { x: 0, y: 0, vx: 0, vy: 0 };
+    let moveX = 0, moveY = 0;
     let stage = 1;
     let gameSpeed = 1;
     const stars = [];
@@ -65,7 +66,7 @@
       canvas.height = h;
       canvas.style.width = '100%';
       canvas.style.height = mobile ? '58vh' : '60vh';
-      board.y = h * 0.76;
+      board.y = h * 0.5;
     }
     function rand(min, max) { return Math.random() * (max - min) + min; }
     function beep(type) {
@@ -88,7 +89,7 @@
       gameSpeed = 1 + (stage - 1) * 0.06;
     }
     function reset() {
-      score = 0; running = true; board.x = w / 2; board.y = h * 0.76; board.vx = 0; board.vy = 0; shots.length = 0; shootCooldown = 0; stage = 1; gameSpeed = 1;
+      score = 0; running = true; board.x = w / 2; board.y = h * 0.5; board.vx = 0; board.vy = 0; moveX = 0; moveY = 0; shots.length = 0; shootCooldown = 0; stage = 1; gameSpeed = 1;
       stars.length = 0; glitches.length = 0; particles.length = 0;
       for (let i = 0; i < 26; i++) stars.push({ x: rand(0, w), y: rand(0, h * 0.34), r: rand(0.8, 2.2) * dpr, s: rand(0.15, 0.6) * dpr });
       for (let i = 0; i < 4; i++) glitches.push({ x: rand(40 * dpr, w - 40 * dpr), y: rand(-h, -20), s: rand(0.8, 1.4) * dpr, vy: rand(1.2, 2.4) * dpr, hp: 1, kind: 1 });
@@ -282,13 +283,20 @@
     const shoot = () => {
       if (!running || shootCooldown > 0) return;
       const dir = lastMoveDir !== -1 ? lastMoveDir : aimDir;
-      shots.push({ x: board.x, y: board.y - 22 * dpr, vx: 0, vy: 0, alive: true, dir });
-      const shot = shots[shots.length - 1];
-      if (dir === 0) { shot.vy = -7.5 * dpr; shot.x = board.x; shot.y = board.y - 22 * dpr; }
-      else if (dir === 1) { shot.vy = 7.5 * dpr; shot.x = board.x; shot.y = board.y + 22 * dpr; }
-      else if (dir === 2) { shot.vx = 7.5 * dpr; shot.x = board.x + 22 * dpr; shot.y = board.y; }
-      else if (dir === 3) { shot.vx = -7.5 * dpr; shot.x = board.x - 22 * dpr; shot.y = board.y; }
-      else { shot.vy = -7.5 * dpr; }
+      const speed = 7.5 * dpr;
+      const x = board.x;
+      const y = board.y;
+      let vx = 0, vy = 0, sx = x, sy = y;
+      if (dir === 0) { vy = -speed; sy = y - 22 * dpr; }
+      else if (dir === 1) { vy = speed; sy = y + 22 * dpr; }
+      else if (dir === 2) { vx = speed; sx = x + 22 * dpr; }
+      else if (dir === 3) { vx = -speed; sx = x - 22 * dpr; }
+      else if (dir === 4) { vx = speed * 0.72; vy = -speed * 0.72; sx = x + 18 * dpr; sy = y - 18 * dpr; }
+      else if (dir === 5) { vx = -speed * 0.72; vy = -speed * 0.72; sx = x - 18 * dpr; sy = y - 18 * dpr; }
+      else if (dir === 6) { vx = speed * 0.72; vy = speed * 0.72; sx = x + 18 * dpr; sy = y + 18 * dpr; }
+      else if (dir === 7) { vx = -speed * 0.72; vy = speed * 0.72; sx = x - 18 * dpr; sy = y + 18 * dpr; }
+      else { vy = -speed; sy = y - 22 * dpr; }
+      shots.push({ x: sx, y: sy, vx, vy, alive: true, dir });
       shootCooldown = 12;
       beep('shoot');
     };
@@ -301,8 +309,11 @@
     shootBtn?.addEventListener('pointerdown', shoot);
     restartBtn?.addEventListener('pointerdown', () => reset());
     window.addEventListener('keydown', (e) => {
-      if (e.key === 'PageUp') moveUp();
-      if (e.key === 'PageDown') moveDown();
+      const k = e.key.toLowerCase();
+      if (k === '1') { setAim(4); lastMoveDir = 4; }
+      if (k === '2') { setAim(5); lastMoveDir = 5; }
+      if (k === '3') { setAim(6); lastMoveDir = 6; }
+      if (k === '4') { setAim(7); lastMoveDir = 7; }
     });
     const pad = document.createElement('div');
     pad.className = 'mobile-controls';
@@ -326,9 +337,6 @@
       if (k === 'arrowdown' || k === 's') holdD = false;
       if (k === 'arrowright' || k === 'd') holdR = false;
       if (k === 'arrowleft' || k === 'a') holdL = false;
-      if (['arrowup','w','arrowdown','s','arrowright','d','arrowleft','a'].includes(k)) {
-        // mantém a última direção de tiro para o próximo disparo
-      }
     });
     window.addEventListener('resize', () => { resize(); reset(); });
     resize(); reset(); tick();
