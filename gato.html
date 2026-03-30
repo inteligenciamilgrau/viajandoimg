@@ -3,31 +3,28 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
   <title>Gatinho</title>
   <style>
-    :root{--bg:#0b0f14;--card:rgba(255,255,255,.06);--text:#f6f7fb;--muted:rgba(246,247,251,.72);--accent:#8bffb0}
-    *{box-sizing:border-box}
-    body{margin:0;min-height:100vh;font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:radial-gradient(circle at top,#1a2430 0,#0b0f14 55%);color:var(--text);display:grid;place-items:center;padding:24px}
-    .wrap{width:min(920px,100%);display:grid;gap:18px}
-    .card{background:var(--card);border:1px solid rgba(255,255,255,.12);backdrop-filter:blur(10px);border-radius:24px;box-shadow:0 20px 60px rgba(0,0,0,.35)}
-    .hero{padding:18px}
-    .hero img{width:100%;height:auto;display:block;border-radius:18px;object-fit:cover;max-height:78vh}
-    .caption{padding:18px 20px;font-size:1.05rem;line-height:1.5;color:var(--muted)}
-    .caption strong{color:var(--text)}
-    .title{padding:18px 20px 0;font-size:clamp(1.8rem,4vw,3rem);margin:0}
-    .badge{display:inline-block;margin-top:10px;padding:7px 12px;border-radius:999px;background:rgba(139,255,176,.12);color:var(--accent);border:1px solid rgba(139,255,176,.18);font-size:.85rem;font-weight:700}
-    a{color:var(--accent)}
+    :root{--bg:#06110f;--panel:rgba(5,25,20,.78);--neon:#8bffb0;--neon-2:#46f5c5;--text:#eafff1;--muted:rgba(234,255,241,.75)}*{box-sizing:border-box}body{margin:0;min-height:100vh;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,sans-serif;color:var(--text);background:linear-gradient(180deg,#03100e 0%,#0b2730 56%,#0d4c5b 56%,#07202a 100%);overflow-x:hidden}.wrap{width:min(1180px,92vw);margin:0 auto;padding:92px 0 48px}.topnav{position:fixed;top:16px;left:50%;transform:translateX(-50%);z-index:50;display:flex;gap:10px;flex-wrap:wrap;justify-content:center;padding:10px 12px;border-radius:999px;background:rgba(4,19,16,.72);border:1px solid rgba(139,255,176,.18);backdrop-filter:blur(14px);box-shadow:0 12px 40px rgba(0,0,0,.28)}.topnav a{color:var(--text);text-decoration:none;padding:10px 14px;border-radius:999px;border:1px solid transparent;font-weight:700;font-size:.92rem}.topnav a:hover{background:rgba(139,255,176,.08);border-color:rgba(139,255,176,.16)}.topnav .brand{color:var(--neon)}.card{background:var(--panel);border:1px solid rgba(139,255,176,.22);box-shadow:0 0 0 1px rgba(70,245,197,.08),0 20px 70px rgba(0,0,0,.35);backdrop-filter:blur(12px);border-radius:28px}.content{padding:40px}.eyebrow{display:inline-block;padding:8px 14px;border-radius:999px;background:rgba(139,255,176,.1);color:var(--neon);border:1px solid rgba(139,255,176,.24);letter-spacing:.12em;text-transform:uppercase;font-size:.78rem;margin-bottom:18px}.hero{display:grid;gap:18px}.hero img{width:100%;height:auto;display:block;border-radius:20px;max-height:78vh;object-fit:cover;border:1px solid rgba(255,255,255,.08)}.caption{color:var(--muted);font-size:1rem;line-height:1.6}.title{margin:0 0 8px;font-size:clamp(2.2rem,4vw,4rem)}.actions{display:flex;gap:12px;flex-wrap:wrap}.btn{display:inline-flex;align-items:center;justify-content:center;border-radius:14px;padding:14px 18px;text-decoration:none;font-weight:700;border:1px solid rgba(139,255,176,.24)}.btn.primary{background:linear-gradient(135deg,var(--neon),var(--neon-2));color:#02110d;box-shadow:0 12px 30px rgba(70,245,197,.18)}.btn.secondary{color:var(--text);background:rgba(255,255,255,.04)}
   </style>
 </head>
 <body>
+  <nav class="topnav" aria-label="Menu principal">
+    <a class="brand" href="index.html#top">Matrix na Praia</a>
+    <a href="index.html#site">Site</a>
+    <a href="index.html#mapa">Mapa</a>
+    <a href="jogo.html">Jogo</a>
+    <a href="index.html#receitas">Receitas</a>
+    <a href="gato.html">Gato</a>
+  </nav>
   <main class="wrap">
-    <section class="card hero">
+    <section class="card content hero">
+      <div class="eyebrow">Gatinho</div>
       <h1 class="title">Página do gato</h1>
-      <div class="badge">Imagem enviada pelo Bob</div>
-      <img src="MEDIA:./../media/inbound/file_80---83997818-31eb-47ec-bf67-e495698c7f4c.jpg" alt="Gato enviado pelo usuário" />
-    </section>
-    <section class="card caption">
-      <strong>Obs.:</strong> eu criei a página para mostrar a foto do gato em destaque. Se você quiser, eu também posso transformar isso num layout mais bonito com legenda, nome do gato, moldura e fundo combinando com a imagem.
+      <div class="actions"><a class="btn primary" href="index.html">Voltar para a home</a><a class="btn secondary" href="jogo.html">Abrir jogo</a></div>
+      <img src="assets/gato.jpg" alt="Foto do gato enviada pelo Bob" />
+      <p class="caption">A foto do gato foi salva dentro do site e agora a página segue o mesmo padrão visual das outras: cabeçalho fixo, fundo neon e cards com borda iluminada.</p>
     </section>
   </main>
 </body>
