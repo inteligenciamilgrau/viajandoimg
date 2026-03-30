@@ -91,7 +91,7 @@
       gameSpeed = 1 + (stage - 1) * 0.06;
     }
     function reset() {
-      score = 0; running = true; board.x = w / 2; board.y = h * 0.5; board.vx = 0; board.vy = 0; moveX = 0; moveY = 0; shots.length = 0; shootCooldown = 0; stage = 1; gameSpeed = 1;
+      score = 0; running = true; board.x = w / 2; board.y = h / 2; board.vx = 0; board.vy = 0; moveX = 0; moveY = 0; shots.length = 0; shootCooldown = 0; stage = 1; gameSpeed = 1;
       stars.length = 0; glitches.length = 0; particles.length = 0;
       for (let i = 0; i < 26; i++) stars.push({ x: rand(0, w), y: rand(0, h * 0.34), r: rand(0.8, 2.2) * dpr, s: rand(0.15, 0.6) * dpr });
       for (let i = 0; i < 4; i++) glitches.push({ x: rand(40 * dpr, w - 40 * dpr), y: rand(-h, -20), s: rand(0.8, 1.4) * dpr, vy: rand(1.2, 2.4) * dpr, hp: 1, kind: 1 });
@@ -264,12 +264,11 @@
         board.y += board.vy * gameSpeed;
         board.vx *= 0.92;
         board.vy *= 0.90;
-        const top = h * 0.68;
-        const bottom = h * 0.86;
-        if (board.x < 35 * dpr) board.x = 35 * dpr;
-        if (board.x > w - 35 * dpr) board.x = w - 35 * dpr;
-        if (board.y < top) board.y = top;
-        if (board.y > bottom) board.y = bottom;
+        const pad = 28 * dpr;
+        if (board.x < pad) board.x = pad;
+        if (board.x > w - pad) board.x = w - pad;
+        if (board.y < pad) board.y = pad;
+        if (board.y > h - pad) board.y = h - pad;
       }
       draw();
       requestAnimationFrame(tick);
