@@ -159,11 +159,12 @@
       ctx.shadowBlur = 10 * dpr;
       for (const s of shots) {
         if (!s.alive) continue;
+        s.x += s.vx;
         s.y += s.vy;
         ctx.beginPath();
         ctx.arc(s.x, s.y, 4 * dpr, 0, Math.PI * 2);
         ctx.fill();
-        if (s.y < -10 * dpr) s.alive = false;
+        if (s.y < -10 * dpr || s.y > h + 10 * dpr || s.x < -10 * dpr || s.x > w + 10 * dpr) s.alive = false;
       }
       ctx.restore();
     }
@@ -283,10 +284,10 @@
       const dir = lastMoveDir !== -1 ? lastMoveDir : aimDir;
       shots.push({ x: board.x, y: board.y - 22 * dpr, vx: 0, vy: 0, alive: true, dir });
       const shot = shots[shots.length - 1];
-      if (dir === 0) { shot.vy = -7.5 * dpr; }
-      else if (dir === 1) { shot.vy = 7.5 * dpr; }
-      else if (dir === 2) { shot.vx = 7.5 * dpr; }
-      else if (dir === 3) { shot.vx = -7.5 * dpr; }
+      if (dir === 0) { shot.vy = -7.5 * dpr; shot.x = board.x; shot.y = board.y - 22 * dpr; }
+      else if (dir === 1) { shot.vy = 7.5 * dpr; shot.x = board.x; shot.y = board.y + 22 * dpr; }
+      else if (dir === 2) { shot.vx = 7.5 * dpr; shot.x = board.x + 22 * dpr; shot.y = board.y; }
+      else if (dir === 3) { shot.vx = -7.5 * dpr; shot.x = board.x - 22 * dpr; shot.y = board.y; }
       else { shot.vy = -7.5 * dpr; }
       shootCooldown = 12;
       beep('shoot');
