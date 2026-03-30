@@ -29,7 +29,7 @@
       <div class="game-shell">
         <canvas id="surfGameCanvas"></canvas>
         <div class="game-hud"><div class="score"><strong>Surf Matrix</strong><br><span id="gameScore">0</span> pontos</div><div class="score">Use ← → / A D para mover<br>Espaço / toque = atirar</div></div>
-        <div class="mobile-controls" aria-label="Controles móveis"><button id="leftBtn" type="button">◀</button><button id="rightBtn" type="button">▶</button></div><div class="game-help">Desvie dos glitches no mar. Se cair, aperte R para reiniciar.</div>
+        <div class="mobile-controls" aria-label="Controles móveis"><button id="leftBtn" type="button">◀</button><button id="rightBtn" type="button">▶</button><button id="shootBtn" type="button">✦</button><button id="restartBtn" type="button">↻</button></div><div class="game-help">Desvie dos glitches no mar. Se cair, aperte R para reiniciar.</div>
       </div>
     </section>
   </main>
@@ -48,6 +48,8 @@
     const mobile = matchMedia('(max-width: 768px)').matches;
     const leftBtn = document.getElementById('leftBtn');
     const rightBtn = document.getElementById('rightBtn');
+    const shootBtn = document.getElementById('shootBtn');
+    const restartBtn = document.getElementById('restartBtn');
     function resize() {
       const r = canvas.getBoundingClientRect();
       dpr = Math.min(devicePixelRatio || 1, 2);
@@ -212,6 +214,8 @@
     };
     leftBtn?.addEventListener('pointerdown', moveLeft);
     rightBtn?.addEventListener('pointerdown', moveRight);
+    shootBtn?.addEventListener('pointerdown', shoot);
+    restartBtn?.addEventListener('pointerdown', () => reset());
     window.addEventListener('keydown', (e) => { if (!running && e.key.toLowerCase() === 'r') { reset(); return; } if (e.key === ' ' || e.key === 'Enter') { e.preventDefault(); shoot(); return; } if (!running) return; if (e.key === 'ArrowLeft' || e.key.toLowerCase() === 'a') moveLeft(); if (e.key === 'ArrowRight' || e.key.toLowerCase() === 'd') moveRight(); });
     window.addEventListener('resize', () => { resize(); reset(); });
     resize(); reset(); tick();
