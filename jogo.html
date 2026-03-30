@@ -40,7 +40,7 @@
     const ctx = canvas.getContext('2d');
     let w = 0, h = 0, dpr = 1;
     let score = 0, running = true;
-    let board = { x: 0, y: 0, vx: 0 };
+    let board = { x: 0, y: 0, vx: 0, vy: 0 };
     let stage = 1;
     let gameSpeed = 1;
     const stars = [];
@@ -87,7 +87,7 @@
       gameSpeed = 1 + (stage - 1) * 0.06;
     }
     function reset() {
-      score = 0; running = true; board.x = w / 2; board.vx = 0; shots.length = 0; shootCooldown = 0; stage = 1; gameSpeed = 1;
+      score = 0; running = true; board.x = w / 2; board.y = h * 0.76; board.vx = 0; board.vy = 0; shots.length = 0; shootCooldown = 0; stage = 1; gameSpeed = 1;
       stars.length = 0; glitches.length = 0; particles.length = 0;
       for (let i = 0; i < 26; i++) stars.push({ x: rand(0, w), y: rand(0, h * 0.34), r: rand(0.8, 2.2) * dpr, s: rand(0.15, 0.6) * dpr });
       for (let i = 0; i < 4; i++) glitches.push({ x: rand(40 * dpr, w - 40 * dpr), y: rand(-h, -20), s: rand(0.8, 1.4) * dpr, vy: rand(1.2, 2.4) * dpr, hp: 1, kind: 1 });
@@ -254,9 +254,15 @@
         if (holdL) board.vx -= 0.55 * dpr;
         if (holdR) board.vx += 0.55 * dpr;
         board.x += board.vx * gameSpeed;
+        board.y += board.vy * gameSpeed;
         board.vx *= 0.92;
+        board.vy *= 0.90;
+        const top = h * 0.68;
+        const bottom = h * 0.86;
         if (board.x < 35 * dpr) board.x = 35 * dpr;
         if (board.x > w - 35 * dpr) board.x = w - 35 * dpr;
+        if (board.y < top) board.y = top;
+        if (board.y > bottom) board.y = bottom;
       }
       draw();
       requestAnimationFrame(tick);
@@ -264,6 +270,8 @@
     let holdL = false, holdR = false;
     const moveLeft = () => { if (running) board.vx -= 2.8 * dpr; };
     const moveRight = () => { if (running) board.vx += 2.8 * dpr; };
+    const moveUp = () => { if (running) board.vy -= 2.4 * dpr; };
+    const moveDown = () => { if (running) board.vy += 2.4 * dpr; };
     const startHold = (dir) => { if (dir === 'l') holdL = true; if (dir === 'r') holdR = true; };
     const stopHold = (dir) => { if (dir === 'l') holdL = false; if (dir === 'r') holdR = false; };
     const shoot = () => {
@@ -287,10 +295,14 @@
     rightBtn?.addEventListener('pointerleave', () => stopHold('r'));
     shootBtn?.addEventListener('pointerdown', shoot);
     restartBtn?.addEventListener('pointerdown', () => reset());
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'PageUp') moveUp();
+      if (e.key === 'PageDown') moveDown();
+    });
     const pad = document.createElement('div');
     pad.className = 'mobile-controls';
     const setAim = (dir) => { aimDir = dir; };
-    window.addEventListener('keydown', (e) => { if (!running && e.key.toLowerCase() === 'r') { reset(); return; } if (e.key === ' ' || e.key === 'Enter') { e.preventDefault(); shoot(); return; } if (e.key === 'ArrowUp' || e.key.toLowerCase() === 'w') { setAim(0); return; } if (e.key === 'ArrowDown' || e.key.toLowerCase() === 's') { setAim(1); return; } if (e.key === 'ArrowRight' || e.key.toLowerCase() === 'd') { setAim(2); moveRight(); return; } if (e.key === 'ArrowLeft' || e.key.toLowerCase() === 'a') { setAim(3); moveLeft(); return; } });
+    window.addEventListener('keydown', (e) => { if (!running && e.key.toLowerCase() === 'r') { reset(); return; } if (e.key === ' ' || e.key === 'Enter') { e.preventDefault(); shoot(); return; } if (e.key === 'ArrowUp' || e.key.toLowerCase() === 'w') { moveUp(); setAim(0); return; } if (e.key === 'ArrowDown' || e.key.toLowerCase() === 's') { moveDown(); setAim(1); return; } if (e.key === 'ArrowRight' || e.key.toLowerCase() === 'd') { moveRight(); setAim(2); return; } if (e.key === 'ArrowLeft' || e.key.toLowerCase() === 'a') { moveLeft(); setAim(3); return; } });
     window.addEventListener('keyup', (e) => { if (e.key === 'ArrowUp' || e.key.toLowerCase() === 'w' || e.key === 'ArrowDown' || e.key.toLowerCase() === 's' || e.key === 'ArrowLeft' || e.key.toLowerCase() === 'a' || e.key === 'ArrowRight' || e.key.toLowerCase() === 'd') { aimDir = -1; } });
     window.addEventListener('resize', () => { resize(); reset(); });
     resize(); reset(); tick();
