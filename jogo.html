@@ -50,6 +50,7 @@
     let aimDir = -1;
     let shootCooldown = 0;
     let audioCtx = null;
+    let lastMoveDir = -1;
     const mobile = matchMedia('(max-width: 768px)').matches;
     const leftBtn = document.getElementById('leftBtn');
     const rightBtn = document.getElementById('rightBtn');
@@ -279,7 +280,7 @@
     const stopHold = (dir) => { if (dir === 'l') holdL = false; if (dir === 'r') holdR = false; };
     const shoot = () => {
       if (!running || shootCooldown > 0) return;
-      const dir = aimDir;
+      const dir = lastMoveDir !== -1 ? lastMoveDir : aimDir;
       shots.push({ x: board.x, y: board.y - 22 * dpr, vx: 0, vy: 0, alive: true, dir });
       const shot = shots[shots.length - 1];
       if (dir === 0) { shot.vy = -7.5 * dpr; }
@@ -290,8 +291,8 @@
       shootCooldown = 12;
       beep('shoot');
     };
-    leftBtn?.addEventListener('pointerdown', () => { startHold('l'); aimDir = 3; moveLeft(); });
-    rightBtn?.addEventListener('pointerdown', () => { startHold('r'); aimDir = 2; moveRight(); });
+    leftBtn?.addEventListener('pointerdown', () => { startHold('l'); aimDir = 3; lastMoveDir = 3; moveLeft(); });
+    rightBtn?.addEventListener('pointerdown', () => { startHold('r'); aimDir = 2; lastMoveDir = 2; moveRight(); });
     leftBtn?.addEventListener('pointerup', () => stopHold('l'));
     rightBtn?.addEventListener('pointerup', () => stopHold('r'));
     leftBtn?.addEventListener('pointerleave', () => stopHold('l'));
@@ -312,10 +313,10 @@
       if (['arrowup','w','arrowdown','s','arrowleft','a','arrowright','d'].includes(k)) e.preventDefault();
       if (keys.has(k)) return;
       keys.add(k);
-      if (k === 'arrowup' || k === 'w') { holdU = true; moveUp(); setAim(0); }
-      if (k === 'arrowdown' || k === 's') { holdD = true; moveDown(); setAim(1); }
-      if (k === 'arrowright' || k === 'd') { holdR = true; moveRight(); setAim(2); }
-      if (k === 'arrowleft' || k === 'a') { holdL = true; moveLeft(); setAim(3); }
+      if (k === 'arrowup' || k === 'w') { holdU = true; moveUp(); setAim(0); lastMoveDir = 0; }
+      if (k === 'arrowdown' || k === 's') { holdD = true; moveDown(); setAim(1); lastMoveDir = 1; }
+      if (k === 'arrowright' || k === 'd') { holdR = true; moveRight(); setAim(2); lastMoveDir = 2; }
+      if (k === 'arrowleft' || k === 'a') { holdL = true; moveLeft(); setAim(3); lastMoveDir = 3; }
     });
     window.addEventListener('keyup', (e) => {
       const k = e.key.toLowerCase();
@@ -324,6 +325,9 @@
       if (k === 'arrowdown' || k === 's') holdD = false;
       if (k === 'arrowright' || k === 'd') holdR = false;
       if (k === 'arrowleft' || k === 'a') holdL = false;
+      if (['arrowup','w','arrowdown','s','arrowright','d','arrowleft','a'].includes(k)) {
+        // mantém a última direção de tiro para o próximo disparo
+      }
     });
     window.addEventListener('resize', () => { resize(); reset(); });
     resize(); reset(); tick();
