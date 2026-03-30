@@ -28,7 +28,7 @@
     <section class="card content" style="margin-top:24px;">
       <div class="game-shell">
         <canvas id="surfGameCanvas"></canvas>
-        <div class="game-hud"><div class="score"><strong>Surf Matrix</strong><br><span id="gameScore">0</span> pontos</div><div class="score">Use ← → / A D para mover</div></div>
+        <div class="game-hud"><div class="score"><strong>Surf Matrix</strong><br><span id="gameScore">0</span> pontos</div><div class="score">Use ← → / A D para mover<br>Espaço / toque = atirar</div></div>
         <div class="mobile-controls" aria-label="Controles móveis"><button id="leftBtn" type="button">◀</button><button id="rightBtn" type="button">▶</button></div><div class="game-help">Desvie dos glitches no mar. Se cair, aperte R para reiniciar.</div>
       </div>
     </section>
@@ -42,6 +42,9 @@
     let board = { x: 0, y: 0, vx: 0 };
     const stars = [];
     const glitches = [];
+    const shots = [];
+    let shootCooldown = 0;
+    let audioCtx = null;
     const mobile = matchMedia('(max-width: 768px)').matches;
     const leftBtn = document.getElementById('leftBtn');
     const rightBtn = document.getElementById('rightBtn');
@@ -57,11 +60,27 @@
       board.y = h * 0.76;
     }
     function rand(min, max) { return Math.random() * (max - min) + min; }
+    function beep(type) {
+      try {
+        audioCtx = audioCtx || new (window.AudioContext || window.webkitAudioContext)();
+        const o = audioCtx.createOscillator();
+        const g = audioCtx.createGain();
+        o.connect(g); g.connect(audioCtx.destination);
+        const now = audioCtx.currentTime;
+        o.type = type === 'hit' ? 'triangle' : 'square';
+        o.frequency.setValueAtTime(type === 'hit' ? 880 : 220, now);
+        o.frequency.exponentialRampToValueAtTime(type === 'hit' ? 220 : 120, now + (type === 'hit' ? 0.12 : 0.08));
+        g.gain.setValueAtTime(type === 'hit' ? 0.08 : 0.06, now);
+        g.gain.exponentialRampToValueAtTime(0.0001, now + (type === 'hit' ? 0.14 : 0.09));
+        o.start(now); o.stop(now + (type === 'hit' ? 0.15 : 0.1));
+      } catch (e) {}
+    }
     function reset() {
-      score = 0; running = true; board.x = w / 2; board.vx = 0;
+      score = 0; running = true; board.x = w / 2; board.vx = 0; shots.length = 0; shootCooldown = 0;
       stars.length = 0; glitches.length = 0;
       for (let i = 0; i < 26; i++) stars.push({ x: rand(0, w), y: rand(0, h * 0.34), r: rand(0.8, 2.2) * dpr, s: rand(0.15, 0.6) * dpr });
       for (let i = 0; i < 6; i++) glitches.push({ x: rand(40 * dpr, w - 40 * dpr), y: rand(-h, -20), s: rand(0.8, 1.4) * dpr, vy: rand(1.2, 2.4) * dpr });
+      for (let i = 0; i < 3; i++) shots.push({ x: w / 2, y: h * 0.72, vy: -7.5 * dpr, alive: false });
       scoreEl.textContent = score;
     }
     function drawSky() {
@@ -110,11 +129,26 @@
       ctx.beginPath(); ctx.arc(0, -18 * dpr, 8 * dpr, 0, Math.PI * 2); ctx.fill();
       ctx.restore();
     }
+    function drawShots() {
+      ctx.save();
+      ctx.fillStyle = '#fff';
+      ctx.shadowColor = 'rgba(255,255,255,.8)';
+      ctx.shadowBlur = 10 * dpr;
+      for (const s of shots) {
+        if (!s.alive) continue;
+        s.y += s.vy;
+        ctx.beginPath();
+        ctx.arc(s.x, s.y, 4 * dpr, 0, Math.PI * 2);
+        ctx.fill();
+        if (s.y < -10 * dpr) s.alive = false;
+      }
+      ctx.restore();
+    }
     function drawGlitches() {
       ctx.save();
       for (const g of glitches) {
         g.y += g.vy;
-        if (g.y > h + 40 * dpr) { g.y = rand(-h, -20); g.x = rand(40 * dpr, w - 40 * dpr); score += 10; scoreEl.textContent = score; }
+        if (g.y > h + 40 * dpr) { g.y = rand(-h, -20); g.x = rand(40 * dpr, w - 40 * dpr); score += 10; scoreEl.textContent = score; beep('hit'); }
         ctx.fillStyle = '#8bffb0';
         ctx.shadowColor = 'rgba(70,245,197,.8)';
         ctx.shadowBlur = 12 * dpr;
@@ -129,13 +163,26 @@
         ctx.stroke();
         const dx = Math.abs(g.x - board.x);
         const dy = Math.abs(g.y - board.y);
-        if (dx < 26 * dpr && dy < 22 * dpr) { running = false; }
+        for (const s of shots) {
+          if (!s.alive) continue;
+          const sx = Math.abs(g.x - s.x);
+          const sy = Math.abs(g.y - s.y);
+          if (sx < 18 * dpr && sy < 18 * dpr) {
+            s.alive = false;
+            g.y = h + 80 * dpr;
+            score += 20;
+            scoreEl.textContent = score;
+            beep('hit');
+          }
+        }
+        if (dx < 26 * dpr && dy < 22 * dpr) { running = false; beep('shoot'); }
       }
       ctx.restore();
     }
     function draw() {
       drawSky();
       drawSea();
+      drawShots();
       drawGlitches();
       drawBoard();
       if (!running) {
@@ -145,6 +192,7 @@
       }
     }
     function tick() {
+      if (shootCooldown > 0) shootCooldown--;
       if (running) {
         board.x += board.vx;
         board.vx *= 0.92;
@@ -156,9 +204,15 @@
     }
     const moveLeft = () => { if (running) board.vx -= 2.8 * dpr; };
     const moveRight = () => { if (running) board.vx += 2.8 * dpr; };
+    const shoot = () => {
+      if (!running || shootCooldown > 0) return;
+      shots.push({ x: board.x, y: board.y - 22 * dpr, vy: -7.5 * dpr, alive: true });
+      shootCooldown = 12;
+      beep('shoot');
+    };
     leftBtn?.addEventListener('pointerdown', moveLeft);
     rightBtn?.addEventListener('pointerdown', moveRight);
-    window.addEventListener('keydown', (e) => { if (!running && e.key.toLowerCase() === 'r') { reset(); return; } if (!running) return; if (e.key === 'ArrowLeft' || e.key.toLowerCase() === 'a') moveLeft(); if (e.key === 'ArrowRight' || e.key.toLowerCase() === 'd') moveRight(); });
+    window.addEventListener('keydown', (e) => { if (!running && e.key.toLowerCase() === 'r') { reset(); return; } if (e.key === ' ' || e.key === 'Enter') { e.preventDefault(); shoot(); return; } if (!running) return; if (e.key === 'ArrowLeft' || e.key.toLowerCase() === 'a') moveLeft(); if (e.key === 'ArrowRight' || e.key.toLowerCase() === 'd') moveRight(); });
     window.addEventListener('resize', () => { resize(); reset(); });
     resize(); reset(); tick();
   </script>
