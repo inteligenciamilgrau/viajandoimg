@@ -35,9 +35,8 @@
       </div>
     </section>
   </main>
-  <div id="threeFallbackMsg" style="display:none;position:fixed;inset:auto 16px 16px 16px;z-index:60;padding:12px 14px;border-radius:14px;background:rgba(0,0,0,.75);color:#fff;border:1px solid rgba(255,255,255,.2)">Three.js ainda não carregou. Recarrega a página ou espera a rede.</div>
-  <script>window.threeLoaded=false;</script>
-  <script src="https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.min.js?cache=20260329" onload="window.threeLoaded=true"></script>
+    <script>window.threeLoaded=false;</script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.min.js" onload="window.threeLoaded=true"></script>
   <script>
     const canvas = document.getElementById('surfGameCanvas');
     const scoreEl = document.getElementById('gameScore');
@@ -53,7 +52,7 @@
     window.addEventListener('keydown', (e) => { if (!running && e.key.toLowerCase() === 'r') return initGame(); if (!running) return; if (e.key === 'ArrowLeft' || e.key.toLowerCase() === 'a') moveLeft(); if (e.key === 'ArrowRight' || e.key.toLowerCase() === 'd') moveRight(); });
     window.addEventListener('resize', () => { if (renderer && camera) { const rect = canvas.getBoundingClientRect(); const w = Math.max(1, rect.width); const h = Math.max(1, rect.height); camera.aspect = w / h; camera.updateProjectionMatrix(); renderer.setSize(w, h, false); } });
     function waitForThree(){ if (window.THREE) { initGame(); } else { setTimeout(waitForThree, 50); } }
-    window.addEventListener('load', () => { if (canvas) waitForThree(); setTimeout(() => { if (!window.THREE) document.getElementById('threeFallbackMsg').style.display = 'block'; }, 3000); });
+    window.addEventListener('load', () => { if (canvas) waitForThree();  });
   </script>
 </body>
 </html>
