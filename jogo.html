@@ -28,7 +28,7 @@
     <section class="card content" style="margin-top:24px;">
       <div class="game-shell">
         <canvas id="surfGameCanvas"></canvas>
-        <div class="game-hud"><div class="score"><strong>Surf Matrix</strong><br><span id="gameScore">0</span> pontos</div><div class="score">Use ← → / A D para mover<br>Espaço / toque = atirar</div></div>
+        <div class="game-hud"><div class="score"><strong>Surf Matrix</strong><br><span id="gameScore">0</span> pontos</div><div class="score">Fase <span id="stageLabel">1/4</span><br>Use ← → / A D para mover<br>Espaço / toque = atirar</div></div>
         <div class="mobile-controls" aria-label="Controles móveis"><button id="leftBtn" type="button">◀</button><button id="rightBtn" type="button">▶</button><button id="shootBtn" type="button">✦</button><button id="restartBtn" type="button">↻</button></div><div class="game-help">Desvie dos glitches no mar. Se cair, aperte R para reiniciar.</div>
       </div>
     </section>
@@ -36,10 +36,13 @@
   <script>
     const canvas = document.getElementById('surfGameCanvas');
     const scoreEl = document.getElementById('gameScore');
+    const stageLabel = document.getElementById('stageLabel');
     const ctx = canvas.getContext('2d');
     let w = 0, h = 0, dpr = 1;
     let score = 0, running = true;
     let board = { x: 0, y: 0, vx: 0 };
+    let stage = 1;
+    let gameSpeed = 1;
     const stars = [];
     const glitches = [];
     const shots = [];
@@ -77,13 +80,18 @@
         o.start(now); o.stop(now + (type === 'hit' ? 0.15 : 0.1));
       } catch (e) {}
     }
+    function updateStage() {
+      stage = Math.min(4, 1 + Math.floor(score / 100));
+    }
     function reset() {
-      score = 0; running = true; board.x = w / 2; board.vx = 0; shots.length = 0; shootCooldown = 0;
+      score = 0; running = true; board.x = w / 2; board.vx = 0; shots.length = 0; shootCooldown = 0; stage = 1; gameSpeed = 1;
       stars.length = 0; glitches.length = 0;
       for (let i = 0; i < 26; i++) stars.push({ x: rand(0, w), y: rand(0, h * 0.34), r: rand(0.8, 2.2) * dpr, s: rand(0.15, 0.6) * dpr });
-      for (let i = 0; i < 6; i++) glitches.push({ x: rand(40 * dpr, w - 40 * dpr), y: rand(-h, -20), s: rand(0.8, 1.4) * dpr, vy: rand(1.2, 2.4) * dpr });
+      for (let i = 0; i < 6; i++) glitches.push({ x: rand(40 * dpr, w - 40 * dpr), y: rand(-h, -20), s: rand(0.8, 1.4) * dpr, vy: rand(1.2, 2.4) * dpr, hp: stage });
       for (let i = 0; i < 3; i++) shots.push({ x: w / 2, y: h * 0.72, vy: -7.5 * dpr, alive: false });
       scoreEl.textContent = score;
+      stageLabel.textContent = stage + '/4';
+      document.documentElement.dataset.stage = stage;
     }
     function drawSky() {
       const g = ctx.createLinearGradient(0, 0, 0, h);
@@ -92,17 +100,24 @@
       g.addColorStop(0.58, '#0b2730');
       g.addColorStop(1, '#07202a');
       ctx.fillStyle = g; ctx.fillRect(0, 0, w, h);
-      ctx.fillStyle = 'rgba(255,255,255,.92)';
+      ctx.fillStyle = stage === 4 ? 'rgba(255,220,255,.95)' : stage === 3 ? 'rgba(210,240,255,.95)' : stage === 2 ? 'rgba(220,220,255,.95)' : 'rgba(255,255,255,.92)';
       for (const s of stars) { ctx.beginPath(); ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2); ctx.fill(); }
       const moonX = w * 0.82, moonY = h * 0.12;
-      ctx.fillStyle = 'rgba(255,245,190,.9)';
+      ctx.fillStyle = stage === 4 ? 'rgba(255,150,210,.92)' : 'rgba(255,245,190,.9)';
       ctx.beginPath(); ctx.arc(moonX, moonY, 26 * dpr, 0, Math.PI * 2); ctx.fill();
     }
     function drawSea() {
       const horizon = h * 0.56;
       const seaGrad = ctx.createLinearGradient(0, horizon, 0, h);
-      seaGrad.addColorStop(0, '#0c4b58');
-      seaGrad.addColorStop(1, '#07222c');
+      const palettes = [
+        ['#0c4b58', '#07222c'],
+        ['#2f3f8f', '#101a42'],
+        ['#5f2f8f', '#1d0e3f'],
+        ['#8f2f4a', '#2a0e16'],
+      ];
+      const pal = palettes[stage - 1];
+      seaGrad.addColorStop(0, pal[0]);
+      seaGrad.addColorStop(1, pal[1]);
       ctx.fillStyle = seaGrad; ctx.fillRect(0, horizon, w, h - horizon);
       ctx.strokeStyle = 'rgba(70,245,197,.3)'; ctx.lineWidth = 2 * dpr;
       for (let i = 0; i < 6; i++) { const y = horizon + 22 * dpr + i * 18 * dpr; ctx.beginPath(); ctx.moveTo(0, y); ctx.quadraticCurveTo(w * 0.5, y - 8 * dpr, w, y); ctx.stroke(); }
@@ -121,13 +136,13 @@
       ctx.save();
       ctx.translate(x, y);
       ctx.rotate(Math.sin(performance.now() / 220) * 0.05);
-      ctx.fillStyle = '#02110d';
+      ctx.fillStyle = stage === 4 ? '#1b0010' : stage === 3 ? '#14061d' : stage === 2 ? '#09151f' : '#02110d';
       ctx.shadowColor = 'rgba(70,245,197,.7)';
       ctx.shadowBlur = 16 * dpr;
       roundRect(ctx, -34 * dpr, -12 * dpr, 68 * dpr, 18 * dpr, 10 * dpr, true);
-      ctx.fillStyle = '#8bffb0';
+      ctx.fillStyle = stage === 4 ? '#ff7ad9' : stage === 3 ? '#7ad9ff' : stage === 2 ? '#b8a7ff' : '#8bffb0';
       ctx.fillRect(-6 * dpr, -6 * dpr, 12 * dpr, 12 * dpr);
-      ctx.fillStyle = '#46f5c5';
+      ctx.fillStyle = stage === 4 ? '#ffb0f0' : stage === 3 ? '#8be8ff' : stage === 2 ? '#d5c6ff' : '#46f5c5';
       ctx.beginPath(); ctx.arc(0, -18 * dpr, 8 * dpr, 0, Math.PI * 2); ctx.fill();
       ctx.restore();
     }
@@ -150,7 +165,7 @@
       ctx.save();
       for (const g of glitches) {
         g.y += g.vy;
-        if (g.y > h + 40 * dpr) { g.y = rand(-h, -20); g.x = rand(40 * dpr, w - 40 * dpr); score += 10; scoreEl.textContent = score; beep('hit'); }
+        if (g.y > h + 40 * dpr) { g.y = rand(-h, -20); g.x = rand(40 * dpr, w - 40 * dpr); g.hp = stage; score += 10; scoreEl.textContent = score; beep('hit'); updateStage(); }
         ctx.fillStyle = '#8bffb0';
         ctx.shadowColor = 'rgba(70,245,197,.8)';
         ctx.shadowBlur = 12 * dpr;
@@ -171,10 +186,13 @@
           const sy = Math.abs(g.y - s.y);
           if (sx < 18 * dpr && sy < 18 * dpr) {
             s.alive = false;
-            g.y = h + 80 * dpr;
+            g.hp -= 1;
             score += 20;
             scoreEl.textContent = score;
             beep('hit');
+            gameSpeed += 0.01;
+            updateStage();
+            if (g.hp <= 0) { g.y = h + 80 * dpr; } else { g.x += rand(-18, 18) * dpr; g.y += rand(-12, 12) * dpr; }
           }
         }
         if (dx < 26 * dpr && dy < 22 * dpr) { running = false; beep('shoot'); }
@@ -196,7 +214,7 @@
     function tick() {
       if (shootCooldown > 0) shootCooldown--;
       if (running) {
-        board.x += board.vx;
+        board.x += board.vx * gameSpeed;
         board.vx *= 0.92;
         if (board.x < 35 * dpr) board.x = 35 * dpr;
         if (board.x > w - 35 * dpr) board.x = w - 35 * dpr;
