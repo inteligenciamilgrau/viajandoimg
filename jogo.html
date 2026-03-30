@@ -90,6 +90,9 @@
       stage = Math.min(4, 1 + Math.floor(score / 100));
       gameSpeed = 1 + (stage - 1) * 0.06;
     }
+    function enemyCountForScore() {
+      return Math.min(12, 7 + Math.floor(score / 70));
+    }
     function reset() {
       score = 0; running = true; board.x = w / 2; board.y = h / 2; board.vx = 0; board.vy = 0; moveX = 0; moveY = 0; shots.length = 0; shootCooldown = 0; stage = 1; gameSpeed = 1; energy = 100;
       stars.length = 0; glitches.length = 0; particles.length = 0;
@@ -270,6 +273,12 @@
         board.y += board.vy * gameSpeed;
         board.vx *= 0.92;
         board.vy *= 0.90;
+        const desired = enemyCountForScore();
+        while (glitches.length < desired) {
+          const kind = (glitches.length % 3) + 1;
+          glitches.push(kind === 1 ? { x: rand(40 * dpr, w - 40 * dpr), y: rand(-h, -20), s: rand(0.8, 1.4) * dpr, vy: rand(1.2, 2.4) * dpr, hp: 1, kind: 1 } : kind === 2 ? { x: rand(40 * dpr, w - 40 * dpr), y: rand(-h, -20), s: rand(0.95, 1.25) * dpr, vy: rand(0.45, 0.85) * dpr, hp: 2, kind: 2 } : { x: rand(40 * dpr, w - 40 * dpr), y: h + rand(20, 140) * dpr, s: rand(1.0, 1.45) * dpr, vy: -rand(1.4, 2.7) * dpr, hp: 3, kind: 3 });
+        }
+        while (glitches.length > desired) glitches.pop();
         const pad = 28 * dpr;
         if (board.x < pad) board.x = pad;
         if (board.x > w - pad) board.x = w - pad;
