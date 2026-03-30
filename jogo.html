@@ -46,6 +46,7 @@
     const stars = [];
     const glitches = [];
     const shots = [];
+    const particles = [];
     let shootCooldown = 0;
     let audioCtx = null;
     const mobile = matchMedia('(max-width: 768px)').matches;
@@ -82,16 +83,18 @@
     }
     function updateStage() {
       stage = Math.min(4, 1 + Math.floor(score / 100));
+      gameSpeed = 1 + (stage - 1) * 0.06;
     }
     function reset() {
       score = 0; running = true; board.x = w / 2; board.vx = 0; shots.length = 0; shootCooldown = 0; stage = 1; gameSpeed = 1;
-      stars.length = 0; glitches.length = 0;
+      stars.length = 0; glitches.length = 0; particles.length = 0;
       for (let i = 0; i < 26; i++) stars.push({ x: rand(0, w), y: rand(0, h * 0.34), r: rand(0.8, 2.2) * dpr, s: rand(0.15, 0.6) * dpr });
-      for (let i = 0; i < 6; i++) glitches.push({ x: rand(40 * dpr, w - 40 * dpr), y: rand(-h, -20), s: rand(0.8, 1.4) * dpr, vy: rand(1.2, 2.4) * dpr, hp: stage });
+      for (let i = 0; i < 4; i++) glitches.push({ x: rand(40 * dpr, w - 40 * dpr), y: rand(-h, -20), s: rand(0.8, 1.4) * dpr, vy: rand(1.2, 2.4) * dpr, hp: 1, kind: 1 });
+      for (let i = 0; i < 4; i++) glitches.push({ x: rand(40 * dpr, w - 40 * dpr), y: rand(-h, -20), s: rand(0.95, 1.25) * dpr, vy: rand(0.45, 0.85) * dpr, hp: 2, kind: 2 });
+      for (let i = 0; i < 3; i++) glitches.push({ x: rand(40 * dpr, w - 40 * dpr), y: h + rand(20, 140) * dpr, s: rand(1.0, 1.45) * dpr, vy: -rand(1.4, 2.7) * dpr, hp: 3, kind: 3 });
       for (let i = 0; i < 3; i++) shots.push({ x: w / 2, y: h * 0.72, vy: -7.5 * dpr, alive: false });
       scoreEl.textContent = score;
       stageLabel.textContent = stage + '/4';
-      document.documentElement.dataset.stage = stage;
     }
     function drawSky() {
       const g = ctx.createLinearGradient(0, 0, 0, h);
@@ -131,6 +134,7 @@
       c.arcTo(x, y, x + w, y, r);
       if (fill) c.fill(); else c.stroke();
     }
+    function burst(x, y, color) { for (let i = 0; i < 10; i++) particles.push({ x, y, vx: rand(-2, 2) * dpr, vy: rand(-2, 2) * dpr, life: 20, color }); }
     function drawBoard() {
       const x = board.x, y = board.y;
       ctx.save();
@@ -161,40 +165,71 @@
       }
       ctx.restore();
     }
+    function drawParticles() {
+      ctx.save();
+      for (let i = particles.length - 1; i >= 0; i--) {
+        const p = particles[i];
+        p.x += p.vx; p.y += p.vy; p.life--;
+        ctx.fillStyle = p.color;
+        ctx.globalAlpha = Math.max(0, p.life / 20);
+        ctx.beginPath(); ctx.arc(p.x, p.y, 3 * dpr, 0, Math.PI * 2); ctx.fill();
+        if (p.life <= 0) particles.splice(i, 1);
+      }
+      ctx.globalAlpha = 1;
+      ctx.restore();
+    }
     function drawGlitches() {
       ctx.save();
       for (const g of glitches) {
-        g.y += g.vy;
-        if (g.y > h + 40 * dpr) { g.y = rand(-h, -20); g.x = rand(40 * dpr, w - 40 * dpr); g.hp = stage; score += 10; scoreEl.textContent = score; beep('hit'); updateStage(); }
-        ctx.fillStyle = '#8bffb0';
-        ctx.shadowColor = 'rgba(70,245,197,.8)';
+        if (g.kind === 1) g.y += g.vy;
+        if (g.kind === 2) { const dx = board.x - g.x; g.x += Math.sign(dx) * Math.min(Math.abs(dx) * 0.0025, 0.45 * dpr); g.y += g.vy; }
+        if (g.kind === 3) g.y += g.vy;
+        if ((g.kind !== 3 && g.y > h + 40 * dpr) || (g.kind === 3 && g.y < -40 * dpr)) {
+          if (g.kind === 1) { g.y = rand(-h, -20); g.x = rand(40 * dpr, w - 40 * dpr); }
+          if (g.kind === 2) { g.y = rand(-h, -20); g.x = rand(40 * dpr, w - 40 * dpr); }
+          if (g.kind === 3) { g.y = h + rand(60, 120) * dpr; g.x = rand(40 * dpr, w - 40 * dpr); }
+          g.hp = g.kind;
+          score += 10; scoreEl.textContent = score; beep('hit'); updateStage();
+        }
+        const palette = g.kind === 1 ? ['#8bffb0', '#46f5c5'] : g.kind === 2 ? ['#ffd36b', '#ff8f5a'] : ['#87b7ff', '#d6f0ff'];
+        ctx.fillStyle = palette[0];
+        ctx.shadowColor = palette[1];
         ctx.shadowBlur = 12 * dpr;
-        ctx.beginPath();
-        ctx.arc(g.x, g.y, 11 * g.s, 0, Math.PI * 2);
-        ctx.fill();
-        ctx.strokeStyle = '#46f5c5';
-        ctx.lineWidth = 3 * dpr;
-        ctx.beginPath();
-        ctx.moveTo(g.x - 14 * g.s, g.y);
-        ctx.lineTo(g.x + 14 * g.s, g.y);
-        ctx.stroke();
-        const dx = Math.abs(g.x - board.x);
-        const dy = Math.abs(g.y - board.y);
+        if (g.kind === 1) {
+          ctx.beginPath(); ctx.arc(g.x, g.y, 11 * g.s, 0, Math.PI * 2); ctx.fill();
+          ctx.strokeStyle = palette[1]; ctx.lineWidth = 3 * dpr; ctx.beginPath(); ctx.moveTo(g.x - 14 * g.s, g.y); ctx.lineTo(g.x + 14 * g.s, g.y); ctx.stroke();
+        } else if (g.kind === 2) {
+          ctx.save(); ctx.translate(g.x, g.y); ctx.rotate(performance.now() / 500); roundRect(ctx, -12 * g.s, -12 * g.s, 24 * g.s, 24 * g.s, 5 * dpr, true); ctx.restore();
+        } else {
+          ctx.save(); ctx.translate(g.x, g.y); ctx.rotate(performance.now() / 250); ctx.beginPath(); ctx.moveTo(0, -16 * g.s); ctx.lineTo(11 * g.s, 10 * g.s); ctx.lineTo(-11 * g.s, 10 * g.s); ctx.closePath(); ctx.fill(); ctx.restore();
+        }
+        const hitR = g.kind === 1 ? 18 : g.kind === 2 ? 22 : 20;
         for (const s of shots) {
           if (!s.alive) continue;
           const sx = Math.abs(g.x - s.x);
           const sy = Math.abs(g.y - s.y);
-          if (sx < 18 * dpr && sy < 18 * dpr) {
+          if (sx < hitR * dpr && sy < hitR * dpr) {
             s.alive = false;
             g.hp -= 1;
+            burst(g.x, g.y, palette[1]);
             score += 20;
             scoreEl.textContent = score;
             beep('hit');
             gameSpeed += 0.01;
             updateStage();
-            if (g.hp <= 0) { g.y = h + 80 * dpr; } else { g.x += rand(-18, 18) * dpr; g.y += rand(-12, 12) * dpr; }
+            if (g.hp <= 0) {
+              burst(g.x, g.y, palette[0]);
+              if (g.kind === 1) { g.y = h + 80 * dpr; g.x = rand(40 * dpr, w - 40 * dpr); }
+              if (g.kind === 2) { g.y = rand(-h, -20); g.x = rand(40 * dpr, w - 40 * dpr); }
+              if (g.kind === 3) { g.y = h + rand(60, 120) * dpr; g.x = rand(40 * dpr, w - 40 * dpr); }
+              g.hp = g.kind;
+            } else {
+              g.x += rand(-18, 18) * dpr; g.y += rand(-12, 12) * dpr;
+            }
           }
         }
+        const dx = Math.abs(g.x - board.x);
+        const dy = Math.abs(g.y - board.y);
         if (dx < 26 * dpr && dy < 22 * dpr) { running = false; beep('shoot'); }
       }
       ctx.restore();
@@ -203,6 +238,7 @@
       drawSky();
       drawSea();
       drawShots();
+      drawParticles();
       drawGlitches();
       drawBoard();
       if (!running) {
