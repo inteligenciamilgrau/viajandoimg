@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Gatinho</title>
+  <style>
+    :root{--bg:#0b0f14;--card:rgba(255,255,255,.06);--text:#f6f7fb;--muted:rgba(246,247,251,.72);--accent:#8bffb0}
+    *{box-sizing:border-box}
+    body{margin:0;min-height:100vh;font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:radial-gradient(circle at top,#1a2430 0,#0b0f14 55%);color:var(--text);display:grid;place-items:center;padding:24px}
+    .wrap{width:min(920px,100%);display:grid;gap:18px}
+    .card{background:var(--card);border:1px solid rgba(255,255,255,.12);backdrop-filter:blur(10px);border-radius:24px;box-shadow:0 20px 60px rgba(0,0,0,.35)}
+    .hero{padding:18px}
+    .hero img{width:100%;height:auto;display:block;border-radius:18px;object-fit:cover;max-height:78vh}
+    .caption{padding:18px 20px;font-size:1.05rem;line-height:1.5;color:var(--muted)}
+    .caption strong{color:var(--text)}
+    .title{padding:18px 20px 0;font-size:clamp(1.8rem,4vw,3rem);margin:0}
+    .badge{display:inline-block;margin-top:10px;padding:7px 12px;border-radius:999px;background:rgba(139,255,176,.12);color:var(--accent);border:1px solid rgba(139,255,176,.18);font-size:.85rem;font-weight:700}
+    a{color:var(--accent)}
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <section class="card hero">
+      <h1 class="title">Página do gato</h1>
+      <div class="badge">Imagem enviada pelo Bob</div>
+      <img src="MEDIA:./../media/inbound/file_80---83997818-31eb-47ec-bf67-e495698c7f4c.jpg" alt="Gato enviado pelo usuário" />
+    </section>
+    <section class="card caption">
+      <strong>Obs.:</strong> eu criei a página para mostrar a foto do gato em destaque. Se você quiser, eu também posso transformar isso num layout mais bonito com legenda, nome do gato, moldura e fundo combinando com a imagem.
+    </section>
+  </main>
+</body>
+</html>
