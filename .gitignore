@@ -1,0 +1,20 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.py
+# (Only ignoring .py for this specific project as requested by user)
+
+# Environments
+.env
+.venv
+env/
+venv/
+ENV/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Project artifacts
+/tmp/

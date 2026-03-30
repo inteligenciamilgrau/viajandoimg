@@ -3,62 +3,40 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="color-scheme" content="dark">
   <link rel="icon" type="image/svg+xml" href="favicon.svg" />
   <title>Matrix na Praia</title>
   <style>
     :root { --bg:#06110f; --panel:rgba(5,25,20,.78); --neon:#8bffb0; --neon-2:#46f5c5; --sand:#f5d68b; --sea:#167f8a; --text:#eafff1; --muted:rgba(234,255,241,.75); }
-    *{box-sizing:border-box} html{scroll-behavior:smooth}
+    *{box-sizing:border-box} html{scroll-behavior:smooth;scrollbar-gutter:stable;background:#03100e}
     body{margin:0;min-height:100vh;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,sans-serif;color:var(--text);background:radial-gradient(circle at 20% 15%, rgba(70,245,197,.18), transparent 26%),radial-gradient(circle at 80% 20%, rgba(139,255,176,.16), transparent 24%),linear-gradient(180deg,#04100f 0%,#061914 38%,#0b2a28 62%,#0f3d49 100%);overflow-x:hidden}
     .rain,.glow{position:fixed;inset:0;pointer-events:none}.rain{opacity:.22;background-image:linear-gradient(180deg,transparent 0 88%,rgba(139,255,176,.8) 100%);background-size:100% 14px;mask-image:linear-gradient(180deg,rgba(0,0,0,.9),transparent 92%);animation:drift 8s linear infinite}.glow{background:radial-gradient(circle at 52% 58%, rgba(70,245,197,.15), transparent 18%),radial-gradient(circle at 45% 64%, rgba(139,255,176,.12), transparent 20%),radial-gradient(circle at 50% 60%, rgba(245,214,139,.10), transparent 32%);mix-blend-mode:screen;filter:blur(8px);animation:shimmer 7s ease-in-out infinite alternate}
     @keyframes drift{from{transform:translateY(-8px)}to{transform:translateY(14px)}}@keyframes shimmer{from{opacity:.55}to{opacity:.9}}
-    .wrap{width:min(1180px,92vw);margin:0 auto;padding:110px 0 72px}.hero{display:grid;grid-template-columns:1.2fr .8fr;gap:28px;align-items:center;min-height:92vh}
+    .wrap{width:min(1180px,92vw);margin:0 auto;padding:72px 0 24px}.hero{display:grid;grid-template-columns:1.2fr .8fr;gap:20px;align-items:center;min-height:70vh}
     .topnav{position:fixed;top:16px;left:50%;transform:translateX(-50%);z-index:50;display:flex;gap:10px;flex-wrap:wrap;justify-content:center;padding:10px 12px;border-radius:999px;background:rgba(4,19,16,.72);border:1px solid rgba(139,255,176,.18);backdrop-filter:blur(14px);box-shadow:0 12px 40px rgba(0,0,0,.28)}
     .topnav a{color:var(--text);text-decoration:none;padding:10px 14px;border-radius:999px;border:1px solid transparent;font-weight:700;font-size:.92rem}.topnav a:hover{background:rgba(139,255,176,.08);border-color:rgba(139,255,176,.16)}
     .topnav .brand{color:var(--neon)}
-    .card{background:var(--panel);border:1px solid rgba(139,255,176,.22);box-shadow:0 0 0 1px rgba(70,245,197,.08),0 20px 70px rgba(0,0,0,.35);backdrop-filter:blur(12px);border-radius:28px}.content{padding:40px}
-    .eyebrow{display:inline-block;padding:8px 14px;border-radius:999px;background:rgba(139,255,176,.1);color:var(--neon);border:1px solid rgba(139,255,176,.24);letter-spacing:.12em;text-transform:uppercase;font-size:.78rem;margin-bottom:18px}
-    h1{margin:0 0 14px;font-size:clamp(3rem,6vw,5.8rem);line-height:.95;letter-spacing:-.05em;text-shadow:0 0 18px rgba(70,245,197,.28)} h1 span{color:var(--neon)}
-    p{color:var(--muted);font-size:1.08rem;line-height:1.7;margin:0 0 22px;max-width:60ch}
+    .card{background:var(--panel);border:1px solid rgba(139,255,176,0.22);box-shadow:0 0 0 1px rgba(70,245,197,0.08),0 20px 70px rgba(0,0,0,0.35);backdrop-filter:blur(12px);border-radius:28px}.content{padding:24px}
+    .eyebrow{display:inline-block;padding:6px 12px;border-radius:999px;background:rgba(139,255,176,.1);color:var(--neon);border:1px solid rgba(139,255,176,.24);letter-spacing:.12em;text-transform:uppercase;font-size:0.72rem;margin-bottom:10px}
+    h1{margin:0 0 12px;font-size:clamp(1.8rem,4.5vw,2.6rem);line-height:1.1;letter-spacing:-.02em;text-shadow:0 0 18px rgba(70,245,197,.28)} h1 span{color:var(--neon)}
+    h2{margin:0 0 10px;font-size:clamp(1.45rem,3.8vw,1.9rem);line-height:1.2}
+    p{color:var(--muted);font-size:1rem;line-height:1.6;margin:0 0 16px;max-width:60ch}
     .actions{display:flex;gap:12px;flex-wrap:wrap}.btn{display:inline-flex;align-items:center;justify-content:center;border-radius:14px;padding:14px 18px;text-decoration:none;font-weight:700;border:1px solid rgba(139,255,176,.24)}.btn.primary{background:linear-gradient(135deg,var(--neon),var(--neon-2));color:#02110d;box-shadow:0 12px 30px rgba(70,245,197,.18)}.btn.secondary{color:var(--text);background:rgba(255,255,255,.04)}
     .scene{padding:18px;position:relative;overflow:hidden}.scene::before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(5,17,15,.2),rgba(5,17,15,.1)),radial-gradient(circle at 50% 88%, rgba(245,214,139,.95) 0 20%, transparent 21%),linear-gradient(180deg,transparent 0 54%, rgba(22,127,138,.86) 54% 76%, rgba(4,20,19,.92) 76% 100%);opacity:.92}
-    .scene-inner{position:relative;min-height:520px;border-radius:22px;border:1px solid rgba(139,255,176,.18);overflow:hidden;background:linear-gradient(180deg,#03100e 0%,#0c2c32 58%,#f5d68b 58%,#f5d68b 100%)}
+    .scene-inner{position:relative;min-height:380px;border-radius:22px;border:1px solid rgba(139,255,176,.18);overflow:hidden;background:linear-gradient(180deg,#03100e 0%,#0c2c32 58%,#f5d68b 58%,#f5d68b 100%)}
     .sun{position:absolute;right:18%;top:12%;width:112px;height:112px;border-radius:50%;background:radial-gradient(circle,#fff7d1 0 30%,#ffe27a 50%,rgba(255,210,86,.15) 73%,transparent 74%);box-shadow:0 0 120px rgba(255,226,122,.24);animation:pulseSun 6s ease-in-out infinite alternate}@keyframes pulseSun{from{transform:scale(.98)}to{transform:scale(1.04)}}
     .wave{position:absolute;left:-10%;right:-10%;height:120px;top:60%;background:repeating-linear-gradient(90deg, rgba(70,245,197,.12) 0 24px, rgba(139,255,176,.08) 24px 48px);clip-path:ellipse(70% 40% at 50% 50%);filter:blur(2px);opacity:.8;animation:waveMove 5s ease-in-out infinite alternate}@keyframes waveMove{from{transform:translateX(-6px)}to{transform:translateX(8px)}}
     .palm,.palm::before,.palm::after{position:absolute;content:"";display:block;background:#0a5f43;border-radius:80% 20% 80% 20%}.palm{width:18px;height:160px;left:18%;bottom:16%;transform:rotate(-4deg)}.palm::before{width:90px;height:20px;left:-64px;top:0;transform:rotate(-24deg)}.palm::after{width:90px;height:20px;left:-8px;top:-8px;transform:rotate(32deg)}
     .neon-code{position:absolute;left:10%;top:14%;font:600 .86rem/1.5 ui-monospace,SFMono-Regular,Menlo,monospace;color:rgba(139,255,176,.92);text-shadow:0 0 12px rgba(70,245,197,.2);white-space:pre;animation:flicker 3.8s infinite}@keyframes flicker{0%,100%{opacity:.92}50%{opacity:.6}63%{opacity:1}68%{opacity:.72}}
     .grid{position:absolute;inset:0;background-image:linear-gradient(rgba(70,245,197,.08) 1px,transparent 1px),linear-gradient(90deg,rgba(70,245,197,.08) 1px,transparent 1px);background-size:28px 28px;opacity:.08;mix-blend-mode:screen;animation:gridFloat 12s linear infinite}@keyframes gridFloat{from{transform:translateY(0)}to{transform:translateY(28px)}}
     .surfer{position:absolute;right:12%;bottom:22%;width:54px;height:90px;border-radius:50% 50% 40% 40%;background:linear-gradient(180deg,rgba(139,255,176,.98),rgba(70,245,197,.55));box-shadow:0 0 25px rgba(70,245,197,.22);animation:surf 4.6s ease-in-out infinite alternate}.surfer::before{content:"";position:absolute;left:-18px;top:28px;width:88px;height:10px;background:linear-gradient(90deg,#f5d68b,#8bffb0);border-radius:999px;transform:rotate(-10deg);box-shadow:0 0 18px rgba(139,255,176,.26)}@keyframes surf{from{transform:translateY(0) rotate(-2deg)}to{transform:translateY(-10px) rotate(2deg)}}
-    .filters{margin-top:26px;display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px}select,.pill{width:100%;border:1px solid rgba(139,255,176,.18);background:rgba(4,19,16,.72);color:var(--text);border-radius:16px;padding:14px 16px;font:inherit;outline:none}select:focus{border-color:rgba(139,255,176,.52);box-shadow:0 0 0 3px rgba(70,245,197,.12)}
-    .map-card{margin-top:24px;padding:18px}.map-wrap{position:relative;min-height:560px;border-radius:22px;overflow:hidden;border:1px solid rgba(139,255,176,.16);background:radial-gradient(circle at 50% 20%, rgba(70,245,197,.08), transparent 30%),linear-gradient(180deg,#05221f 0%,#073844 55%,#f5d68b 55%,#f5d68b 100%)}
-    .map-wrap::before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.04) 1px, transparent 1px),linear-gradient(90deg, rgba(255,255,255,.04) 1px, transparent 1px);background-size:36px 36px;opacity:.18;mix-blend-mode:screen}
-    .brazil-frame{position:absolute;inset:18px;border-radius:22px;border:1px solid rgba(139,255,176,.22);overflow:hidden}
-    .brazil-frame svg{width:100%;height:100%;display:block}
-    .brazil-overlay{position:absolute;inset:0;pointer-events:none;background:radial-gradient(circle at 50% 20%, rgba(70,245,197,.08), transparent 30%);mix-blend-mode:screen;opacity:.8}
-    .city-dot{position:absolute;transform:translate(-50%,-50%);width:14px;height:14px;border-radius:50%;background:var(--neon);box-shadow:0 0 0 6px rgba(139,255,176,.12),0 0 20px rgba(70,245,197,.6);cursor:pointer;transition:transform .18s ease, box-shadow .18s ease}.city-dot:hover{transform:translate(-50%,-50%) scale(1.25)}.city-dot.active{background:#ffe27a;box-shadow:0 0 0 8px rgba(255,226,122,.14),0 0 24px rgba(255,226,122,.8)}
-    .city-label{position:absolute;transform:translate(-50%,-135%);padding:6px 9px;border-radius:999px;background:rgba(0,0,0,.72);border:1px solid rgba(139,255,176,.28);font-size:.8rem;font-weight:700;letter-spacing:.01em;white-space:nowrap;pointer-events:none;opacity:0;transition:opacity .18s ease;color:#f3fff7;text-shadow:0 1px 2px rgba(0,0,0,.95),0 0 10px rgba(70,245,197,.18);box-shadow:0 8px 18px rgba(0,0,0,.22)}.city-dot:hover .city-label,.city-dot.active .city-label{opacity:1}
-    .plane-marker{position:absolute;left:0;top:0;width:34px;height:34px;transform:translate(-50%,-50%);pointer-events:none;opacity:0;z-index:6;transition:opacity .2s ease;filter:drop-shadow(0 0 10px rgba(70,245,197,.45))}.plane-marker svg{width:100%;height:100%;display:block;transform-origin:50% 50%}.plane-marker.flying{opacity:1;animation:planeBob .7s ease-in-out infinite alternate}.plane-marker.arrive{animation:planePop .28s ease-out}@keyframes planeBob{from{transform:translate(-50%,-50%) translateY(-1px)}to{transform:translate(-50%,-50%) translateY(1px)}}@keyframes planePop{0%{transform:translate(-50%,-50%) scale(.86)}100%{transform:translate(-50%,-50%) scale(1)}}
-    .travel-panel{position:absolute;left:18px;right:18px;bottom:18px;background:rgba(5,25,20,.84);border:1px solid rgba(139,255,176,.18);border-radius:20px;padding:16px 18px;backdrop-filter:blur(10px)}
-    .travel-panel h3{margin:0 0 8px}.travel-panel p{margin:0 0 10px;font-size:.95rem}.badge-row{display:flex;flex-wrap:wrap;gap:8px}.badge{display:inline-flex;padding:7px 10px;border-radius:999px;font-size:.78rem;background:rgba(139,255,176,.1);color:var(--neon);border:1px solid rgba(139,255,176,.14)}
-    .grid-cards{margin-top:16px;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px}.dest-card{padding:18px;background:rgba(8,30,26,.72);border:1px solid rgba(139,255,176,.16);border-radius:22px;transition:transform .18s ease,border-color .18s ease}.dest-card:hover{transform:translateY(-3px);border-color:rgba(139,255,176,.34)}.dest-card h3{margin:0 0 8px;font-size:1.05rem}.dest-card p{margin:0 0 14px;font-size:.96rem}.meta{display:flex;flex-wrap:wrap;gap:8px}.tag{display:inline-flex;padding:7px 10px;border-radius:999px;font-size:.78rem;background:rgba(139,255,176,.1);color:var(--neon);border:1px solid rgba(139,255,176,.14)}
-    .footer{margin-top:24px;color:rgba(234,255,241,.7);font-size:.92rem;text-align:center}
-    .tabs{display:flex;gap:10px;flex-wrap:wrap;margin:18px 0 8px}.tab-btn{border:1px solid rgba(139,255,176,.18);background:rgba(4,19,16,.68);color:var(--text);border-radius:999px;padding:10px 14px;font:inherit;font-weight:700;cursor:pointer}.tab-btn.active{background:linear-gradient(135deg,var(--neon),var(--neon-2));color:#02110d}.tab-panel{display:none}.tab-panel.active{display:block}
-    .game-shell{position:relative;min-height:68vh;overflow:hidden;border-radius:22px;border:1px solid rgba(139,255,176,.16);background:radial-gradient(circle at 50% 22%, rgba(70,245,197,.12), transparent 28%),linear-gradient(180deg,#03100e 0%,#0b2730 56%,#0d4c5b 56%,#07202a 100%)}
-    .game-hud{position:absolute;inset:0;pointer-events:none;display:flex;justify-content:space-between;align-items:flex-start;padding:16px;color:#f3fff7;text-shadow:0 1px 2px rgba(0,0,0,.9)}
-    .game-hud .score{background:rgba(0,0,0,.38);border:1px solid rgba(139,255,176,.16);border-radius:14px;padding:10px 12px;backdrop-filter:blur(8px)}
-    #surfGameCanvas{width:100%;height:100%;display:block}
-    .game-help{position:absolute;left:16px;bottom:16px;right:16px;background:rgba(0,0,0,.4);border:1px solid rgba(139,255,176,.14);border-radius:16px;padding:10px 12px;color:var(--muted);font-size:.92rem;backdrop-filter:blur(8px)}
-    .mode-sunset .map-wrap{background:radial-gradient(circle at 50% 20%, rgba(255,226,122,.16), transparent 30%),linear-gradient(180deg,#2b0d18 0%,#14384a 55%,#ffd78b 55%,#f5d68b 100%)}
     .mode-sunset .scene-inner{background:linear-gradient(180deg,#230b12 0%,#163543 58%,#ffd78b 58%,#f5d68b 100%)}
-    .mini-banner{margin-top:14px;padding:12px 14px;border-radius:18px;background:rgba(0,0,0,.28);border:1px solid rgba(139,255,176,.16)}
-    .mini-banner strong{display:block;margin-bottom:4px}
-
-    @media (max-width:900px){.hero{grid-template-columns:1fr;min-height:auto}.content{padding:28px}.scene-inner,.map-wrap{min-height:420px}}
+    @media (max-width:940px){.hero{grid-template-columns:1fr;min-height:auto}.scene-inner{min-height:420px}}
   </style>
 </head>
 <body>
   <nav class="topnav" aria-label="Menu principal">
     <a class="brand" href="#top">Matrix na Praia</a>
-    <a href="#site">Site</a>
     <a href="mapa.html">Mapa</a>
     <a href="jogo.html">Jogo</a>
     <a href="receitas.html">Receitas</a>
@@ -72,298 +50,53 @@
         <div class="eyebrow">Matrix na Praia</div>
         <h1>Viagens com <span>glitch</span>, mar e neon</h1>
         <p>Um site simples, estático e com clima de teste: areia dourada na base, mar profundo no fundo e chuva de código caindo com estilo. Agora com um mapa do Brasil mais organizado para viajar por todas as capitais.</p>
-        <div class="actions"><a class="btn primary" href="mapa.html">Ver mapa</a><a class="btn secondary" href="receitas.html">Receitas</a><a class="btn secondary" href="jogo.html">Jogo</a></div>
-        <div class="mini-banner"><strong>Atalhos</strong>Troque o clima, descubra segredos no mapa e vá direto para os jogos.</div><div class="pill" id="travelCounter">0 destinos visitados</div><div class="filters"><select id="capitalSelect" aria-label="Escolha uma capital"><option value="">Selecione uma capital</option></select><div class="pill" id="capitalInfo">Escolha uma capital para iniciar a viagem Matrix na Praia.</div></div>
+        <div class="actions"></div>
       </article>
       <aside class="card scene" aria-label="Cena Matrix na Praia"><div class="scene-inner"><div class="grid"></div><div class="sun"></div><div class="wave"></div><div class="palm"></div><div class="surfer"></div><div class="neon-code">01001001 01001101 01000111
 praia.exe rodando
 mar + matrix = paz suspeita</div></div></aside>
     </section>
 
-    <section id="capitais" class="card content" style="margin-top: 24px;">
-      <div class="eyebrow">Capitais do Brasil</div>
-      <h2 style="margin:0 0 10px; font-size: 2rem;">Viaje no estilo Matrix na Praia</h2>
-      <p style="margin-bottom: 0;">Selecione uma capital para carregar a rota neon, a vibe do litoral e o código que faz a cidade parecer saída de um sonho digital.</p>
-      <div class="grid-cards" id="capitalCards"></div>
+    <section id="explorar" class="card content" style="margin-top: 24px;">
+      <div class="eyebrow">Navegação</div>
+      <h2 style="margin:0 0 10px; font-size: 2rem;">Explore o litoral digital</h2>
+      <p style="margin-bottom: 24px;">Um projeto estático focado em estética neon, clima de praia e experimentações visuais. Escolha para onde quer ir agora:</p>
+      <div class="grid-cards">
+        <a href="mapa.html" class="dest-card" style="text-decoration:none; color:inherit;">
+          <h3>Mapa do Brasil</h3>
+          <p>Explore as capitais com rotas de voo em neon e vibrações tropicais.</p>
+          <div class="meta"><span class="tag">Interativo</span><span class="tag">Viagem</span></div>
+        </a>
+        <a href="jogo.html" class="dest-card" style="text-decoration:none; color:inherit;">
+          <h3>Surf Matrix</h3>
+          <p>Um jogo arcade onde você surfa nas ondas de luz da Matrix.</p>
+          <div class="meta"><span class="tag">Arcade</span><span class="tag">Neon</span></div>
+        </a>
+        <a href="receitas.html" class="dest-card" style="text-decoration:none; color:inherit;">
+          <h3>Receitas da Praia</h3>
+          <p>Descubra os sabores digitais e tropicais do nosso litoral.</p>
+          <div class="meta"><span class="tag">Tutorial</span><span class="tag">Gourmet</span></div>
+        </a>
+        <a href="gato.html" class="dest-card" style="text-decoration:none; color:inherit;">
+          <h3>O Gatinho</h3>
+          <p>Visite a página dedicada ao mascote oficial do projeto.</p>
+          <div class="meta"><span class="tag">Especial</span><span class="tag">Mascote</span></div>
+        </a>
+      </div>
     </section>
     <section class="footer">Feito como base inicial do projeto de testes — simples, estático e visual.</section>
   </main>
 
   <script src="https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.min.js"></script>
   <script>
-    const capitals = [
-      { name: 'Rio Branco', state: 'AC', vibe: 'Amazônia neon e calmaria tropical.', x: '26%', y: '59%' },
-      { name: 'Maceió', state: 'AL', vibe: 'Água turquesa, areia clara e código fluido.', x: '80%', y: '43%' },
-      { name: 'Macapá', state: 'AP', vibe: 'Linha do Equador com brilho digital.', x: '47%', y: '12%' },
-      { name: 'Manaus', state: 'AM', vibe: 'Selva, rio e um glitch de calor úmido.', x: '24%', y: '38%' },
-      { name: 'Salvador', state: 'BA', vibe: 'Cor, ritmo e mar batendo no terminal.', x: '75%', y: '50%' },
-      { name: 'Fortaleza', state: 'CE', vibe: 'Vento forte e horizonte em 4K Matrix.', x: '75%', y: '31%' },
-      { name: 'Brasília', state: 'DF', vibe: 'Arquitetura futurista com céu de simulação.', x: '55%', y: '52%' },
-      { name: 'Vitória', state: 'ES', vibe: 'Ilha, porto e reflexo verde-azulado.', x: '67%', y: '60%' },
-      { name: 'Goiânia', state: 'GO', vibe: 'Cidade verde com onda sintética.', x: '49%', y: '55%' },
-      { name: 'São Luís', state: 'MA', vibe: 'Azulejos, mar e ruído digital elegante.', x: '61%', y: '24%' },
-      { name: 'Cuiabá', state: 'MT', vibe: 'Calor intenso e névoa de código.', x: '40%', y: '67%' },
-      { name: 'Campo Grande', state: 'MS', vibe: 'Horizonte aberto e travessia de bits.', x: '36%', y: '77%' },
-      { name: 'Belo Horizonte', state: 'MG', vibe: 'Serra, neblina e luz de neon discreta.', x: '61%', y: '62%' },
-      { name: 'Belém', state: 'PA', vibe: 'Rios, chuva e sabores em modo turbo.', x: '55%', y: '20%' },
-      { name: 'João Pessoa', state: 'PB', vibe: 'Nascer do sol em render perfeito.', x: '81%', y: '37%' },
-      { name: 'Curitiba', state: 'PR', vibe: 'Clima frio com coração de código quente.', x: '57%', y: '80%' },
-      { name: 'Recife', state: 'PE', vibe: 'Pontes, mar e pulsos de tecnologia.', x: '79%', y: '39%' },
-      { name: 'Teresina', state: 'PI', vibe: 'Cidade quente com brilho de circuito.', x: '67%', y: '30%' },
-      { name: 'Rio de Janeiro', state: 'RJ', vibe: 'Pão de açúcar, mar e skyline cyber.', x: '67%', y: '67%' },
-      { name: 'Natal', state: 'RN', vibe: 'Dunas, vento e céu em baixa latência.', x: '82%', y: '33%' },
-      { name: 'Porto Alegre', state: 'RS', vibe: 'Sul amplo com luzes refletidas no Guaíba.', x: '49%', y: '91%' },
-      { name: 'Porto Velho', state: 'RO', vibe: 'Estrada, rio e um brilho de madrugada.', x: '23%', y: '49%' },
-      { name: 'Boa Vista', state: 'RR', vibe: 'Horizonte aberto e sol programado.', x: '19%', y: '15%' },
-      { name: 'Florianópolis', state: 'SC', vibe: 'Ilha, surf e elegância em neon.', x: '58%', y: '86%' },
-      { name: 'São Paulo', state: 'SP', vibe: 'Arranha-céus, movimento e chuva de código.', x: '60%', y: '73%' },
-      { name: 'Aracaju', state: 'SE', vibe: 'Praia tranquila e estética limpa.', x: '79%', y: '45%' },
-      { name: 'Palmas', state: 'TO', vibe: 'Plano, aberto e pronto pra viajar.', x: '54%', y: '40%' },
-    ];
-
-    const select = document.getElementById('capitalSelect');
-    const info = document.getElementById('capitalInfo');
-    const cards = document.getElementById('capitalCards');
-    const dots = document.getElementById('mapDots');
-    const travelTitle = document.getElementById('travelTitle');
-    const travelDescription = document.getElementById('travelDescription');
-    const travelBadges = document.getElementById('travelBadges');
-    const travelCounter = document.getElementById('travelCounter');
-    const actions = document.querySelector('.actions');
-    const svg = document.querySelector('.brazil-frame svg');
-    const mapWrap = document.querySelector('.map-wrap');
-    const plane = document.createElement('div');
-    plane.className = 'plane-marker';
-    plane.innerHTML = `<svg viewBox="0 0 64 64" aria-hidden="true"><path d="M6 33L58 8l-11 24 11 24z" fill="#8bffb0" opacity=".95"/><path d="M6 33l20 4 32-29" fill="none" stroke="#46f5c5" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M25 37L14 57" fill="none" stroke="#46f5c5" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
-    mapWrap?.appendChild(plane);
-
-    const badgesFor = (cap) => [cap.state, 'Matrix', 'Praia'];
-    let visitedCount = 0;
-    const banner = document.querySelector('.mini-banner');
     const body = document.body;
+    const actions = document.querySelector('.actions');
     const themeBtn = document.createElement('button');
     themeBtn.className = 'btn secondary';
     themeBtn.type = 'button';
     themeBtn.textContent = 'Modo pôr do sol';
     themeBtn.addEventListener('click', () => body.classList.toggle('mode-sunset'));
     actions?.appendChild(themeBtn);
-    const easterEggs = [
-      { name: 'Peixe Glitch', x: '52%', y: '58%' },
-      { name: 'Pérola Neon', x: '43%', y: '41%' },
-      { name: 'Prancha Secreta', x: '70%', y: '64%' },
-    ];
-    easterEggs.forEach((egg) => {
-      const el = document.createElement('button');
-      el.type = 'button';
-      el.className = 'city-dot';
-      el.style.left = egg.x;
-      el.style.top = egg.y;
-      el.style.width = '10px';
-      el.style.height = '10px';
-      el.style.background = '#ffe27a';
-      el.style.boxShadow = '0 0 0 5px rgba(255,226,122,.12),0 0 16px rgba(255,226,122,.55)';
-      el.setAttribute('aria-label', egg.name);
-      el.innerHTML = '<span class="city-label">' + egg.name + '</span>';
-      el.addEventListener('click', () => { info.textContent = 'Achou: ' + egg.name; });
-      mapWrap?.appendChild(el);
-    });
-    let flyRaf = null;
-    function setPlanePosition(point, angle = 0) {
-      plane.style.left = `${point.x}px`;
-      plane.style.top = `${point.y}px`;
-      plane.style.transform = `translate(-50%, -50%) rotate(${angle}deg)`;
-    }
-    function flyPlaneTo(targetEl) {
-      if (!mapWrap || !targetEl) return;
-      if (flyRaf) cancelAnimationFrame(flyRaf);
-      const startRect = plane.getBoundingClientRect();
-      const targetRect = targetEl.getBoundingClientRect();
-      const wrapRect = mapWrap.getBoundingClientRect();
-      const start = { x: (startRect.left + startRect.width / 2) - wrapRect.left, y: (startRect.top + startRect.height / 2) - wrapRect.top };
-      const end = { x: (targetRect.left + targetRect.width / 2) - wrapRect.left, y: (targetRect.top + targetRect.height / 2) - wrapRect.top };
-      const ctrl = { x: (start.x + end.x) / 2 + Math.max(-120, Math.min(120, (end.y - start.y) * -0.35)), y: Math.min(start.y, end.y) - 80 };
-      plane.classList.add('flying');
-      const duration = 1100;
-      const t0 = performance.now();
-      function quad(p0, p1, p2, t) {
-        const u = 1 - t;
-        return { x: u * u * p0.x + 2 * u * t * p1.x + t * t * p2.x, y: u * u * p0.y + 2 * u * t * p1.y + t * t * p2.y };
-      }
-      function tick(now) {
-        const t = Math.min((now - t0) / duration, 1);
-        const ease = t * t * (3 - 2 * t);
-        const p = quad(start, ctrl, end, ease);
-        const ahead = quad(start, ctrl, end, Math.min(1, ease + 0.01));
-        const angle = Math.atan2(ahead.y - p.y, ahead.x - p.x) * 180 / Math.PI;
-        setPlanePosition(p, angle);
-        if (t < 1) flyRaf = requestAnimationFrame(tick);
-        else {
-          plane.classList.remove('flying');
-          plane.classList.add('arrive');
-          setTimeout(() => plane.classList.remove('arrive'), 280);
-        }
-      }
-      setPlanePosition(start, 0);
-      flyRaf = requestAnimationFrame(tick);
-    }
-
-    function selectCapital(value) {
-      const chosen = capitals.find(c => `${c.name} - ${c.state}` === value);
-      if (!chosen) {
-        info.textContent = 'Escolha uma capital para iniciar a viagem Matrix na Praia.';
-        if (banner) banner.innerHTML = '<strong>Atalhos</strong>Troque o clima, descubra segredos no mapa e vá direto para os jogos.';
-        if (travelCounter) travelCounter.textContent = visitedCount + ' destinos visitados';
-        travelTitle.textContent = 'Destino não selecionado';
-        travelDescription.textContent = 'Clique em uma capital no mapa ou na lista para começar a viagem.';
-        travelBadges.innerHTML = '';
-        document.querySelectorAll('.dest-card').forEach(card => { card.style.outline = 'none'; card.style.boxShadow = 'none'; });
-        document.querySelectorAll('.city-dot').forEach(dot => dot.classList.remove('active'));
-        return;
-      }
-      info.textContent = `Destino escolhido: ${chosen.name} (${chosen.state}) — ${chosen.vibe}`;
-      visitedCount += 1;
-      if (travelCounter) travelCounter.textContent = visitedCount + ' destinos visitados';
-      if (banner) banner.innerHTML = '<strong>Destino pronto</strong>' + chosen.name + ' entrou no radar. Clica nos easter eggs do mapa também.';
-      travelTitle.textContent = `${chosen.name} (${chosen.state})`;
-      travelDescription.textContent = chosen.vibe;
-      travelBadges.innerHTML = badgesFor(chosen).map(t => `<span class="badge">${t}</span>`).join('');
-      document.querySelectorAll('.dest-card').forEach(card => {
-        card.style.outline = card.dataset.capital === value ? '2px solid rgba(139,255,176,.7)' : 'none';
-        card.style.boxShadow = card.dataset.capital === value ? '0 0 0 1px rgba(139,255,176,.12), 0 0 24px rgba(70,245,197,.18)' : 'none';
-      });
-      const selectedDot = document.querySelector(`.city-dot[data-capital="${CSS.escape(value)}"]`);
-      document.querySelectorAll('.city-dot').forEach(dot => dot.classList.toggle('active', dot.dataset.capital === value));
-      if (selectedDot) flyPlaneTo(selectedDot);
-      if (svg) {
-        svg.style.filter = 'drop-shadow(0 0 18px rgba(70,245,197,.22)) saturate(1.08)';
-        setTimeout(() => { svg.style.filter = ''; }, 700);
-      }
-    }
-
-    capitals.forEach((c) => {
-      const opt = document.createElement('option');
-      opt.value = `${c.name} - ${c.state}`;
-      opt.textContent = `${c.name} (${c.state})`;
-      select.appendChild(opt);
-
-      const card = document.createElement('article');
-      card.className = 'dest-card';
-      card.dataset.capital = `${c.name} - ${c.state}`;
-      card.innerHTML = `<h3>${c.name} <span style="color:var(--neon);font-size:.9em;">${c.state}</span></h3><p>${c.vibe}</p><div class="meta"><span class="tag">Matrix</span><span class="tag">Praia</span><span class="tag">Capital</span></div>`;
-      card.addEventListener('click', () => { select.value = `${c.name} - ${c.state}`; selectCapital(select.value); document.getElementById('mapa').scrollIntoView({ behavior: 'smooth', block: 'start' }); });
-      cards.appendChild(card);
-
-      const dot = document.createElement('button');
-      dot.type = 'button';
-      dot.className = 'city-dot';
-      dot.dataset.capital = `${c.name} - ${c.state}`;
-      dot.style.left = c.x;
-      dot.style.top = c.y;
-      dot.setAttribute('aria-label', `${c.name}, ${c.state}`);
-      dot.innerHTML = `<span class="city-label">${c.name} (${c.state})</span>`;
-      dot.addEventListener('click', () => { select.value = `${c.name} - ${c.state}`; selectCapital(select.value); });
-      dots.appendChild(dot);
-    });
-
-
-    document.querySelectorAll('.tab-btn').forEach(btn => btn.addEventListener('click', () => {
-      document.querySelectorAll('.tab-btn').forEach(b => b.classList.toggle('active', b === btn));
-      document.querySelectorAll('.tab-panel').forEach(p => p.classList.toggle('active', p.id === btn.dataset.tab));
-    }));
-
-    const canvas = document.getElementById('surfGameCanvas');
-    const scoreEl = document.getElementById('gameScore');
-    let scene, camera, renderer, board, waves, obstacles = [], clock, score = 0, running = true;
-    let speed = 0.08, targetX = 0;
-
-    function makeObstacle(x, z) {
-      const g = new THREE.TorusGeometry(0.16, 0.05, 8, 16);
-      const m = new THREE.MeshStandardMaterial({ color: 0x8bffb0, emissive: 0x46f5c5, emissiveIntensity: 0.8, metalness: 0.2, roughness: 0.35 });
-      const mesh = new THREE.Mesh(g, m);
-      mesh.rotation.x = Math.PI / 2;
-      mesh.position.set(x, 0.07, z);
-      return mesh;
-    }
-
-    function initGame() {
-      scene = new THREE.Scene();
-      scene.fog = new THREE.Fog(0x05202a, 6, 24);
-      camera = new THREE.PerspectiveCamera(55, canvas.clientWidth / canvas.clientHeight, 0.1, 100);
-      camera.position.set(0, 3.4, 8.5);
-      camera.lookAt(0, 0.5, 0);
-
-      renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
-      renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
-      renderer.setSize(canvas.clientWidth, canvas.clientHeight, false);
-
-      scene.add(new THREE.AmbientLight(0x9fffd1, 1.4));
-      const sun = new THREE.DirectionalLight(0x46f5c5, 2.2);
-      sun.position.set(-2, 5, 4);
-      scene.add(sun);
-
-      const seaGeo = new THREE.PlaneGeometry(24, 20, 80, 60);
-      const sea = new THREE.Mesh(seaGeo, new THREE.MeshStandardMaterial({ color: 0x0d4c5b, roughness: 0.35, metalness: 0.1, emissive: 0x03252d, emissiveIntensity: 0.4 }));
-      sea.rotation.x = -Math.PI / 2;
-      scene.add(sea);
-      waves = sea.geometry.attributes.position;
-
-      board = new THREE.Mesh(new THREE.BoxGeometry(0.55, 0.12, 1.9), new THREE.MeshStandardMaterial({ color: 0x02110d, emissive: 0x46f5c5, emissiveIntensity: 1.15, metalness: 0.5, roughness: 0.25 }));
-      board.position.set(0, 1.1, 0);
-      scene.add(board);
-      const rider = new THREE.Mesh(new THREE.SphereGeometry(0.18, 20, 20), new THREE.MeshStandardMaterial({ color: 0x8bffb0, emissive: 0x8bffb0, emissiveIntensity: 1 }));
-      rider.position.set(0, 1.45, 0);
-      scene.add(rider);
-
-      obstacles.forEach(o => scene.remove(o));
-      obstacles = [];
-      for (let i = 0; i < 5; i++) {
-        const ob = makeObstacle((Math.random() * 2 - 1) * 2.8, -4 - i * 4.5);
-        scene.add(ob);
-        obstacles.push(ob);
-      }
-
-      clock = new THREE.Clock();
-      score = 0; running = true; speed = 0.08; targetX = 0;
-      scoreEl.textContent = score;
-      animate();
-    }
-
-    function animate() {
-      if (!running) return;
-      const t = clock.getElapsedTime();
-      const pos = waves.array;
-      for (let i = 0; i < pos.length; i += 3) {
-        const x = pos[i];
-        const z = pos[i + 1];
-        pos[i + 2] = Math.sin(x * 0.9 + t * 2.1) * 0.08 + Math.cos(z * 1.2 + t * 1.6) * 0.06;
-      }
-      waves.needsUpdate = true;
-      board.position.x += (targetX - board.position.x) * 0.08;
-      board.rotation.z = (targetX - board.position.x) * -0.28;
-      board.position.y = 1.03 + Math.sin(t * 5) * 0.05;
-      for (const obj of obstacles) {
-        obj.position.z += speed + 0.03;
-        obj.rotation.y += 0.02;
-        if (obj.position.z > 2) { obj.position.z = -24 - Math.random() * 10; obj.position.x = (Math.random() * 2 - 1) * 3; score += 10; scoreEl.textContent = score; }
-        const dx = Math.abs(obj.position.x - board.position.x);
-        const dz = Math.abs(obj.position.z - board.position.z);
-        if (dx < 0.42 && dz < 0.8) { running = false; scoreEl.textContent = score + ' - QUEDOU'; }
-      }
-      renderer.render(scene, camera);
-      requestAnimationFrame(animate);
-    }
-
-    window.addEventListener('keydown', (e) => {
-      if (!running && e.key.toLowerCase() === 'r') return initGame();
-      if (!running) return;
-      if (e.key === 'ArrowLeft' || e.key.toLowerCase() === 'a') targetX = Math.max(-2.6, targetX - 0.35);
-      if (e.key === 'ArrowRight' || e.key.toLowerCase() === 'd') targetX = Math.min(2.6, targetX + 0.35);
-    });
-    window.addEventListener('resize', () => { if (renderer && camera) { camera.aspect = canvas.clientWidth / canvas.clientHeight; camera.updateProjectionMatrix(); renderer.setSize(canvas.clientWidth, canvas.clientHeight, false); } });
-    if (canvas) initGame();
-
-    select.addEventListener('change', () => selectCapital(select.value));
-    selectCapital('');
   </script>
 </body>
 </html>
