@@ -309,8 +309,7 @@
       shootCooldown = 12;
       beep('shoot');
     };
-    upBtn?.addEventListener('pointerdown', () => { startHold('u'); aimDir = 0; lastMoveDir = 0; moveUp(); });
-    downBtn?.addEventListener('pointerdown', () => { startHold('d'); aimDir = 1; lastMoveDir = 1; moveDown(); });
+    const setAim = (dir) => { aimDir = dir; };
     let padActive = false;
     let padPointerId = null;
     const updatePad = (evt) => {
@@ -323,7 +322,7 @@
       const dist = Math.min(Math.hypot(dx, dy), r.width * 0.28);
       const nx = Math.cos(angle) * dist;
       const ny = Math.sin(angle) * dist;
-      padKnob.style.transform = `translate(calc(-50% + ${nx}px), calc(-50% + ${ny}px))`;
+      padKnob.style.transform = 'translate(calc(-50% + ' + nx + 'px), calc(-50% + ' + ny + 'px))';
       const dead = r.width * 0.14;
       if (Math.hypot(dx, dy) < dead) return;
       if (Math.abs(dx) > Math.abs(dy)) {
@@ -352,9 +351,6 @@
       if (k === '3') { setAim(6); lastMoveDir = 6; }
       if (k === '4') { setAim(7); lastMoveDir = 7; }
     });
-    const pad = document.createElement('div');
-    pad.className = 'mobile-controls';
-    const setAim = (dir) => { aimDir = dir; };
     window.addEventListener('keydown', (e) => {
       const k = e.key.toLowerCase();
       if (!running && k === 'r') { reset(); return; }
