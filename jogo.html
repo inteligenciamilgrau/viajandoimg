@@ -28,7 +28,7 @@
     <section class="card content" style="margin-top:24px;">
       <div class="game-shell">
         <canvas id="surfGameCanvas"></canvas>
-        <div class="game-hud"><div class="score"><strong>Surf Matrix</strong><br><span id="gameScore">0</span> pontos</div><div class="score">Fase <span id="stageLabel">1/4</span><br>Use ← → / A D para mover<br>Espaço / toque = atirar</div></div>
+        <div class="game-hud"><div class="score"><strong>Surf Matrix</strong><br><span id="gameScore">0</span> pontos</div><div class="score">Fase <span id="stageLabel">1/4</span><br>Vida <span id="energyLabel">100</span>%</div></div>
         <div class="mobile-controls" aria-label="Controles móveis"><div class="row top"><button id="restartBtn" type="button">↻</button><button id="shootBtn" type="button">✦</button></div><div class="pad-wrap"><div id="movePad" class="move-pad" role="application" aria-label="Circulo movimentador"><span class="knob"></span></div></div></div><div class="game-help">Desvie dos glitches no mar.</div>
       </div>
     </section>
@@ -37,10 +37,12 @@
     const canvas = document.getElementById('surfGameCanvas');
     const scoreEl = document.getElementById('gameScore');
     const stageLabel = document.getElementById('stageLabel');
+    const energyLabel = document.getElementById('energyLabel');
     const ctx = canvas.getContext('2d');
     let w = 0, h = 0, dpr = 1;
     let score = 0, running = true;
     let board = { x: 0, y: 0, vx: 0, vy: 0 };
+    let energy = 100;
     let moveX = 0, moveY = 0;
     let stage = 1;
     let gameSpeed = 1;
@@ -89,7 +91,7 @@
       gameSpeed = 1 + (stage - 1) * 0.06;
     }
     function reset() {
-      score = 0; running = true; board.x = w / 2; board.y = h / 2; board.vx = 0; board.vy = 0; moveX = 0; moveY = 0; shots.length = 0; shootCooldown = 0; stage = 1; gameSpeed = 1;
+      score = 0; running = true; board.x = w / 2; board.y = h / 2; board.vx = 0; board.vy = 0; moveX = 0; moveY = 0; shots.length = 0; shootCooldown = 0; stage = 1; gameSpeed = 1; energy = 100;
       stars.length = 0; glitches.length = 0; particles.length = 0;
       for (let i = 0; i < 26; i++) stars.push({ x: rand(0, w), y: rand(0, h * 0.34), r: rand(0.8, 2.2) * dpr, s: rand(0.15, 0.6) * dpr });
       for (let i = 0; i < 4; i++) glitches.push({ x: rand(40 * dpr, w - 40 * dpr), y: rand(-h, -20), s: rand(0.8, 1.4) * dpr, vy: rand(1.2, 2.4) * dpr, hp: 1, kind: 1 });
@@ -98,6 +100,7 @@
       for (let i = 0; i < 3; i++) shots.push({ x: w / 2, y: h * 0.72, vx: 0, vy: -7.5 * dpr, alive: false, dir: -1 });
       scoreEl.textContent = score;
       stageLabel.textContent = stage + '/4';
+      energyLabel.textContent = energy;
     }
     function drawSky() {
       const g = ctx.createLinearGradient(0, 0, 0, h);
@@ -218,6 +221,8 @@
             burst(g.x, g.y, palette[1]);
             score += 20;
             scoreEl.textContent = score;
+            energy = Math.min(100, energy + 12);
+            energyLabel.textContent = energy;
             beep('hit');
             gameSpeed += 0.01;
             updateStage();
@@ -248,12 +253,15 @@
       if (!running) {
         ctx.fillStyle = 'rgba(0,0,0,.45)'; ctx.fillRect(0, 0, w, h);
         ctx.fillStyle = '#fff'; ctx.font = (22 * dpr) + 'px system-ui'; ctx.textAlign = 'center';
-        ctx.fillText('Caiu! Aperte R para reiniciar.', w / 2, h / 2);
+        ctx.fillText(energy <= 0 ? 'Sem energia! Aperte R para reiniciar.' : 'Caiu! Aperte R para reiniciar.', w / 2, h / 2);
       }
     }
     function tick() {
       if (shootCooldown > 0) shootCooldown--;
       if (running) {
+        energy = Math.max(0, energy - 0.03);
+        if (energyLabel) energyLabel.textContent = Math.floor(energy);
+        if (energy <= 0) { running = false; }
         if (holdL) board.vx -= 0.55 * dpr;
         if (holdR) board.vx += 0.55 * dpr;
         if (holdU) board.vy -= 0.42 * dpr;
