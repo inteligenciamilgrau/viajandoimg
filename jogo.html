@@ -253,6 +253,8 @@
       if (running) {
         if (holdL) board.vx -= 0.55 * dpr;
         if (holdR) board.vx += 0.55 * dpr;
+        if (holdU) board.vy -= 0.42 * dpr;
+        if (holdD) board.vy += 0.42 * dpr;
         board.x += board.vx * gameSpeed;
         board.y += board.vy * gameSpeed;
         board.vx *= 0.92;
@@ -267,7 +269,8 @@
       draw();
       requestAnimationFrame(tick);
     }
-    let holdL = false, holdR = false;
+    let holdL = false, holdR = false, holdU = false, holdD = false;
+    const keys = new Set();
     const moveLeft = () => { if (running) board.vx -= 2.8 * dpr; };
     const moveRight = () => { if (running) board.vx += 2.8 * dpr; };
     const moveUp = () => { if (running) board.vy -= 2.4 * dpr; };
@@ -302,8 +305,26 @@
     const pad = document.createElement('div');
     pad.className = 'mobile-controls';
     const setAim = (dir) => { aimDir = dir; };
-    window.addEventListener('keydown', (e) => { if (!running && e.key.toLowerCase() === 'r') { reset(); return; } if (e.key === ' ' || e.key === 'Enter') { e.preventDefault(); shoot(); return; } if (e.key === 'ArrowUp' || e.key.toLowerCase() === 'w') { moveUp(); setAim(0); return; } if (e.key === 'ArrowDown' || e.key.toLowerCase() === 's') { moveDown(); setAim(1); return; } if (e.key === 'ArrowRight' || e.key.toLowerCase() === 'd') { moveRight(); setAim(2); return; } if (e.key === 'ArrowLeft' || e.key.toLowerCase() === 'a') { moveLeft(); setAim(3); return; } });
-    window.addEventListener('keyup', (e) => { if (e.key === 'ArrowUp' || e.key.toLowerCase() === 'w' || e.key === 'ArrowDown' || e.key.toLowerCase() === 's' || e.key === 'ArrowLeft' || e.key.toLowerCase() === 'a' || e.key === 'ArrowRight' || e.key.toLowerCase() === 'd') { aimDir = -1; } });
+    window.addEventListener('keydown', (e) => {
+      const k = e.key.toLowerCase();
+      if (!running && k === 'r') { reset(); return; }
+      if (k === ' ' || k === 'enter') { e.preventDefault(); shoot(); return; }
+      if (['arrowup','w','arrowdown','s','arrowleft','a','arrowright','d'].includes(k)) e.preventDefault();
+      if (keys.has(k)) return;
+      keys.add(k);
+      if (k === 'arrowup' || k === 'w') { holdU = true; moveUp(); setAim(0); }
+      if (k === 'arrowdown' || k === 's') { holdD = true; moveDown(); setAim(1); }
+      if (k === 'arrowright' || k === 'd') { holdR = true; moveRight(); setAim(2); }
+      if (k === 'arrowleft' || k === 'a') { holdL = true; moveLeft(); setAim(3); }
+    });
+    window.addEventListener('keyup', (e) => {
+      const k = e.key.toLowerCase();
+      keys.delete(k);
+      if (k === 'arrowup' || k === 'w') holdU = false;
+      if (k === 'arrowdown' || k === 's') holdD = false;
+      if (k === 'arrowright' || k === 'd') holdR = false;
+      if (k === 'arrowleft' || k === 'a') holdL = false;
+    });
     window.addEventListener('resize', () => { resize(); reset(); });
     resize(); reset(); tick();
   </script>
