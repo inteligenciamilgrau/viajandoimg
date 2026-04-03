@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Metas de Longo Prazo · Matrix na Praia</title>
+  <style>
+    :root{--bg:#06110f;--panel:rgba(5,25,20,.78);--neon:#8bffb0;--neon-2:#46f5c5;--text:#eafff1;--muted:rgba(234,255,241,.75)}
+    *{box-sizing:border-box}
+    html{scrollbar-gutter:stable;background:#03100e}
+    body{margin:0;min-height:100vh;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,sans-serif;color:var(--text);background:linear-gradient(180deg,#03100e 0%,#0b2730 56%,#0d4c5b 56%,#07202a 100%);overflow-x:hidden}
+    .wrap{width:min(1180px,92vw);margin:0 auto;padding:72px 0 24px}
+    .topnav{position:fixed;top:16px;left:50%;transform:translateX(-50%);z-index:50;display:flex;gap:10px;flex-wrap:wrap;justify-content:center;padding:10px 12px;border-radius:999px;background:rgba(4,19,16,.72);border:1px solid rgba(139,255,176,.18);backdrop-filter:blur(14px);box-shadow:0 12px 40px rgba(0,0,0,.28)}
+    .topnav a{color:var(--text);text-decoration:none;padding:10px 14px;border-radius:999px;border:1px solid transparent;font-weight:700;font-size:.92rem}
+    .topnav a:hover{background:rgba(139,255,176,.08);border-color:rgba(139,255,176,.16)}
+    .topnav .brand{color:var(--neon)}
+
+    .hero{display:grid;gap:18px;margin-bottom:18px}
+    .card{background:var(--panel);border:1px solid rgba(139,255,176,.22);box-shadow:0 0 0 1px rgba(70,245,197,.08),0 20px 70px rgba(0,0,0,.35);backdrop-filter:blur(12px);border-radius:28px}
+    .content{padding:24px}
+    .eyebrow{display:inline-block;padding:6px 12px;border-radius:999px;background:rgba(139,255,176,.1);color:var(--neon);border:1px solid rgba(139,255,176,.24);letter-spacing:.12em;text-transform:uppercase;font-size:.72rem;margin-bottom:10px}
+    h1{margin:0 0 10px;font-size:clamp(1.8rem,4.5vw,2.6rem);line-height:1.1;letter-spacing:-.02em;text-shadow:0 0 18px rgba(70,245,197,.28)}
+    .lead{margin:0;color:var(--muted);font-size:1rem;line-height:1.65;max-width:72ch}
+
+    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px;margin-top:16px}
+    .goal{padding:18px;border-radius:18px;border:1px solid rgba(139,255,176,.2);background:rgba(3,20,16,.55)}
+    .goal h2{margin:0 0 8px;font-size:1.05rem;color:var(--neon)}
+    .goal p{margin:0;color:var(--muted);line-height:1.55;font-size:.95rem}
+
+    .timeline{display:grid;gap:10px;margin-top:14px}
+    .step{display:flex;gap:12px;align-items:flex-start;padding:12px 14px;border-radius:14px;background:rgba(255,255,255,.03);border:1px solid rgba(139,255,176,.14)}
+    .badge{min-width:84px;text-align:center;font-weight:700;font-size:.82rem;padding:7px 10px;border-radius:999px;background:rgba(139,255,176,.12);color:var(--neon);border:1px solid rgba(139,255,176,.2)}
+    .step p{margin:0;color:var(--text);line-height:1.5}
+    .footer-note{margin-top:14px;color:var(--muted);font-size:.9rem}
+    .quote{margin-top:10px;padding:10px 12px;border-left:3px solid var(--neon);background:rgba(139,255,176,.06);border-radius:10px;color:#d9ffe9}
+  </style>
+</head>
+<body>
+  <nav class="topnav" aria-label="Menu principal">
+    <a class="brand" href="index.html">Matrix na Praia</a>
+    <a href="mapa.html">Mapa</a>
+    <a href="jogo.html">Jogo</a>
+    <a href="receitas.html">Receitas</a>
+    <a href="metas.html">Metas</a>
+    <a href="gato.html">Gato</a>
+  </nav>
+
+  <main class="wrap">
+    <section class="card content hero">
+      <div class="eyebrow">Missão central</div>
+      <h1>Construir a DeepMind BR</h1>
+      <p class="lead">
+        Meta principal: criar uma empresa gigantesca de pesquisa em inteligência artificial no Brasil.
+        É um sonho ousado — e justamente por isso precisa de execução disciplinada, rápida e consistente.
+      </p>
+      <p class="quote">
+        Contexto 2026: a IA avança em ritmo extremo (quase “1 ano por mês”).
+        Nosso plano precisa ser ambicioso e adaptável em ciclos curtos.
+      </p>
+
+      <div class="grid">
+        <article class="goal">
+          <h2>⚡ Fase 1 · Velocidade de execução</h2>
+          <p>Criar rotina de shipping semanal: protótipos, benchmarks, demos públicas e iteração contínua.</p>
+        </article>
+        <article class="goal">
+          <h2>🧲 Fase 2 · Reputação e rede</h2>
+          <p>Atrair talentos, formar comunidade técnica e construir autoridade com entregas reais.</p>
+        </article>
+        <article class="goal">
+          <h2>🏛️ Fase 3 · Laboratório de pesquisa</h2>
+          <p>Consolidar time, financiamento e linhas próprias de pesquisa para competir em nível global.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="card content">
+      <div class="eyebrow">Plano em etapas</div>
+      <h1 style="font-size:clamp(1.5rem,3.8vw,2.1rem)">Roadmap agressivo (adaptável)</h1>
+      <div class="timeline">
+        <div class="step">
+          <span class="badge">30 dias</span>
+          <p>Definir tese central da DeepMind BR, 3 áreas foco e metas de output semanal.</p>
+        </div>
+        <div class="step">
+          <span class="badge">90 dias</span>
+          <p>Lançar projetos-referência, publicar resultados e validar sinais iniciais de tração.</p>
+        </div>
+        <div class="step">
+          <span class="badge">1 ano</span>
+          <p>Operar núcleo técnico forte com produto/serviço sustentável e equipe em expansão.</p>
+        </div>
+        <div class="step">
+          <span class="badge">3-5 anos</span>
+          <p>Escalar para laboratório de pesquisa de impacto internacional, com agenda científica própria.</p>
+        </div>
+      </div>
+      <p class="footer-note">Regra de ouro: pensar grande em público seletivo, executar grande no silêncio diário.</p>
+    </section>
+  </main>
+</body>
+</html>
