@@ -5,28 +5,36 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="color-scheme" content="dark">
   <link rel="icon" type="image/svg+xml" href="favicon.svg" />
-  <title>Gatinho</title>
+  <title>Viajando</title>
   <style>
-    :root{--bg:#06110f;--panel:rgba(5,25,20,.78);--neon:#8bffb0;--neon-2:#46f5c5;--text:#eafff1;--muted:rgba(234,255,241,.75)}*{box-sizing:border-box}html{scrollbar-gutter:stable;background:#03100e}body{margin:0;min-height:100vh;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,sans-serif;color:var(--text);background:linear-gradient(180deg,#03100e 0%,#0b2730 56%,#0d4c5b 56%,#07202a 100%);overflow-x:hidden}.wrap{width:min(1180px,92vw);margin:0 auto;padding:72px 0 24px}.topnav{position:fixed;top:16px;left:50%;transform:translateX(-50%);z-index:50;display:flex;gap:10px;flex-wrap:wrap;justify-content:center;padding:10px 12px;border-radius:999px;background:rgba(4,19,16,.72);border:1px solid rgba(139,255,176,.18);backdrop-filter:blur(14px);box-shadow:0 12px 40px rgba(0,0,0,.28)}.topnav a{color:var(--text);text-decoration:none;padding:10px 14px;border-radius:999px;border:1px solid transparent;font-weight:700;font-size:.92rem}.topnav a:hover{background:rgba(139,255,176,.08);border-color:rgba(139,255,176,.16)}.topnav .brand{color:var(--neon)}
-    @media (max-width: 768px){.topnav{position:sticky;top:0;left:0;transform:none;width:100%;justify-content:flex-start;flex-wrap:nowrap;overflow-x:auto;border-radius:0;padding:10px 8px}.topnav a{flex:0 0 auto;padding:10px 12px;font-size:.88rem}.wrap{padding:20px 0 24px}}.card{background:var(--panel);border:1px solid rgba(139,255,176,.22);box-shadow:0 0 0 1px rgba(70,245,197,.08),0 20px 70px rgba(0,0,0,.35);backdrop-filter:blur(12px);border-radius:28px}.content{padding:24px}.eyebrow{display:inline-block;padding:6px 12px;border-radius:999px;background:rgba(139,255,176,.1);color:var(--neon);border:1px solid rgba(139,255,176,.24);letter-spacing:.12em;text-transform:uppercase;font-size:0.72rem;margin-bottom:10px}h1{margin:0 0 12px;font-size:clamp(1.8rem,4.5vw,2.6rem);line-height:1.1;letter-spacing:-.02em;text-shadow:0 0 18px rgba(70,245,197,.28)}h2{margin:0 0 10px;font-size:clamp(1.45rem,3.8vw,1.9rem);line-height:1.2}.hero{display:grid;gap:12px;justify-items:start}.hero img{width:min(100%, 480px);aspect-ratio:1/1;display:block;border-radius:20px;border:1px solid rgba(255,255,255,0.08);object-fit:cover;object-position:center;margin-bottom:10px}.caption{color:var(--muted);font-size:1rem;line-height:1.6}.actions{display:flex;gap:12px;flex-wrap:wrap}.btn{display:inline-flex;align-items:center;justify-content:center;border-radius:14px;padding:14px 18px;text-decoration:none;font-weight:700;border:1px solid rgba(139,255,176,.24)}.btn.primary{background:linear-gradient(135deg,var(--neon),var(--neon-2));color:#02110d;box-shadow:0 12px 30px rgba(70,245,197,.18)}.btn.secondary{color:var(--text);background:rgba(255,255,255,.04)}
+    :root{--bg:#08131a;--panel:rgba(6,18,28,.78);--accent:#7dd3fc;--accent-2:#34d399;--text:#eaf6ff;--muted:rgba(234,246,255,.75)}*{box-sizing:border-box}html{scrollbar-gutter:stable;background:#031018}body{margin:0;min-height:100vh;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,sans-serif;color:var(--text);background:linear-gradient(180deg,#031018 0%,#082033 55%,#0f3a4a 56%,#07131b 100%);overflow-x:hidden}.wrap{width:min(1180px,92vw);margin:0 auto;padding:72px 0 24px}.topnav{position:fixed;top:16px;left:50%;transform:translateX(-50%);z-index:50;display:flex;gap:8px;flex-wrap:wrap;justify-content:center;padding:12px;border-radius:22px;background:rgba(4,16,24,.76);border:1px solid rgba(125,211,252,.18);backdrop-filter:blur(14px);box-shadow:0 12px 40px rgba(0,0,0,.28)}.topnav a{color:var(--text);text-decoration:none;padding:10px 14px;border-radius:14px;border:1px solid rgba(255,255,255,.04);font-weight:700;font-size:.92rem;background:rgba(255,255,255,.03)}.topnav a:hover{background:rgba(125,211,252,.10);border-color:rgba(125,211,252,.18)}.topnav .brand{color:var(--accent)}@media (max-width:768px){.topnav{position:sticky;top:0;left:0;transform:none;width:100%;justify-content:flex-start;flex-wrap:nowrap;overflow-x:auto;border-radius:0;padding:10px 8px}.topnav a{flex:0 0 auto;font-size:.88rem}.wrap{padding:20px 0 24px}}.card{background:var(--panel);border:1px solid rgba(125,211,252,.20);box-shadow:0 0 0 1px rgba(52,211,153,.08),0 20px 70px rgba(0,0,0,.35);backdrop-filter:blur(12px);border-radius:28px}.content{padding:24px}.eyebrow{display:inline-block;padding:6px 12px;border-radius:999px;background:rgba(125,211,252,.10);color:var(--accent);border:1px solid rgba(125,211,252,.24);letter-spacing:.12em;text-transform:uppercase;font-size:0.72rem;margin-bottom:10px}h1{margin:0 0 12px;font-size:clamp(1.8rem,4.5vw,2.6rem);line-height:1.1;letter-spacing:-.02em;text-shadow:0 0 18px rgba(52,211,153,.20)}h2{margin:0 0 10px;font-size:clamp(1.45rem,3.8vw,1.9rem);line-height:1.2}.hero{display:grid;gap:14px;justify-items:start}.hero img{width:min(100%, 640px);display:block;border-radius:22px;border:1px solid rgba(255,255,255,0.10);object-fit:cover;object-position:center}.caption{color:var(--muted);font-size:1rem;line-height:1.6;max-width:760px}.meta{display:flex;gap:12px;flex-wrap:wrap}.pill{display:inline-flex;align-items:center;gap:8px;padding:8px 12px;border-radius:999px;background:rgba(255,255,255,.05);border:1px solid rgba(125,211,252,.18);color:var(--text);font-size:.92rem}.menu-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin-top:10px}.menu-item{padding:14px;border-radius:18px;background:rgba(255,255,255,.04);border:1px solid rgba(125,211,252,.14)}.menu-item strong{display:block;margin-bottom:6px;color:var(--accent)}
   </style>
 </head>
 <body>
   <nav class="topnav" aria-label="Menu principal">
-    <a class="brand" href="index.html">Matrix na Praia</a>
+    <a class="brand" href="index.html">Viajando</a>
     <a href="mapa.html">Mapa</a>
     <a href="jogo.html">Jogo</a>
     <a href="receitas.html">Receitas</a>
     <a href="metas.html">Metas</a>
-    <a href="gato.html">Gato</a>
+    <a href="gato.html">Foto</a>
   </nav>
   <main class="wrap">
     <section class="card content hero">
-      <div class="eyebrow">Gatinho</div>
-      <h1 class="title">Página do gato</h1>
-      <div class="actions"></div>
-      <img src="assets/gato.jpg" alt="Foto do gato enviada pelo Bob" />
-      <p class="caption">A foto do gato foi salva dentro do site e agora a página segue o mesmo padrão visual das outras: cabeçalho fixo, fundo neon e cards com borda iluminada.</p>
+      <div class="eyebrow">Viajando</div>
+      <h1 class="title">Viajando</h1>
+      <div class="meta">
+        <span class="pill">📅 04/04/2026</span>
+        <span class="pill">✈️ Diário de viagem</span>
+      </div>
+      <div class="menu-grid" aria-label="Menu da página">
+        <div class="menu-item"><strong>Mapa</strong><span>Rotas e lugares salvos.</span></div>
+        <div class="menu-item"><strong>Jogo</strong><span>Entretenimento para o caminho.</span></div>
+        <div class="menu-item"><strong>Receitas</strong><span>Comida boa onde estiver.</span></div>
+        <div class="menu-item"><strong>Metas</strong><span>O que vale fazer na viagem.</span></div>
+      </div>
+      <img src="assets/gato.jpg" alt="Foto enviada para a página Viajando" />
+      <p class="caption">Foto adicionada à página Viajando. Se quiser, eu também posso trocar o nome dos links do menu, ajustar cores ou criar uma seção com descrição mais longa da imagem.</p>
     </section>
   </main>
 </body>
